@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include <memory/paddr.h>
 
 static int is_batch_mode = false;
 
@@ -58,7 +59,7 @@ static int cmd_si(char *args);
 
 static int cmd_info(char *args);
 
-// static int cmd_x(char *args);
+static int cmd_x(char *args);
 
 // static int cmd_p(char *args);
 
@@ -75,8 +76,8 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single cloth execution", cmd_si},
-  { "info", "Print the register status(r) or print the watchpoint information", cmd_info},
-  // { "x", "Scan memory from EXPR by N", cmd_x},
+  { "info", "Print the register status(r) or print the watchpoint(w) information", cmd_info},
+  { "x", "Scan memory from EXPR by N", cmd_x},
   // { "p", "Expression evaluation", cmd_p},
   // { "w", "Set watchpoints", cmd_w},
   // { "d", "Delete watchpoints", cmd_d}
@@ -129,16 +130,55 @@ static int cmd_info(char *args){
   char *arg = strtok(NULL, " ");
 
   if(arg == NULL){
+    printf("Lack expected argument. [r]\\[w]\n");
     return 0;
   }
 
   switch(*arg){
     case 'r': isa_reg_display(); break;
     case 'w': break;
-    default: printf("Unknown argument: '%c' . only 'r' and 's' are legal.\n", *arg); break;
+    default: printf("Unknown argument: '%c' , only 'r' or 's' is legal.\n", *arg); break;
   }
 
   return 0;
+}
+
+static int cmd_x(char *args){
+  
+  char *arg1 = strtok(NULL, " ");
+  char *arg2 = strtok(NULL, " ");
+
+  if(arg1 == NULL || arg2 == NULL){
+    printf("Lack argument(s). Please command as x N EXPR !\n");
+    return 0;
+  }
+
+  int n;
+  sscanf(arg1, "%d", &n);
+
+  switch(*arg2){
+    case '0':{
+      paddr_t l_addr;
+      sscanf(arg2, "%x", &l_addr);
+
+      word_t data;
+      for(; n>0; n--){
+        printf("%#x : ", l_addr);
+        for(int i = 4; i > 0; i--){
+          // data = pmem_read(l_addr, 1);
+          data = paddr_read(l_addr, 1);
+          printf("%#x  ", data);
+          l_addr += 1;
+        }
+      }
+      break;
+    }
+    case '$': break;
+    default: printf("Wrong EXPR format!\n");
+  }
+
+  return 0;
+
 }
 
 void sdb_set_batch_mode() {

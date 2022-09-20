@@ -29,8 +29,8 @@ void isa_reg_display() {
     for(int j = 0; j < 4; j++){
       int idx = 4*i + j;
       if(cpu.gpr[idx] == 0){
-        printf("%s\t0X%d\t\t", regs[idx], cpu.gpr[idx]);
-      }else printf("%s\t%#X\t\t", regs[idx], cpu.gpr[idx]);
+        printf("%s\t0x%d\t\t", regs[idx], cpu.gpr[idx]);
+      }else printf("%s\t%#x\t\t", regs[idx], cpu.gpr[idx]);
     }
     putchar('\n');
   }
