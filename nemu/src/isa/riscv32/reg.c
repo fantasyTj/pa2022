@@ -24,10 +24,13 @@ const char *regs[] = {
 };
 
 void isa_reg_display() {
-  
+
   for(int i = 0; i < 32; i++){
-    printf("%s\t%#X\n", regs[i], cpu.gpr[i]);
-  }
+    if(cpu.gpr[i] == 0){
+      printf("%s\t0X%02d", regs[i], cpu.gpr[i]);
+    }else printf("%s\t%#X\n", regs[i], cpu.gpr[i]);
+    }
+    
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
