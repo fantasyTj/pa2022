@@ -27,11 +27,13 @@ void isa_reg_display() {
 
   for(int i = 0; i < 8; i++){
     for(int j = 0; j < 4; j++){
-        if(cpu.gpr[4*i + j] == 0){
-          printf("%s\t0X%d\n", regs[i], cpu.gpr[i]);
-        }else printf("%s\t%#X\n", regs[i], cpu.gpr[i]);
+      int idx = 4*i + j;
+      if(cpu.gpr[idx] == 0){
+        printf("%s\t0X%d\t\t", regs[idx], cpu.gpr[idx]);
+      }else printf("%s\t%#X\t\t", regs[idx], cpu.gpr[idx]);
     }
-    }
+    putchar('\n');
+  }
     
     
 }
