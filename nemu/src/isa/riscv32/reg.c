@@ -25,12 +25,14 @@ const char *regs[] = {
 
 void isa_reg_display() {
 
-  for(int i = 0; i < 32; i++){
-    if(cpu.gpr[i] == 0){
-      printf("%s\t0X%02d\n", regs[i], cpu.gpr[i]);
-    }else printf("%s\t%#X\n", regs[i], cpu.gpr[i]);
+  for(int i = 0; i < 8; i++){
+    for(int j = 0; j < 4; j++){
+        if(cpu.gpr[4*i + j] == 0){
+          printf("%s\t0X%d\n", regs[i], cpu.gpr[i]);
+        }else printf("%s\t%#X\n", regs[i], cpu.gpr[i]);
     }
-  printf("%s\t%#02X\n", "te", 230);
+    }
+    
     
 }
 
