@@ -54,6 +54,18 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args);
+
+// static int cmd_info(char *args);
+
+// static int cmd_x(char *args);
+
+// static int cmd_p(char *args);
+
+// static int cmd_w(char *args);
+
+// static int cmd_d(char *args);
+
 static struct {
   const char *name;
   const char *description;
@@ -62,6 +74,12 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si", "Single cloth execution", cmd_si},
+  // { "info", "Print the register status(r) or print the watchpoint information", cmd_info},
+  // { "x", "Scan memory from EXPR by N", cmd_x},
+  // { "p", "Expression evaluation", cmd_p},
+  // { "w", "Set watchpoints", cmd_w},
+  // { "d", "Delete watchpoints", cmd_d}
 
   /* TODO: Add more commands */
 
@@ -89,6 +107,21 @@ static int cmd_help(char *args) {
     }
     printf("Unknown command '%s'\n", arg);
   }
+  return 0;
+}
+
+static int cmd_si(char *args){
+
+  char *arg = strtok(NULL, " ");
+  int n;
+
+  if(arg == NULL) n = 1;
+  else{
+    sscanf(arg, "%d", &n);
+  }
+
+  printf("n of si is %d\n", n);
+
   return 0;
 }
 
