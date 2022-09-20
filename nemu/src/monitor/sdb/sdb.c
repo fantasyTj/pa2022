@@ -135,7 +135,7 @@ static int cmd_info(char *args){
   switch(*arg){
     case 'r': isa_reg_display(); break;
     case 'w': break;
-    default: printf("Unknown argument: '%c' . only 'r' and 's' are legal.", *arg); break;
+    default: printf("Unknown argument: '%c' . only 'r' and 's' are legal.\n", *arg); break;
   }
 
   return 0;
