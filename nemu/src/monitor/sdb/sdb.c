@@ -119,8 +119,8 @@ static int cmd_si(char *args){
   else{
     sscanf(arg, "%d", &n);
   }
-
-  printf("n of si is %d\n", n);
+  
+  cpu_exec(n);
 
   return 0;
 }
