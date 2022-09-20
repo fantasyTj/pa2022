@@ -56,7 +56,7 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args);
 
-// static int cmd_info(char *args);
+static int cmd_info(char *args);
 
 // static int cmd_x(char *args);
 
@@ -75,7 +75,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single cloth execution", cmd_si},
-  // { "info", "Print the register status(r) or print the watchpoint information", cmd_info},
+  { "info", "Print the register status(r) or print the watchpoint information", cmd_info},
   // { "x", "Scan memory from EXPR by N", cmd_x},
   // { "p", "Expression evaluation", cmd_p},
   // { "w", "Set watchpoints", cmd_w},
@@ -121,6 +121,18 @@ static int cmd_si(char *args){
   }
   
   cpu_exec(n);
+
+  return 0;
+}
+
+static int cmd_info(char *args){
+  char *arg = strtok(NULL, " ");
+
+  switch(*arg){
+    case 'r': isa_reg_display(); break;
+    case 'w': break;
+    default: printf("Unknown argument: '%c' . only 'r' and 's' are legal.", *arg); break;
+  }
 
   return 0;
 }
