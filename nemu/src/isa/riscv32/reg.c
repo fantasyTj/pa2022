@@ -30,7 +30,7 @@ void isa_reg_display() {
       printf("%s\t0X%02d\n", regs[i], cpu.gpr[i]);
     }else printf("%s\t%#X\n", regs[i], cpu.gpr[i]);
     }
-  printf("%s\t%#02X\n", "te", 3);
+  printf("%s\t%#02X\n", "te", 230);
     
 }
 
