@@ -163,13 +163,14 @@ static int cmd_x(char *args){
 
       word_t data;
       for(; n>0; n--){
-        printf("%#x : ", l_addr);
+        printf("%#02x : ", l_addr);
         for(int i = 4; i > 0; i--){
           // data = pmem_read(l_addr, 1);
           data = paddr_read(l_addr, 1);
           printf("%#x  ", data);
           l_addr += 1;
         }
+        putchar('\n');
       }
       break;
     }
