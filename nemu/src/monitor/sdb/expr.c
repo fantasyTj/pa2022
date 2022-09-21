@@ -190,8 +190,8 @@ word_t eval(int p, int q, bool *success){
       }
     }
     printf("p is %d, q is %d, pos is %d",p, q, position);
-    int left = eval(p, position - 1, success);
-    int right = eval(position + 1, q, success);
+    int left = eval(p, main_pos - 1, success);
+    int right = eval(main_pos + 1, q, success);
     *success = true;
     switch(tokens[position].type){
       case '+': result = left + right;break;
