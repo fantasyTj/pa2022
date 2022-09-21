@@ -199,7 +199,7 @@ word_t eval(int p, int q, bool *success){
     int left = eval(p, main_pos - 1, success);
     int right = eval(main_pos + 1, q, success);
     *success = true;
-    switch(tokens[position].type){
+    switch(tokens[main_pos].type){
       case '+': result = left + right;break;
       case '-': result = left - right;break;
       case '*': result = left * right;break;
