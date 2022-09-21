@@ -106,7 +106,7 @@ static bool make_token(char *e) {
           case TK_NUM:{
             tokens[nr_token].type = TK_NUM;
             int occ_count = (substr_len - 1) / 31 + 1;
-            int pad_count = occ_count * 31 -substr_len;
+            int pad_count = occ_count * 31 - substr_len;
             tokens[nr_token].type = occ_count;
             for(int i = occ_count; i > 0; i--){
               if(i == occ_count){
@@ -118,6 +118,7 @@ static bool make_token(char *e) {
               }
               else{
                 strncpy(tokens[nr_token].str, substr_start, 31);
+                substr_start += 31;
                 // tokens[nr_token].str[31] = '\0';
                 nr_token += 1;
               }
