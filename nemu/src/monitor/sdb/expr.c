@@ -186,6 +186,7 @@ word_t expr(char *e, bool *success) {
   for(int i = 0; i < 32; i++){
     printf("%d: %s\n", i, tokens[i].str);
   }
+  *success = true;
   // TODO();
 
   return 0;
