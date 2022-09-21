@@ -231,6 +231,7 @@ word_t expr(char *e, bool *success) {
       q = q - 1;
     }while(tokens[q].type == 0);
   }
+  printf("q is %d\n", q);
   // result = eval(0, q, success);
 
   return result;
