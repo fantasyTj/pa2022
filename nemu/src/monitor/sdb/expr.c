@@ -122,7 +122,7 @@ static bool make_token(char *e) {
                 nr_token += 1;
               }
             }
-          };
+          }; break;
           case '+':{
             tokens[nr_token].type = '+';
             tokens[nr_token].str[0] = '+';
