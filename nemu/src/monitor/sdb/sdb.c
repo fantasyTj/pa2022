@@ -61,7 +61,7 @@ static int cmd_info(char *args);
 
 static int cmd_x(char *args);
 
-// static int cmd_p(char *args);
+static int cmd_p(char *args);
 
 // static int cmd_w(char *args);
 
@@ -78,7 +78,7 @@ static struct {
   { "si", "Single cloth execution", cmd_si},
   { "info", "Print the register status(r) or print the watchpoint(w) information", cmd_info},
   { "x", "Scan memory from EXPR by N", cmd_x},
-  // { "p", "Expression evaluation", cmd_p},
+  { "p", "Expression evaluation", cmd_p},
   // { "w", "Set watchpoints", cmd_w},
   // { "d", "Delete watchpoints", cmd_d}
 
@@ -180,6 +180,18 @@ static int cmd_x(char *args){
 
   return 0;
 
+}
+
+static int cmd_p(char *args){
+  char *arg = strtok(NULL, "");
+  bool success = false;
+  word_t result;
+  result = expr(arg, &success);
+
+  if(success == true) printf("Result: %d\n", result);
+  else printf("Invalid token(s)!\n");
+
+  return 0;
 }
 
 void sdb_set_batch_mode() {

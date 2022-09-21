@@ -21,7 +21,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+  TK_NOTYPE = 256, TK_EQ, TK_NUM,
 
   /* TODO: Add more token types */
 
@@ -37,8 +37,14 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
+  {"\\+", '+'},         // plus
+  {"\\-", '-'},         // minus
+  {"\\*", '*'},         // multiply
+  {"/", '/'},           // divide
+  {"\\(", '('},         // left parenthesis
+  {"\\)", ')'},         // right parenthesis
+  {"[0-9][0-9]*", TK_NUM},   // number
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -95,7 +101,57 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+          case TK_NOTYPE: break;
+          case TK_EQ: break;
+          case TK_NUM:{
+            tokens[nr_token].type = TK_NUM;
+            int occ_count = (substr_len - 1) / 31 + 1;
+            int pad_count = occ_count * 31 -substr_len;
+            tokens[nr_token].type = occ_count;
+            for(int i = occ_count; i > 0; i--){
+              if(i == occ_count){
+                for(int j = pad_count; j > 0; j--) tokens[nr_token].str[pad_count - j] = '0';
+                strncat(tokens[nr_token].str, substr_start, 31 - pad_count);
+                substr_start += 31 - pad_count;
+                nr_token += 1;
+              }
+              else{
+                strncpy(tokens[nr_token].str, substr_start, 31);
+                nr_token += 1;
+              }
+            }
+          };
+          case '+':{
+            tokens[nr_token].type = '+';
+            tokens[nr_token].str[0] = '+';
+            nr_token += 1;
+          } break;
+          case '-':{
+            tokens[nr_token].type = '-';
+            tokens[nr_token].str[0] = '-';
+            nr_token += 1;
+          } break;
+          case '*':{
+            tokens[nr_token].type = '*';
+            tokens[nr_token].str[0] = '*';
+            nr_token += 1;
+          } break;
+          case '/':{
+            tokens[nr_token].type = '/';
+            tokens[nr_token].str[0] = '/';
+            nr_token += 1;
+          } break;
+          case '(':{
+            tokens[nr_token].type = '(';
+            tokens[nr_token].str[0] = '(';
+            nr_token += 1;
+          } break;
+          case ')':{
+            tokens[nr_token].type = ')';
+            tokens[nr_token].str[0] = ')';
+            nr_token += 1;
+          } break;
+          default: break;
         }
 
         break;
@@ -119,7 +175,10 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  for(int i = 0; i < 32; i--){
+    printf("%s ", tokens[i].str);
+  }
+  // TODO();
 
   return 0;
 }
