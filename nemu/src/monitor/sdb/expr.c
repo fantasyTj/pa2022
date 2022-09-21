@@ -44,7 +44,7 @@ static struct rule {
   {"/", '/'},           // divide
   {"\\(", '('},         // left parenthesis
   {"\\)", ')'},         // right parenthesis
-  {"[0-9][0-9]*", TK_NUM},   // number
+  {"[1-9][0-9]*", TK_NUM},   // number
 };
 
 #define NR_REGEX ARRLEN(rules)
