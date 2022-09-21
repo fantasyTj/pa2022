@@ -153,9 +153,11 @@ int prio_check(char opr){
 word_t eval(int p, int q, bool *success){
   printf("q is %d\n", q);
   if(p > q){
+    printf("stream 1\n");
     *success = false;
     return 0;
   }else if((tokens[q].type == tokens[p].type) && (p + tokens[p].type - 1 == q)){
+    printf("stream 2\n");
     int num;
     int occ_count = tokens[p].type;
     char num_str[occ_count * 32];
@@ -164,9 +166,11 @@ word_t eval(int p, int q, bool *success){
     *success = true;
     return num;
   }else if(tokens[p].type == '(' && tokens[q].type == ')'){
+    printf("stream 3\n");
     *success = true;
     return eval(p+1, q-1, success);
   }else{
+    printf("stream 4\n");
     int position = q;
     int main_pos = q;
     int result;
