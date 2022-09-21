@@ -164,6 +164,7 @@ word_t eval(int p, int q, bool *success){
     char num_str[occ_count * 32];
     for(int j = 0; j < occ_count; j++) strncat(num_str, tokens[p + j].str, 31);
     sscanf(num_str, "%d", &num);
+    printf("num is %d\n", num);
     *success = true;
     return num;
   }else if(tokens[p].type == '(' && tokens[q].type == ')'){
@@ -189,7 +190,7 @@ word_t eval(int p, int q, bool *success){
         position = position - tokens[position].type;
       }
     }
-    printf("p is %d, q is %d, pos is %d",p, q, position);
+    printf("p is %d, q is %d, pos is %d\n",p, q, position);
     int left = eval(p, main_pos - 1, success);
     int right = eval(main_pos + 1, q, success);
     *success = true;
