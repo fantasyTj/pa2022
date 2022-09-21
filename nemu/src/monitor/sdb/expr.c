@@ -176,7 +176,7 @@ word_t eval(int p, int q, bool *success){
           position = position - 1;
         }while(tokens[position].type != '(');
         position = position - 1;
-      }else if(tokens[p].type=='+' || tokens[p].type=='-' || tokens[p].type=='*' || tokens[p].type=='/'){
+      }else if(tokens[position].type=='+' || tokens[position].type=='-' || tokens[position].type=='*' || tokens[position].type=='/'){
         if(main_pos == q) main_pos = position;
         else if(prio_check(tokens[main_pos].type) > prio_check(tokens[position].type)) main_pos = position;
         position--;
