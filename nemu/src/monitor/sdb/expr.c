@@ -76,8 +76,6 @@ typedef struct token {
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
-// Token tokens[32] = {};
-// int nr_token = 0;
 
 static bool make_token(char *e) {
   int position = 0;
@@ -239,13 +237,6 @@ word_t expr(char *e, bool *success) {
   printf("q is %d\n", q);
   // result = eval(0, q, success);
 
-  char tmp[12] = "0";
-  for(int i = 0; i < 32; i++){
-    strcpy(tokens[i].str, tmp);
-    tokens[i].type = 0;
-  }
-  
-  nr_token = 0;
   return result;
 }
 
