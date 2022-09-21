@@ -181,7 +181,7 @@ word_t eval(int p, int q, bool *success){
     int position = q;
     int main_pos = q;
     int result;
-    while(position >= 0){
+    while(position >= p){
       if(tokens[position].type == ')'){
         do{
           position = position - 1;
