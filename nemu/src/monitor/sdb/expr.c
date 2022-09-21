@@ -215,9 +215,9 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  // for(int i = 0; i < 32; i++){
-  //   printf("%d: %s\n", i, tokens[i].str);
-  // }
+  for(int i = 0; i < 32; i++){
+    printf("%d: %s\n", i, tokens[i].str);
+  }
   // *success = true;
 
   word_t result;
