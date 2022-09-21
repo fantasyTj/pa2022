@@ -41,7 +41,7 @@ static struct rule {
   {"\\+", '+'},         // plus
   {"\\-", '-'},         // minus
   {"\\*", '*'},         // multiply
-  {"\\/", '/'},           // divide
+  {"\\/", '/'},         // divide
   {"\\(", '('},         // left parenthesis
   {"\\)", ')'},         // right parenthesis
   {"[1-9][0-9]*", TK_NUM},   // number
@@ -231,7 +231,7 @@ word_t expr(char *e, bool *success) {
       q = q - 1;
     }while(tokens[q].type == 0);
   }
-  result = eval(0, q, success);
+  // result = eval(0, q, success);
 
   return result;
 }
