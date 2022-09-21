@@ -155,6 +155,7 @@ word_t eval(int p, int q, bool *success){
   if(p > q){
     printf("stream 1\n");
     *success = false;
+    assert(0);
     return 0;
   }else if((tokens[q].type == tokens[p].type) && (p + tokens[p].type - 1 == q)){
     printf("stream 2\n");
@@ -188,6 +189,7 @@ word_t eval(int p, int q, bool *success){
         position = position - tokens[position].type;
       }
     }
+    printf("p is %d, q is %d, pos is %d",p, q, position);
     int left = eval(p, position - 1, success);
     int right = eval(position + 1, q, success);
     *success = true;
