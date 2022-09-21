@@ -145,6 +145,23 @@ static bool make_token(char *e) {
   return true;
 }
 
+void gen_expr(char *to_eval){
+  
+  for(int i = 0; i < 32; i++){
+    switch(tokens[i].type){
+      case '+': case '-': case '*': case '/': case '(': case ')':{
+        strncat(to_eval, tokens[i].str, 1);
+      } break;
+      default:{
+        int occ_count = tokens[i].type;
+        for(int j = occ_count; occ_count > 0; occ_count--){
+          strncat(to_eval, tokens[j].str, 31);
+        }
+      }
+    }
+  }
+}
+
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -153,21 +170,16 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  for(int i = 0; i < 32; i++){
-    printf("%d: %s\n", i, tokens[i].str);
-  }
+  // for(int i = 0; i < 32; i++){
+  //   printf("%d: %s\n", i, tokens[i].str);
+  // }
+  // *success = true;
+
+  char to_eval[32 * 32];
+  gen_expr(to_eval);
+  printf("%s\n", to_eval);
   *success = true;
-  // TODO();
 
   return 0;
 }
 
-// char* gen_expr(){
-//   char args[32 * 32];
-//   for(int i = 0; i < 32; i++){
-//     switch(tokens[i].type){
-//       case '+': break;
-//     }
-//   }
-//   return args;
-// }
