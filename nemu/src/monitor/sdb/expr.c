@@ -214,11 +214,12 @@ word_t eval(int p, int q, bool *success){
 
 word_t expr(char *e, bool *success) {
   printf("%s\n", tokens[0].str);
+  printf("%d\n",nr_token);
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
-
+  printf("here\n");
   /* TODO: Insert codes to evaluate the expression. */
   for(int i = 0; i < 32; i++){
     printf("%d: %s\n", i, tokens[i].str);
