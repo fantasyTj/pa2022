@@ -124,40 +124,9 @@ static bool make_token(char *e) {
               }
             }
           }; break;
-          case '+':{
-            tokens[nr_token].type = '+';
-            tokens[nr_token].str[0] = '+';
-            // tokens[nr_token].str[31] = '\0';
-            nr_token += 1;
-          } break;
-          case '-':{
-            tokens[nr_token].type = '-';
-            tokens[nr_token].str[0] = '-';
-            // tokens[nr_token].str[31] = '\0';
-            nr_token += 1;
-          } break;
-          case '*':{
-            tokens[nr_token].type = '*';
-            tokens[nr_token].str[0] = '*';
-            // tokens[nr_token].str[31] = '\0';
-            nr_token += 1;
-          } break;
-          case '/':{
-            tokens[nr_token].type = '/';
-            tokens[nr_token].str[0] = '/';
-            // tokens[nr_token].str[31] = '\0';
-            nr_token += 1;
-          } break;
-          case '(':{
-            tokens[nr_token].type = '(';
-            tokens[nr_token].str[0] = '(';
-            // tokens[nr_token].str[31] = '\0';
-            nr_token += 1;
-          } break;
-          case ')':{
-            tokens[nr_token].type = ')';
-            tokens[nr_token].str[0] = ')';
-            // tokens[nr_token].str[31] = '\0';
+          case '+': case '-': case '*': case '/': case '(': case ')':{
+            tokens[nr_token].type = rules[i].token_type;
+            tokens[nr_token].str[0] = rules[i].token_type;
             nr_token += 1;
           } break;
           default: break;
@@ -192,3 +161,13 @@ word_t expr(char *e, bool *success) {
 
   return 0;
 }
+
+// char* gen_expr(){
+//   char args[32 * 32];
+//   for(int i = 0; i < 32; i++){
+//     switch(tokens[i].type){
+//       case '+': break;
+//     }
+//   }
+//   return args;
+// }
