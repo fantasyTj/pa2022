@@ -113,12 +113,12 @@ static bool make_token(char *e) {
                 for(int j = pad_count; j > 0; j--) tokens[nr_token].str[pad_count - j] = '0';
                 strncat(tokens[nr_token].str, substr_start, 31 - pad_count);
                 substr_start += 31 - pad_count;
-                tokens[nr_token].str[31] = '\0';
+                // tokens[nr_token].str[31] = '\0';
                 nr_token += 1;
               }
               else{
                 strncpy(tokens[nr_token].str, substr_start, 31);
-                tokens[nr_token].str[31] = '\0';
+                // tokens[nr_token].str[31] = '\0';
                 nr_token += 1;
               }
             }
@@ -126,37 +126,37 @@ static bool make_token(char *e) {
           case '+':{
             tokens[nr_token].type = '+';
             tokens[nr_token].str[0] = '+';
-            tokens[nr_token].str[31] = '\0';
+            // tokens[nr_token].str[31] = '\0';
             nr_token += 1;
           } break;
           case '-':{
             tokens[nr_token].type = '-';
             tokens[nr_token].str[0] = '-';
-            tokens[nr_token].str[31] = '\0';
+            // tokens[nr_token].str[31] = '\0';
             nr_token += 1;
           } break;
           case '*':{
             tokens[nr_token].type = '*';
             tokens[nr_token].str[0] = '*';
-            tokens[nr_token].str[31] = '\0';
+            // tokens[nr_token].str[31] = '\0';
             nr_token += 1;
           } break;
           case '/':{
             tokens[nr_token].type = '/';
             tokens[nr_token].str[0] = '/';
-            tokens[nr_token].str[31] = '\0';
+            // tokens[nr_token].str[31] = '\0';
             nr_token += 1;
           } break;
           case '(':{
             tokens[nr_token].type = '(';
             tokens[nr_token].str[0] = '(';
-            tokens[nr_token].str[31] = '\0';
+            // tokens[nr_token].str[31] = '\0';
             nr_token += 1;
           } break;
           case ')':{
             tokens[nr_token].type = ')';
             tokens[nr_token].str[0] = ')';
-            tokens[nr_token].str[31] = '\0';
+            // tokens[nr_token].str[31] = '\0';
             nr_token += 1;
           } break;
           default: break;
