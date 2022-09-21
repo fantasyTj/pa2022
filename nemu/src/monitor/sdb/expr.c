@@ -213,6 +213,7 @@ word_t eval(int p, int q, bool *success){
 
 
 word_t expr(char *e, bool *success) {
+  printf("%s\n", tokens[0].str);
   if (!make_token(e)) {
     *success = false;
     return 0;
