@@ -110,16 +110,16 @@ static bool make_token(char *e) {
             
             for(int i = occ_count; i > 0; i--){
               if(i == occ_count){
+                tokens[nr_token].type = occ_count;
                 for(int j = pad_count; j > 0; j--) tokens[nr_token].str[pad_count - j] = '0';
                 strncat(tokens[nr_token].str, substr_start, 31 - pad_count);
                 substr_start += 31 - pad_count;
-                // tokens[nr_token].str[31] = '\0';
                 nr_token += 1;
               }
               else{
+                tokens[nr_token].type = occ_count;
                 strncpy(tokens[nr_token].str, substr_start, 31);
                 substr_start += 31;
-                // tokens[nr_token].str[31] = '\0';
                 nr_token += 1;
               }
             }
@@ -145,23 +145,58 @@ static bool make_token(char *e) {
   return true;
 }
 
-void gen_expr(char *to_eval){
-  
-  for(int i = 0; i < 32; i++){
-    // switch(tokens[i].type){
-    //   case '+': case '-': case '*': case '/': case '(': case ')':{
-    //     strncat(to_eval, tokens[i].str, 1);
-    //   } break;
-    //   default:{
-    //     int occ_count = tokens[i].type;
-    //     for(int j = occ_count; occ_count > 0; occ_count--){
-    //       strncat(to_eval, tokens[j].str, 31);
-    //     }
-    //   }
-    // }
-    strncat(to_eval, tokens[i].str, 31);
+int prio_check(char opr){
+  if(opr == '+' || opr == '-') return 1;
+  else return 3;
+}
+
+word_t eval(int p, int q, bool *success){
+  if(p > q){
+    *success = false;
+    return 0;
+  }else if((tokens[q].type == tokens[p].type) && (p + tokens[p].type - 1 == q)){
+    int num;
+    int occ_count = tokens[p].type;
+    char num_str[occ_count * 32];
+    for(int j = 0; j < occ_count; j++) strncat(num_str, tokens[j].str, 31);
+    sscanf(num_str, "%d", &num);
+    *success = true;
+    return num;
+  }else if(tokens[p].type == '(' && tokens[q].type == ')'){
+    *success = true;
+    return eval(p+1, q-1, success);
+  }else{
+    int position = q;
+    int main_pos = q;
+    int result;
+    while(position >= 0){
+      if(tokens[position].type == ')'){
+        do{
+          position = position - 1;
+        }while(tokens[position].type != '(');
+        position = position - 1;
+      }else if(tokens[p].type=='+' || tokens[p].type=='-' || tokens[p].type=='*' || tokens[p].type=='/'){
+        if(main_pos == q) main_pos = position;
+        else if(prio_check(tokens[main_pos].type) > prio_check(tokens[position].type)) main_pos = position;
+        position--;
+      }else{
+        position = position - tokens[position].type;
+      }
+    }
+    int left = eval(p, position - 1, success);
+    int right = eval(position + 1, q, success);
+    *success = true;
+    switch(tokens[position].type){
+      case '+': result = left + right;break;
+      case '-': result = left - right;break;
+      case '*': result = left * right;break;
+      case '/': result = left / right;break;
+      default: assert(0);
+    }
+    return result;
   }
 }
+
 
 
 word_t expr(char *e, bool *success) {
@@ -176,11 +211,15 @@ word_t expr(char *e, bool *success) {
   // }
   // *success = true;
 
-  char to_eval[32 * 32];
-  gen_expr(to_eval);
-  printf("%s\n", to_eval);
-  *success = true;
+  word_t result;
+  int q = 31;
+  if(tokens[q].type == 0){
+    do{
+      q = q - 1;
+    }while(tokens[q].type == 0);
+  }
+  result = eval(0, q, success);
 
-  return 0;
+  return result;
 }
 
