@@ -163,6 +163,7 @@ word_t eval(int p, int q, bool *success){
     int occ_count = tokens[p].type;
     char num_str[occ_count * 32];
     for(int j = 0; j < occ_count; j++) strncat(num_str, tokens[p + j].str, 31);
+    printf("num_str: %s\n", num_str);
     sscanf(num_str, "%d", &num);
     printf("num is %d\n", num);
     *success = true;
