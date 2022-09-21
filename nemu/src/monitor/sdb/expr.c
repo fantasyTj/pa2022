@@ -107,7 +107,7 @@ static bool make_token(char *e) {
             tokens[nr_token].type = TK_NUM;
             int occ_count = (substr_len - 1) / 31 + 1;
             int pad_count = occ_count * 31 - substr_len;
-            tokens[nr_token].type = occ_count;
+            
             for(int i = occ_count; i > 0; i--){
               if(i == occ_count){
                 for(int j = pad_count; j > 0; j--) tokens[nr_token].str[pad_count - j] = '0';
@@ -148,17 +148,18 @@ static bool make_token(char *e) {
 void gen_expr(char *to_eval){
   
   for(int i = 0; i < 32; i++){
-    switch(tokens[i].type){
-      case '+': case '-': case '*': case '/': case '(': case ')':{
-        strncat(to_eval, tokens[i].str, 1);
-      } break;
-      default:{
-        int occ_count = tokens[i].type;
-        for(int j = occ_count; occ_count > 0; occ_count--){
-          strncat(to_eval, tokens[j].str, 31);
-        }
-      }
-    }
+    // switch(tokens[i].type){
+    //   case '+': case '-': case '*': case '/': case '(': case ')':{
+    //     strncat(to_eval, tokens[i].str, 1);
+    //   } break;
+    //   default:{
+    //     int occ_count = tokens[i].type;
+    //     for(int j = occ_count; occ_count > 0; occ_count--){
+    //       strncat(to_eval, tokens[j].str, 31);
+    //     }
+    //   }
+    // }
+    strncat(to_eval, tokens[i].str, 31);
   }
 }
 
