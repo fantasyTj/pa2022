@@ -113,7 +113,7 @@ static bool make_token(char *e) {
               if(i == occ_count){
                 tokens[nr_token].type = occ_count;
                 char tmp_str[32];
-                for(int j = pad_count; j > 0; j--) tmp_str[j] = '0';
+                for(int j = pad_count - 1; j >= 0; j--) tmp_str[j] = '0';
                 strncat(tmp_str, substr_start, 31 - pad_count);
                 strncpy(tokens[nr_token].str, substr_start, 31);
                 substr_start += 31 - pad_count;
