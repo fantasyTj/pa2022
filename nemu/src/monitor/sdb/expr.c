@@ -176,7 +176,7 @@ word_t eval(int p, int q, bool *success){
   }else{
     int position = q;
     int main_pos = q;
-    int result;
+    word_t result;
     while(position >= p){
       if(tokens[position].type == ')'){
         int para_count = 1;
@@ -216,7 +216,10 @@ word_t eval(int p, int q, bool *success){
       case '+': result = left + right;break;
       case '-': result = left - right;break;
       case '*': result = left * right;break;
-      case '/': result = left / right;break;
+      case '/': {
+        if(right == 0) assert(0);
+        else result = left / right;
+      } break;
       default: assert(0);
     }
     return result;
