@@ -156,9 +156,11 @@ int prio_check(char opr){
 
 word_t eval(int p, int q, bool *success){
   if(p > q){ /* Can't solve the situation when minus located in the begin */
-    *success = false;
+    if(p < nr_token && tokens[p].type == '-') {
+      return 0;
+    }
+    printf("Wrong expression\n");
     assert(0);
-    return 0;
   }else if((tokens[q].type == tokens[p].type) && (p + tokens[p].type - 1 == q)){
     int num;
     int occ_count = tokens[p].type;
@@ -229,27 +231,15 @@ word_t eval(int p, int q, bool *success){
 
 
 word_t expr(char *e, bool *success) {
-  // printf("%s\n", tokens[0].str);
-  // printf("%d\n",nr_token);
+
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
   // printf("here\n");
   /* TODO: Insert codes to evaluate the expression. */
-  // for(int i = 0; i < 32; i++){
-  //   printf("%d: %s\n", i, tokens[i].str);
-  // }
-  // *success = true;
 
   word_t result;
-  // int q = 31;
-  // if(tokens[q].type == 0){
-  //   do{
-  //     q = q - 1;
-  //   }while(tokens[q].type == 0);
-  // }
-  // printf("q is %d\n", q);
   result = eval(0, nr_token-1, success);
 
   return result;
