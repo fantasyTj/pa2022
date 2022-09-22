@@ -73,7 +73,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[128] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 // static int sentinel = 0;
 
@@ -155,7 +155,7 @@ int prio_check(char opr){
 }
 
 word_t eval(int p, int q, bool *success){
-  if(p > q){ /* Can't solve the situation when minus located in the begin */
+  if(p > q){ /* (Maybe) Can't solve the situation when minus located in the begin */
     if(p < nr_token && tokens[p].type == '-') {
       return 0;
     }
@@ -212,8 +212,8 @@ word_t eval(int p, int q, bool *success){
       main_pos_left = (flag != 0)?(main_pos_left):(main_pos_left + 1);
       op_type = (front_flag == -1)?('-'):('+'); 
     }
-    int left = eval(p, main_pos_left - 1, success);
-    int right = eval(main_pos_right + 1, q, success);
+    word_t left = eval(p, main_pos_left - 1, success);
+    word_t right = eval(main_pos_right + 1, q, success);
     *success = true;
     switch(op_type){
       case '+': result = left + right;break;
