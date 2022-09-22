@@ -75,6 +75,7 @@ typedef struct token {
 
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
+// static int sentinel = 0;
 
 
 static bool make_token(char *e) {
@@ -224,20 +225,20 @@ word_t expr(char *e, bool *success) {
   }
   // printf("here\n");
   /* TODO: Insert codes to evaluate the expression. */
-  for(int i = 0; i < 32; i++){
-    printf("%d: %s\n", i, tokens[i].str);
-  }
+  // for(int i = 0; i < 32; i++){
+  //   printf("%d: %s\n", i, tokens[i].str);
+  // }
   // *success = true;
 
   word_t result;
-  int q = 31;
-  if(tokens[q].type == 0){
-    do{
-      q = q - 1;
-    }while(tokens[q].type == 0);
-  }
-  printf("q is %d\n", q);
-  result = eval(0, q, success);
+  // int q = 31;
+  // if(tokens[q].type == 0){
+  //   do{
+  //     q = q - 1;
+  //   }while(tokens[q].type == 0);
+  // }
+  // printf("q is %d\n", q);
+  result = eval(0, nr_token-1, success);
 
   return result;
 }
