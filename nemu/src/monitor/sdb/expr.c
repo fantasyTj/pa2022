@@ -115,7 +115,7 @@ static bool make_token(char *e) {
                 char tmp_str[32];
                 for(int j = 0; j < pad_count; j++) tmp_str[j] = '0';
                 strncat(tmp_str, substr_start, 31 - pad_count);
-                strncpy(tokens[nr_token].str, substr_start, 31);
+                strncpy(tokens[nr_token].str, tmp_str, 31);
                 substr_start += 31 - pad_count;
                 printf("nr_token = %d, %s\n", nr_token, tokens[nr_token].str);
                 nr_token += 1;
