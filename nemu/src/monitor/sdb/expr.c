@@ -209,7 +209,7 @@ word_t eval(int p, int q, bool *success){
         }
       }
       front_flag = (flag != 0)?(flag):(front_flag);
-      main_pos_left++;
+      main_pos_left = (flag != 0)?(main_pos_left):(main_pos_left + 1);
       op_type = (front_flag == -1)?('-'):('+'); 
     }
     int left = eval(p, main_pos_left - 1, success);
