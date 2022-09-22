@@ -105,7 +105,7 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
           case TK_NOTYPE: break;
           case TK_EQ: break;
-          case TK_NUM:{
+          case TK_NUM:{ /* This may be modifided for the change of strategy for overflow number */
             tokens[nr_token].type = TK_NUM;
             int occ_count = (substr_len - 1) / 31 + 1;
             int pad_count = occ_count * 31 - substr_len;
@@ -195,10 +195,25 @@ word_t eval(int p, int q, bool *success){
         position = position - tokens[position].type;
       }
     }
-    int left = eval(p, main_pos - 1, success);
-    int right = eval(main_pos + 1, q, success);
+    char op_type = tokens[main_pos].type;
+    int main_pos_left = main_pos, main_pos_right = main_pos;
+    if(tokens[main_pos].type == '-'){ /* Handle continuous minus type */
+      int flag = -1, front_flag;
+      while(flag){
+        front_flag = flag;
+        switch(tokens[--main_pos_left].type){
+          case '+': flag *= 1; break;
+          case '-': flag *= (-1); break;
+          default: flag *= 0; break;
+        }
+      }
+      main_pos_left++;
+      op_type = (front_flag == -1)?('-'):('+'); 
+    }
+    int left = eval(p, main_pos_left - 1, success);
+    int right = eval(main_pos_right + 1, q, success);
     *success = true;
-    switch(tokens[main_pos].type){
+    switch(op_type){
       case '+': result = left + right;break;
       case '-': result = left - right;break;
       case '*': result = left * right;break;
