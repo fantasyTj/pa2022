@@ -208,6 +208,7 @@ word_t eval(int p, int q, bool *success){
           default: flag *= 0; break;
         }
       }
+      front_flag = (flag != 0)?(flag):(front_flag);
       main_pos_left++;
       op_type = (front_flag == -1)?('-'):('+'); 
     }
