@@ -199,7 +199,7 @@ word_t eval(int p, int q, bool *success){
         position = position - tokens[position].type;
       }
     }
-    printf("p is %d, q is %d, pos is %d\n",p, q, position);
+    printf("p is %d, q is %d, pos is %d\n",p, q, main_pos);
     int left = eval(p, main_pos - 1, success);
     int right = eval(main_pos + 1, q, success);
     *success = true;
