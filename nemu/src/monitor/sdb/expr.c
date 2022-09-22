@@ -155,8 +155,7 @@ int prio_check(char opr){
 }
 
 word_t eval(int p, int q, bool *success){
-  // printf("q is %d\n", q);
-  if(p > q){
+  if(p > q){ /* Can't solve the situation when minus located in the begin */
     *success = false;
     assert(0);
     return 0;
@@ -198,8 +197,8 @@ word_t eval(int p, int q, bool *success){
     char op_type = tokens[main_pos].type;
     int main_pos_left = main_pos, main_pos_right = main_pos;
     if(tokens[main_pos].type == '-'){ /* Handle continuous minus type */
-      int flag = -1, front_flag;
-      while(flag){
+      int flag = -1, front_flag = -1;
+      while(main_pos_left > 0 && flag){
         front_flag = flag;
         switch(tokens[--main_pos_left].type){
           case '+': flag *= 1; break;
