@@ -187,9 +187,12 @@ word_t eval(int p, int q, bool *success){
     int result;
     while(position >= p){
       if(tokens[position].type == ')'){
+        int para_count = 1;
         do{
           position = position - 1;
-        }while(tokens[position].type != '(');
+          if(tokens[position].type == '(') para_count -= 1;
+          if(tokens[position].type == ')') para_count += 1;
+        }while(para_count > 0);
         position = position - 1;
       }else if(tokens[position].type=='+' || tokens[position].type=='-' || tokens[position].type=='*' || tokens[position].type=='/'){
         if(main_pos == q) main_pos = position;
