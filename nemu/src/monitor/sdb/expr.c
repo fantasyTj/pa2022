@@ -158,31 +158,24 @@ int prio_check(char opr){
 word_t eval(int p, int q, bool *success){
   // printf("q is %d\n", q);
   if(p > q){
-    printf("stream 1\n");
     *success = false;
     assert(0);
     return 0;
   }else if((tokens[q].type == tokens[p].type) && (p + tokens[p].type - 1 == q)){
-    printf("stream 2\n");
     int num;
     int occ_count = tokens[p].type;
-    printf("occ_count: %d\n", occ_count);
     char num_str[occ_count * 32];
     for(int j = 0; j < occ_count; j++){
       if(j == 0) strncpy(num_str, tokens[p + j].str, 31);
       else strncat(num_str, tokens[p + j].str, 31);
     }
-    printf("num_str: %s\n", num_str);
     sscanf(num_str, "%d", &num);
-    printf("num is %d\n", num);
     *success = true;
     return num;
   }else if(tokens[p].type == '(' && tokens[q].type == ')'){
-    printf("stream 3\n");
     *success = true;
     return eval(p+1, q-1, success);
   }else{
-    printf("stream 4\n");
     int position = q;
     int main_pos = q;
     int result;
@@ -203,7 +196,6 @@ word_t eval(int p, int q, bool *success){
         position = position - tokens[position].type;
       }
     }
-    printf("p is %d, q is %d, pos is %d\n",p, q, main_pos);
     int left = eval(p, main_pos - 1, success);
     int right = eval(main_pos + 1, q, success);
     *success = true;
