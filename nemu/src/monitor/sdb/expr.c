@@ -112,7 +112,7 @@ static bool make_token(char *e) {
             for(int i = occ_count; i > 0; i--){
               if(i == occ_count){
                 tokens[nr_token].type = occ_count;
-                char tmp_str[32];
+                char tmp_str[32] = "0";
                 for(int j = 0; j < pad_count; j++) tmp_str[j] = '0';
                 printf("tmp_str: %s\n",tmp_str);
                 strncat(tmp_str, substr_start, 31 - pad_count);
