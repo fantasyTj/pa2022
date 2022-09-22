@@ -156,7 +156,7 @@ int prio_check(char opr){
 }
 
 word_t eval(int p, int q, bool *success){
-  printf("q is %d\n", q);
+  // printf("q is %d\n", q);
   if(p > q){
     printf("stream 1\n");
     *success = false;
