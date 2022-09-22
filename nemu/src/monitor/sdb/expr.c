@@ -114,11 +114,9 @@ static bool make_token(char *e) {
                 tokens[nr_token].type = occ_count;
                 char tmp_str[32] = "0";
                 for(int j = 0; j < pad_count; j++) tmp_str[j] = '0';
-                printf("tmp_str: %s\n",tmp_str);
                 strncat(tmp_str, substr_start, 31 - pad_count);
                 strncpy(tokens[nr_token].str, tmp_str, 31);
                 substr_start += 31 - pad_count;
-                printf("nr_token = %d, %s\n", nr_token, tokens[nr_token].str);
                 nr_token += 1;
               }
               else{
@@ -218,13 +216,13 @@ word_t eval(int p, int q, bool *success){
 
 
 word_t expr(char *e, bool *success) {
-  printf("%s\n", tokens[0].str);
-  printf("%d\n",nr_token);
+  // printf("%s\n", tokens[0].str);
+  // printf("%d\n",nr_token);
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
-  printf("here\n");
+  // printf("here\n");
   /* TODO: Insert codes to evaluate the expression. */
   for(int i = 0; i < 32; i++){
     printf("%d: %s\n", i, tokens[i].str);
@@ -239,7 +237,7 @@ word_t expr(char *e, bool *success) {
     }while(tokens[q].type == 0);
   }
   printf("q is %d\n", q);
-  // result = eval(0, q, success);
+  result = eval(0, q, success);
 
   return result;
 }
