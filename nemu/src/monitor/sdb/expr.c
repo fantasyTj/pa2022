@@ -155,7 +155,7 @@ int prio_check(char opr){
 }
 
 bool checkparenthesis(int p, int q){
-  if(tokens[p].type != ')' || p == q) return false;
+  if(tokens[q].type != ')' || p == q) return false;
   else{
     int count = 1;
     int left_pos = q - 1;
