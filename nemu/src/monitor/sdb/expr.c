@@ -75,7 +75,6 @@ typedef struct token {
 
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
-// static int sentinel = 0;
 
 
 static bool make_token(char *e) {
@@ -118,6 +117,7 @@ static bool make_token(char *e) {
                 strncat(tmp_str, substr_start, 31 - pad_count);
                 strncpy(tokens[nr_token].str, tmp_str, 31);
                 substr_start += 31 - pad_count;
+                printf("num_str is: %s\n",tokens[nr_token].str);
                 nr_token += 1;
               }
               else{
