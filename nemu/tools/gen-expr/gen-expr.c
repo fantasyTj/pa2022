@@ -31,8 +31,63 @@ static char *code_format =
 "  return 0; "
 "}";
 
+char *buf_pos = buf;
+static _Bool gen_0 = 1;
+
+uint32_t choose(uint32_t n){
+  return rand() % n;
+}
+
+_Bool gen_halt(){
+  return (buf_pos - &buf[0]) < 500;
+}
+
+void gen_space(){
+  int n = choose(3);
+  for(int i = 0; i < n; i++){
+    *buf_pos = ' ';
+    buf_pos += 1;
+  }
+}
+
+void gen(char op){
+  gen_space();
+  *buf_pos = op;
+  buf_pos += 1;
+}
+
+void gen_rand_op(){
+  unsigned n = choose(4);
+  switch(n){
+    case 0: gen('+'); break;
+    case 1: gen('-'); break;
+    case 2: gen('*'); break;
+    default: gen('/'); gen_0 = 0; break;
+  }
+}
+
+void gen_num(){
+  gen_space();
+  uint32_t num;
+  num = rand() % 51;
+  if(!gen_0) num++;
+  char tmp_str[12];
+  sprintf(tmp_str, "%d", num);
+  int str_len = strlen(tmp_str);
+  strncpy(buf_pos, tmp_str, str_len);
+  buf_pos += str_len;
+  gen_0 = 1;
+//   printf("tmp_str is: %s, cated str is: %s, strlen is: %ld\n", tmp_str, buf, strlen(tmp_str));
+}
+
 static void gen_rand_expr() {
-  buf[0] = '\0';
+  // buf[0] = '\0';
+  int n = (gen_halt())?(choose(3)):(0);
+  switch(n){
+    case 0: gen_num(); break;
+    case 1: gen('('); gen_rand_expr(); gen(')'); break;
+    default: gen_rand_expr(); gen_rand_op(); gen_rand_expr(); break; 
+  }
 }
 
 int main(int argc, char *argv[]) {
@@ -44,7 +99,12 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
+    buf_pos = &buf[0];
+    // printf("refresh buf is: %s\n",buf);
     gen_rand_expr();
+    // printf("buf is: %s\n",buf);
+    *buf_pos = '\0';
+    // printf("buf2 is: %s\n",buf);
 
     sprintf(code_buf, code_format, buf);
 
