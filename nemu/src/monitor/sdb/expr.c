@@ -174,7 +174,7 @@ bool checkparenthesis(int p, int q){
 }
 
 word_t eval(int p, int q, bool *success){
-  printf("p is %d, q is %d\t", p, q);
+  // printf("p is %d, q is %d\t", p, q);
   if(p > q){ /* (Maybe) Can't solve the situation when minus located in the begin */
     printf("stream 1\n");
     if(p < nr_token && tokens[p].type == '-') {
@@ -183,7 +183,7 @@ word_t eval(int p, int q, bool *success){
     printf("Wrong expression\n");
     assert(0);
   }else if((tokens[q].type == tokens[p].type) && (p + tokens[p].type - 1 == q)){
-    printf("stream 2\n");
+    // printf("stream 2\n");
     int num;
     int occ_count = tokens[p].type;
     char num_str[occ_count * 32];
@@ -194,16 +194,16 @@ word_t eval(int p, int q, bool *success){
     sscanf(num_str, "%d", &num);
     *success = true;
     return num;
-  }else if(checkparenthesis(p, q) == true){
-    printf("stream 3\n");
+  }else if(checkparenthesis(p, q)){
+    // printf("stream 3\n");
     *success = true;
     return eval(p+1, q-1, success);
   }else{
-    printf("stream 4\n");
+    // printf("stream 4\n");
     int position = q;
     int main_pos = q;
     word_t result;
-    while(position >= p){
+    while(position >= p){ /* find the "main" position */
       if(tokens[position].type == ')'){
         int para_count = 1;
         do{
@@ -260,9 +260,9 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-  for(int i = 0; i < nr_token; i++){
-    printf("i: %d, %s\n", i, tokens[i].str);
-  }
+  // for(int i = 0; i < nr_token; i++){
+  //   printf("i: %d, %s\n", i, tokens[i].str);
+  // }
   // printf("here\n");
   /* TODO: Insert codes to evaluate the expression. */
   
@@ -271,4 +271,3 @@ word_t expr(char *e, bool *success) {
 
   return result;
 }
-
