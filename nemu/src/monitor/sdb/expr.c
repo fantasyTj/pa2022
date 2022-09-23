@@ -154,6 +154,24 @@ int prio_check(char opr){
   else return 3;
 }
 
+bool checkparenthesis(int p, int q){
+  if(tokens[p].type != ')' || p == q) return false;
+  else{
+    int count = 1;
+    int left_pos = q - 1;
+    while(left_pos >= 0 && count != 0){
+      switch(tokens[left_pos].type){
+        case '(': count--; break;
+        case ')': count++; break;
+        default: break;
+      }
+      if(count == 0) break;
+      left_pos--;
+    }
+    return (p == left_pos)?(true):(false);
+  }
+}
+
 word_t eval(int p, int q, bool *success){
   printf("p is %d, q is %d\t", p, q);
   if(p > q){ /* (Maybe) Can't solve the situation when minus located in the begin */
@@ -175,7 +193,7 @@ word_t eval(int p, int q, bool *success){
     sscanf(num_str, "%d", &num);
     *success = true;
     return num;
-  }else if(tokens[p].type == '(' && tokens[q].type == ')'){
+  }else if(checkparenthesis(p, q)){
     printf("stream 3\n");
     *success = true;
     return eval(p+1, q-1, success);
