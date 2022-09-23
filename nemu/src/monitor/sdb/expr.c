@@ -237,7 +237,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   for(int i = 0; i < nr_token; i++){
-    printf("%s\t", tokens[nr_token].str);
+    printf("%s\n", tokens[nr_token].str);
   }
   // printf("here\n");
   /* TODO: Insert codes to evaluate the expression. */
