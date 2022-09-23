@@ -194,7 +194,7 @@ word_t eval(int p, int q, bool *success){
     sscanf(num_str, "%d", &num);
     *success = true;
     return num;
-  }else if(checkparenthesis(p, q)){
+  }else if(checkparenthesis(p, q) == true){
     printf("stream 3\n");
     *success = true;
     return eval(p+1, q-1, success);
