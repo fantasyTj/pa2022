@@ -39,7 +39,7 @@ uint32_t choose(uint32_t n){
 }
 
 _Bool gen_halt(){
-  return (buf_pos - &buf[0]) < 500;
+  return (buf_pos - &buf[0]) < 50;
 }
 
 void gen_space(){
