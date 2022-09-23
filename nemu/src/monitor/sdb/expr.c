@@ -155,14 +155,16 @@ int prio_check(char opr){
 }
 
 word_t eval(int p, int q, bool *success){
-  printf("p is %d, q is %d\n", p, q);
+  printf("p is %d, q is %d\t", p, q);
   if(p > q){ /* (Maybe) Can't solve the situation when minus located in the begin */
+    printf("stream 1\n");
     if(p < nr_token && tokens[p].type == '-') {
       return 0;
     }
     printf("Wrong expression\n");
     assert(0);
   }else if((tokens[q].type == tokens[p].type) && (p + tokens[p].type - 1 == q)){
+    printf("stream 2\n");
     int num;
     int occ_count = tokens[p].type;
     char num_str[occ_count * 32];
@@ -174,9 +176,11 @@ word_t eval(int p, int q, bool *success){
     *success = true;
     return num;
   }else if(tokens[p].type == '(' && tokens[q].type == ')'){
+    printf("stream 3\n");
     *success = true;
     return eval(p+1, q-1, success);
   }else{
+    printf("stream 4\n");
     int position = q;
     int main_pos = q;
     word_t result;
