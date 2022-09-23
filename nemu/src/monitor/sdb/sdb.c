@@ -201,7 +201,7 @@ void read_exp_by_line(){
 }
 
 static int cmd_p(char *args){
-  read_exp_by_line();
+  // read_exp_by_line();
 
   char *arg = strtok(NULL, "");
   if(arg == NULL){
