@@ -155,6 +155,7 @@ int prio_check(char opr){
 }
 
 word_t eval(int p, int q, bool *success){
+  printf("p is %d, q is %d\n", p, q);
   if(p > q){ /* (Maybe) Can't solve the situation when minus located in the begin */
     if(p < nr_token && tokens[p].type == '-') {
       return 0;
