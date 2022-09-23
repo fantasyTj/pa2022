@@ -183,7 +183,26 @@ static int cmd_x(char *args){
 
 }
 
+void read_exp_by_line(){
+  FILE *fp = fopen("input.txt", "r");
+  if(fp == NULL) assert(0);
+
+  unsigned result;
+  word_t cal_result;
+  char exp_str[512];
+  bool success;
+  while(fscanf(fp, "%u %[^\n]s",&result, exp_str) == 2){
+    // printf("result is %u,\n exp is %s\n", result, exp_str);
+    cal_result = expr(exp_str, &success);
+    if(cal_result == result) printf("succ\n");
+    else printf("str fail: %s\n", exp_str);
+  }
+  fclose(fp);
+}
+
 static int cmd_p(char *args){
+  read_exp_by_line();
+
   char *arg = strtok(NULL, "");
   if(arg == NULL){
     printf("Lack expected argument(s)!\n");

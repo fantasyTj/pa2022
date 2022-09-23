@@ -15,17 +15,6 @@
 
 #include <common.h>
 
-void read_exp_by_line(){
-  FILE *fp = fopen("input.txt", "r");
-  if(fp == NULL) assert(0);
-
-  unsigned result;
-  char exp_str[512];
-  while(fscanf(fp, "%u %[^\n]s",&result, exp_str) == 2){
-    printf("result is %u,\n exp is %s\n", result, exp_str);
-  }
-}
-
 void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
@@ -40,10 +29,8 @@ int main(int argc, char *argv[]) {
 #endif
   /* Start engine. */
 
-  read_exp_by_line();
-  return 0;
-  // engine_start();
+  engine_start();
 
-  // return is_exit_status_bad();
+  return is_exit_status_bad();
 }
 
