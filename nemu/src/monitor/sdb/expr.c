@@ -159,7 +159,7 @@ bool checkparenthesis(int p, int q){
   else{
     int count = 1;
     int left_pos = q - 1;
-    while(left_pos >= 0 && count != 0){
+    while(left_pos >= 0 ){
       switch(tokens[left_pos].type){
         case '(': count--; break;
         case ')': count++; break;
@@ -168,6 +168,7 @@ bool checkparenthesis(int p, int q){
       if(count == 0) break;
       left_pos--;
     }
+    printf("left_pos is %d\n", left_pos);
     return (p == left_pos)?(true):(false);
   }
 }
