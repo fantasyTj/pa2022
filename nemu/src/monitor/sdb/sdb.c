@@ -208,6 +208,7 @@ static int cmd_p(char *args){
     printf("Lack expected argument(s)!\n");
     return 0;
   }
+  printf("arg is %s\n", arg);
   bool success = false;
   word_t result;
   result = expr(arg, &success);
