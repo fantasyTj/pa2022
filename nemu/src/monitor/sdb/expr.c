@@ -271,6 +271,7 @@ word_t eval(int p, int q, bool *success){
         return tmp_res;
       }
     }else{
+      printf("here\n");
       word_t result;
       word_t left = eval(p, main_pos - 1, success);
       int right = eval(main_pos + 1, q, success);
