@@ -332,6 +332,7 @@ word_t expr(char *e, bool *success) {
   /*pretreat*/
   for(int i = 0; i < nr_token; i++){
     if(tokens[i].type == '*' && (i == 0 || (tokens[i-1].type != TK_NUM || tokens[i-1].type != TK_HEX || tokens[i-1].type != ')'))){
+      printf("succ\n");
       tokens[i].type = TK_DEF;
     }
     if(tokens[i].type == '-' && (i == 0 || (tokens[i-1].type != TK_NUM || tokens[i-1].type != TK_HEX || tokens[i-1].type != ')'))){
