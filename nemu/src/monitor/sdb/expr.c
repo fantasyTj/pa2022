@@ -346,7 +346,7 @@ word_t expr(char *e, bool *success) {
 
   word_t result;
   result = eval(0, nr_token-1, success);
-  Assert(*success == true, "Eval Error!\n");
+  // Assert(*success == true, "Eval Error!\n");
 
   return result;
 }
