@@ -50,6 +50,7 @@ word_t isa_reg_str2val(const char *s, bool *success)
     if (strcmp(s, regs[idx]) == 0)
       break;
   }
+  printf("idx is %d\n", idx);
   Assert(idx < 32, "Register %s not found!\n", s);
   *success = true;
   return cpu.gpr[idx];
