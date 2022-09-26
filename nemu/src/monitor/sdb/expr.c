@@ -259,6 +259,7 @@ word_t eval(int p, int q, bool *success){
           addr = eval(p + 1, q, success);
         }
         def_data = paddr_read(addr, 4);
+        printf("def_data is %u\n", def_data);
         return def_data;
       }else if(tokens[p].type == TK_NEG){
         int flag = -1;
