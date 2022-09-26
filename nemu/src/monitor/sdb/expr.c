@@ -271,7 +271,6 @@ word_t eval(int p, int q, bool *success){
         return tmp_res;
       }
     }else{
-      printf("here\n");
       word_t result;
       word_t left = eval(p, main_pos - 1, success);
       int right = eval(main_pos + 1, q, success);
@@ -282,7 +281,6 @@ word_t eval(int p, int q, bool *success){
           else result = left + (word_t)right;
         }break;
         case '-':{
-          printf("right is %d\n", right);
           if(right < 0) result = left + (word_t)(-right);
           else result = left - (word_t)right;
         }break;
@@ -344,9 +342,9 @@ word_t expr(char *e, bool *success) {
       sprintf(tokens[i].str, "%d", tmp_num);
     }
   }
-  for(int i = 0; i < nr_token; i++){
-    printf("i: %d, %d\n", i, tokens[i].type);
-  }
+  // for(int i = 0; i < nr_token; i++){
+  //   printf("i: %d, %d\n", i, tokens[i].type);
+  // }
   word_t result;
   result = eval(0, nr_token-1, success);
   Assert(*success == true, "Eval Error!\n");
