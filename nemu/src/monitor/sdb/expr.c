@@ -325,8 +325,7 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-  // for(int i = 0; i < nr_token; i++){
-  //   printf("i: %d, %s\n", i, tokens[i].str);
+  
   // }
   // printf("here\n");
   /* TODO: Insert codes to evaluate the expression. */
@@ -345,7 +344,9 @@ word_t expr(char *e, bool *success) {
       sprintf(tokens[i].str, "%d", tmp_num);
     }
   }
-
+  for(int i = 0; i < nr_token; i++){
+    printf("i: %d, %d\n", i, tokens[i].type);
+  }
   word_t result;
   result = eval(0, nr_token-1, success);
   Assert(*success == true, "Eval Error!\n");
