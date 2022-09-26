@@ -43,8 +43,7 @@ void isa_reg_display()
 
 word_t isa_reg_str2val(const char *s, bool *success)
 {
-  if (s[1] != '0')
-    s += 1;
+  if (s[1] != '0') s += 1;
   int idx;
   for (idx = 0; idx < 32; idx++)
   {
@@ -52,5 +51,6 @@ word_t isa_reg_str2val(const char *s, bool *success)
       break;
   }
   Assert(idx < 32, "Register %s not found!\n", s);
+  *success = true;
   return cpu.gpr[idx];
 }
