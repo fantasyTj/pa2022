@@ -281,6 +281,7 @@ word_t eval(int p, int q, bool *success){
           else result = left + (word_t)right;
         }break;
         case '-':{
+          printf("right is %d\n", right);
           if(right < 0) result = left + (word_t)(-right);
           else result = left - (word_t)right;
         }break;
