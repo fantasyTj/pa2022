@@ -213,7 +213,7 @@ static int cmd_p(char *args){
   word_t result;
   result = expr(arg, &success);
 
-  if(success == true) printf("Result: %d\n", result);
+  if(success == true) printf("Result: %u\n", result);
   else printf("Invalid token(s)!\n");
 
   return 0;

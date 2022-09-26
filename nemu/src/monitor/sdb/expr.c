@@ -181,7 +181,6 @@ bool checkparenthesis(int p, int q){
       if(count == 0) break;
       left_pos--;
     }
-    printf("left_pos is %d\n", left_pos);
     return (p == left_pos)?(true):(false);
   }
 }
@@ -259,7 +258,6 @@ word_t eval(int p, int q, bool *success){
           addr = eval(p + 1, q, success);
         }
         def_data = paddr_read(addr, 4);
-        printf("def_data is %u\n", def_data);
         return def_data;
       }else if(tokens[p].type == TK_NEG){
         int flag = -1;
