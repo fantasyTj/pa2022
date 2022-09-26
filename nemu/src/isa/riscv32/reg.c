@@ -43,6 +43,7 @@ void isa_reg_display()
 
 word_t isa_reg_str2val(const char *s, bool *success)
 {
+  printf("strlen is %ld\n", strlen(s));
   if (s[1] != '0') s += 1;
   printf("str is %s\n", s);
   int idx;
