@@ -44,6 +44,7 @@ void isa_reg_display()
 word_t isa_reg_str2val(const char *s, bool *success)
 {
   if (s[1] != '0') s += 1;
+  printf("str is %s\n", s);
   int idx;
   for (idx = 0; idx < 32; idx++)
   {
