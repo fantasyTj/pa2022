@@ -218,6 +218,7 @@ word_t eval(int p, int q, bool *success){
     word_t num;
     if(tokens[p].type == TK_NUM) sscanf(tokens[p].str, "%d", &num);
     else sscanf(tokens[p].str, "%x", &num);
+    *success = true;
     return num;
   }else if(checkparenthesis(p, q)){
     // printf("stream 3\n");
@@ -336,17 +337,16 @@ word_t expr(char *e, bool *success) {
       tokens[i].type = TK_NEG;
     }
     if(tokens[i].type == TK_REG){
-      bool success;
       tokens[i].type = TK_NUM;
-      word_t tmp_num = isa_reg_str2val(tokens[i].str, &success);
-      Assert(success == true, "Register %s not found!\n", tokens[i].str);
+      word_t tmp_num = isa_reg_str2val(tokens[i].str, success);
+      Assert(*success == true, "Register %s not found!\n", tokens[i].str);
       sprintf(tokens[i].str, "%d", tmp_num);
     }
   }
 
   word_t result;
   result = eval(0, nr_token-1, success);
-  // Assert(*success == true, "Eval Error!\n");
+  Assert(*success == true, "Eval Error!\n");
 
   return result;
 }
