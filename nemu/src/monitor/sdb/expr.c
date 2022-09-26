@@ -185,7 +185,7 @@ bool checkparenthesis(int p, int q){
   }
 }
 
-bool checkop(char op){
+bool checkop(int op){
   if(op == '+'||op == '-'||op == '*'||op == '/'||op == TK_AND||op == TK_EQ||op == TK_NEQ){
     return true;
   }else return false;
