@@ -137,7 +137,7 @@ static int cmd_info(char *args){
 
   switch(*arg){
     case 'r': isa_reg_display(); break;
-    case 'w': break;
+    case 'w': wp_display();break;
     default: printf("Unknown argument: '%c' , only 'r' or 's' is legal.\n", *arg); break;
   }
 

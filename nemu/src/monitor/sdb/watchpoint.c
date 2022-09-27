@@ -16,12 +16,15 @@
 #include "sdb.h"
 
 #define NR_WP 32
+#define WP_EXPR_LEN 128
 
 typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
 
   /* TODO: Add more members if necessary */
+  char store_expr[WP_EXPR_LEN];
+  word_t value;
 
 } WP;
 
@@ -40,4 +43,64 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+WP* new_wp(){
+  WP *tmp_p;
+  Assert(free_ != NULL,"No more free watchpoints! Maximum capacity is %u\n", NR_WP);
+  tmp_p = free_;
+  free_ = free_->next;
+  return tmp_p;
+}
 
+void free_wp(WP *wp){
+  wp->next = (free_ == NULL)?(NULL):(free_->next);
+  free_ = wp;
+}
+
+void add_wp(char *inp_expr, bool *success){
+  WP* added_wp = new_wp();
+  added_wp->next = head;
+  head = added_wp;
+  head->NO = head->next->NO + 1;
+  Assert(strlen(inp_expr) < WP_EXPR_LEN, "Too long expression for watchpoint! %u limited!\n", WP_EXPR_LEN);
+  strcpy(head->store_expr, inp_expr);
+  head->store_expr[strlen(inp_expr)] = '\0';
+  head->value = expr(inp_expr, success);
+  Assert(*success == true, "Invalid watchpoint expression: %s!\n", inp_expr);
+}
+
+void delete_wp(word_t inp_NO, bool *success){
+  WP* tmp_p;
+  tmp_p = head;
+  if(tmp_p->NO == inp_NO){
+    head = head->next;
+    free_wp(tmp_p);
+  }else{
+    int flag = 0;
+    while(tmp_p->next != NULL){
+      if(tmp_p->next->NO == inp_NO){
+        flag = 1;
+        break;
+      }
+      tmp_p = tmp_p->next;
+    }
+    if(flag == 0) printf("watchpoint %d is not found!\n", inp_NO);
+    else{
+      WP *tmp_next = tmp_p->next;
+      tmp_p->next = tmp_p->next->next;
+      free_wp(tmp_next);
+    }
+  }
+}
+
+
+void wp_display(){
+  WP *tmp_p = head;
+  if(tmp_p == NULL){
+    printf("No watchpoints\n");
+  }else{
+    printf("%.5s\t%s\n", "NUM", "WHAT");
+    while(tmp_p != NULL){
+      printf("%5d\t%s\n", tmp_p->NO, tmp_p->store_expr);
+    }
+  }
+}
