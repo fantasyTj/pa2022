@@ -58,12 +58,14 @@ void free_wp(WP *wp){
 
 void add_wp(char *inp_expr, bool *success){
   WP* added_wp = new_wp();
+  printf("here\n");
   added_wp->next = head;
   head = added_wp;
   head->NO = head->next->NO + 1;
   Assert(strlen(inp_expr) < WP_EXPR_LEN, "Too long expression for watchpoint! %u limited!\n", WP_EXPR_LEN);
   strcpy(head->store_expr, inp_expr);
   head->store_expr[strlen(inp_expr)] = '\0';
+  printf("here2\n");
   head->value = expr(inp_expr, success);
   Assert(*success == true, "Invalid watchpoint expression: %s!\n", inp_expr);
 }
