@@ -116,7 +116,7 @@ void scan_wp(){
     Assert(success == true, "Scan watchpoint error when evaluating!\n");
     if(tmp_val != tmp_p->value){
       nemu_state.state = NEMU_STOP;
-      printf("Watchpoint %d: %s\nOld value: %u\nNew value: %u", tmp_p->NO, tmp_p->store_expr, tmp_p->value, tmp_val);
+      printf("Watchpoint %d: %s\nOld value: %u\nNew value: %u\n", tmp_p->NO, tmp_p->store_expr, tmp_p->value, tmp_val);
       tmp_p->value = tmp_val;
     }
     tmp_p = tmp_p->next;
