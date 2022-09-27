@@ -225,7 +225,7 @@ static int cmd_w(char *args){
     printf("Lack expected argument(s)!\n");
     return 0;
   }
-  printf("arg is %s\n", arg);
+  
   bool success;
   add_wp(arg, &success);
   if(success == false) printf("Add watchpoint error!\n");

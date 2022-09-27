@@ -119,5 +119,6 @@ void scan_wp(){
       printf("Watchpoint %d: %s\nOld value: %u\nNew value: %u", tmp_p->NO, tmp_p->store_expr, tmp_p->value, tmp_val);
       tmp_p->value = tmp_val;
     }
+    tmp_p = tmp_p->next;
   }
 }
