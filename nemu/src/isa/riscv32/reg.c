@@ -43,6 +43,9 @@ void isa_reg_display()
 
 word_t isa_reg_str2val(const char *s, bool *success)
 {
+  if(strcmp(s, "$pc") == 0){
+    return cpu.pc;
+  }
   if (s[1] != '0') s += 1;
   int idx;
   for (idx = 0; idx < 32; idx++)
