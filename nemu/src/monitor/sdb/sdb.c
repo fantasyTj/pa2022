@@ -64,9 +64,9 @@ static int cmd_x(char *args);
 
 static int cmd_p(char *args);
 
-// static int cmd_w(char *args);
+static int cmd_w(char *args);
 
-// static int cmd_d(char *args);
+static int cmd_d(char *args);
 
 static struct {
   const char *name;
@@ -80,8 +80,8 @@ static struct {
   { "info", "Print the register status(r) or print the watchpoint(w) information", cmd_info},
   { "x", "Scan memory from EXPR by N", cmd_x},
   { "p", "Expression evaluation", cmd_p},
-  // { "w", "Set watchpoints", cmd_w},
-  // { "d", "Delete watchpoints", cmd_d}
+  { "w", "Set watchpoints", cmd_w},
+  { "d", "Delete watchpoints", cmd_d}
 
   /* TODO: Add more commands */
 
@@ -215,6 +215,34 @@ static int cmd_p(char *args){
 
   if(success == true) printf("Result: %u\n", result);
   else printf("Invalid token(s)!\n");
+
+  return 0;
+}
+
+static int cmd_w(char *args){
+  char *arg = strtok(NULL, "");
+  if(arg == NULL){
+    printf("Lack expected argument(s)!\n");
+    return 0;
+  }
+
+  bool success;
+  add_wp(arg, &success);
+  if(success == false) printf("Add watchpoint error!\n");
+
+  return 0;
+}
+
+static int cmd_d(char *args){
+  char *arg = strtok(NULL, "");
+  if(arg == NULL){
+    printf("Lack expected argument(s)!\n");
+    return 0;
+  }
+
+  word_t NO;
+  sscanf(arg, "%u", &NO);
+  delete_wp(NO);
 
   return 0;
 }

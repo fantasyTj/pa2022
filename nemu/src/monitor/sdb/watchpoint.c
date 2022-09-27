@@ -68,7 +68,7 @@ void add_wp(char *inp_expr, bool *success){
   Assert(*success == true, "Invalid watchpoint expression: %s!\n", inp_expr);
 }
 
-void delete_wp(word_t inp_NO, bool *success){
+void delete_wp(word_t inp_NO){
   WP* tmp_p;
   tmp_p = head;
   if(tmp_p->NO == inp_NO){

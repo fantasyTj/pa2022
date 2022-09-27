@@ -21,6 +21,6 @@
 word_t expr(char *e, bool *success);
 void wp_display(void);
 void add_wp(char *, bool *);
-void delete_wp(word_t, bool *);
+void delete_wp(word_t );
 
 #endif
