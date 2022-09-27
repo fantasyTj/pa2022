@@ -63,7 +63,7 @@ void add_wp(char *inp_expr, bool *success){
   printf("here2\n");
   head = added_wp;
   printf("here3\n");
-  head->NO = head->next->NO + 1;
+  head->NO = (head->next == NULL)?(1):(head->next->NO + 1);
   printf("here4\n");
   Assert(strlen(inp_expr) < WP_EXPR_LEN, "Too long expression for watchpoint! %u limited!\n", WP_EXPR_LEN);
   strcpy(head->store_expr, inp_expr);
