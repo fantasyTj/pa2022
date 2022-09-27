@@ -45,6 +45,7 @@ word_t isa_reg_str2val(const char *s, bool *success)
 {
   printf("s is %s\n", s);
   if(strcmp(s, "$pc") == 0){
+    printf("here\n");
     return cpu.pc;
   }
   if (s[1] != '0') s += 1;
