@@ -105,7 +105,7 @@ void wp_display(){
   }else{
     printf("%.5s\t%s\n", "NUM", "WHAT");
     while(tmp_p != NULL){
-      printf("%5d\t%s\n", tmp_p->NO, tmp_p->store_expr);
+      printf("%.5d\t%s\n", tmp_p->NO, tmp_p->store_expr);
       tmp_p = tmp_p->next;
     }
   }
