@@ -157,13 +157,25 @@ static int cmd_x(char *args){
   int n;
   sscanf(arg1, "%d", &n);
 
+  bool success = true;
+  paddr_t l_addr;
+  word_t data;
+
   switch(*arg2){
+    case '$':{
+      success = true;
+      l_addr = isa_reg_str2val(arg2, &success);
+    } break;
     case '0':{
-      paddr_t l_addr;
+      // paddr_t l_addr;
       sscanf(arg2, "%x", &l_addr);
 
-      word_t data;
-      for(; n>0; n--){
+      // word_t data;
+      break;
+    }
+    default: printf("Wrong EXPR format!\n");
+  }
+  for(; n>0; n--){
         printf("%#x: ", l_addr);
         for(int i = 4; i > 0; i--){
           // data = pmem_read(l_addr, 1);
@@ -173,11 +185,6 @@ static int cmd_x(char *args){
         }
         putchar('\n');
       }
-      break;
-    }
-    case '$': break;
-    default: printf("Wrong EXPR format!\n");
-  }
 
   return 0;
 
