@@ -157,20 +157,16 @@ static int cmd_x(char *args){
   int n;
   sscanf(arg1, "%d", &n);
 
-  bool success = true;
   paddr_t l_addr;
   word_t data;
 
   switch(*arg2){
     case '$':{
-      success = true;
+      bool success = true;
       l_addr = isa_reg_str2val(arg2, &success);
     } break;
     case '0':{
-      // paddr_t l_addr;
       sscanf(arg2, "%x", &l_addr);
-
-      // word_t data;
       break;
     }
     default: printf("Wrong EXPR format!\n");
