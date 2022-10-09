@@ -30,7 +30,7 @@ void isa_reg_display()
     for (int j = 0; j < 4; j++)
     {
       int idx = 4 * i + j;
-      if (cpu.gpr[idx] == 0)
+      if (cpu.gpr[idx] == 0) // replace cpu.gpr[idx] with gpr(idx)
       {
         printf("%s\t0x%d\t\t", regs[idx], cpu.gpr[idx]);
       }

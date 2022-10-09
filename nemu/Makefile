@@ -59,3 +59,11 @@ else
 # Include rules to build NEMU
 include $(NEMU_HOME)/scripts/native.mk
 endif
+
+# Count the number of lines in nemu
+COUNT_L := $(shell  find . -name "*.h" -or -name "*.c" | xargs grep -Ev "^$$" | wc -l) 
+COUNT_ADD := $(shell expr $(COUNT_L) - 20338)
+
+count:
+	@echo $(COUNT_L) lines in nemu
+	@echo $(COUNT_ADD) lines added   
