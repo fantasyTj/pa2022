@@ -30,12 +30,12 @@ void isa_reg_display()
     for (int j = 0; j < 4; j++)
     {
       int idx = 4 * i + j;
-      if (cpu.gpr[idx] == 0) // replace cpu.gpr[idx] with gpr(idx)
+      if (gpr(idx) == 0) // replace cpu.gpr[idx] with gpr(idx)
       {
-        printf("%s\t0x%d\t\t", regs[idx], cpu.gpr[idx]);
+        printf("%s\t0x%d\t\t", regs[idx], gpr(idx));
       }
       else
-        printf("%s\t%#x\t\t", regs[idx], cpu.gpr[idx]);
+        printf("%s\t%#x\t\t", regs[idx], gpr(idx));
     }
     putchar('\n');
   }
@@ -56,5 +56,5 @@ word_t isa_reg_str2val(const char *s, bool *success)
   }
   Assert(idx < 32, "Register %s not found!\n", s);
   *success = true;
-  return cpu.gpr[idx];
+  return gpr(idx);
 }
