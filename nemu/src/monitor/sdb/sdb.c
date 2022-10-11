@@ -181,6 +181,7 @@ static int cmd_x(char *args){
         // }
         data = paddr_read(l_addr, 4);
         printf("%08x ", data);
+        l_addr += 4;
         putchar('\n');
       }
 
