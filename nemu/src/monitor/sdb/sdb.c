@@ -171,16 +171,21 @@ static int cmd_x(char *args){
     }
     default: printf("Wrong EXPR format!\n");
   }
+
+  /* there is an intersting phenomenon that when i call the pmem_read(l_addr, 1) for 4 times,
+  // each time it will return b7 02 00 80. However, when i call pmem_read(l_addr, 4) for 1 time,
+  // it will return 800002b7 just the same as nemu presents when calling "si".
+  // i think it is because array pmem[]'s elements is type of uint32_t, when i dereference it as uint8_t,
+  // this machine with little-endian just presents the exact value it stores as b7 02 00 80, rather than "decorate" it as 800002b7.  
+  */
+
   for(; n>0; n--){
         printf("%#x: ", l_addr);
-        // for(int i = 4; i > 0; i--){
-        //   // data = pmem_read(l_addr, 1);
-        //   data = paddr_read(l_addr, 1);
-        //   printf("%02x ", data);
-        //   l_addr += 1;
-        // }
-        data = paddr_read(l_addr, 4);
-        printf("%08x ", data);
+        for(int i = 3; i >= 0; i--){
+          // data = pmem_read(l_addr, 1);
+          data = paddr_read(l_addr + i, 1);
+          printf("%02x ", data);
+        }
         l_addr += 4;
         putchar('\n');
       }
