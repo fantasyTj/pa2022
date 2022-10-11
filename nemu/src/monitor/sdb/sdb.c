@@ -179,7 +179,7 @@ static int cmd_x(char *args){
         //   printf("%02x ", data);
         //   l_addr += 1;
         // }
-        data = paddr_read(l_addr, 1);
+        data = paddr_read(l_addr, 4);
         printf("%08x ", data);
         putchar('\n');
       }
