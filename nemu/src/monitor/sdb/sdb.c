@@ -181,7 +181,7 @@ static int cmd_x(char *args){
 
   for(; n>0; n--){
         printf("%#x: ", l_addr);
-        for(int i = 0; i <= 1; i--){
+        for(int i = 0; i <= 1; i++){
           // data = pmem_read(l_addr, 1);
           data = paddr_read(l_addr + 2 * i, 2);
           printf("%04x ", data);
