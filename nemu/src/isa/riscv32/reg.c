@@ -32,10 +32,10 @@ void isa_reg_display()
       int idx = 4 * i + j;
       if (gpr(idx) == 0) // replace cpu.gpr[idx] with gpr(idx)
       {
-        printf("%s\t0x%.8d ", regs[idx], gpr(idx));
+        printf("%s: 0x%.8d\t", regs[idx], gpr(idx));
       }
       else
-        printf("%s\t%#.8x ", regs[idx], gpr(idx));
+        printf("%s: %#.8x\t", regs[idx], gpr(idx));
     }
     putchar('\n');
   }
