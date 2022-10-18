@@ -43,7 +43,7 @@ int sprintf(char *out, const char *fmt, ...) {
           while(1){
             digit++;
             d_str[20 - digit] = (tmp_d % 10) + '0';
-            if((tmp_d = tmp_d / 10)) break; 
+            if(!(tmp_d = tmp_d / 10)) break; 
           }
           strcpy(&out[i], &d_str[20 - digit]);
           i += digit;
