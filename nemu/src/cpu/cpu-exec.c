@@ -136,11 +136,10 @@ void cpu_exec(uint64_t n) {
            (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) :
             ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
           nemu_state.halt_pc);
-      printf("" ANSI_FMT("IRINGBUF", ANSI_FG_YELLOW) "\n");
       // complete iringbuf
       if(nemu_state.halt_ret != 0){
         strcat(irb.iringbuf[irb.iring_ptr], "  <---");
-        
+        printf("" ANSI_FMT("IRINGBUF", ANSI_FG_YELLOW) "\n");
         for(uint32_t i = 0; i < MAX_IRINGBUF_CAPACITY; i++) printf("%s\n", irb.iringbuf[i]);
       }
       // fall through
