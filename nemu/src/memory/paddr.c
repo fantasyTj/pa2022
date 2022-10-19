@@ -58,7 +58,7 @@ void init_mem() {
 
 word_t paddr_read(paddr_t addr, int len) {
 #ifdef CONFIG_MTRACE
-  printf("%s memory address \n" FMT_PADDR, ANSI_FMT("Read", ANSI_FG_WHITE), addr);
+  printf("%s memory address " FMT_PADDR "\n", ANSI_FMT("Read", ANSI_FG_WHITE), addr);
 #endif
 
   if (likely(in_pmem(addr))) return pmem_read(addr, len);
@@ -68,7 +68,7 @@ word_t paddr_read(paddr_t addr, int len) {
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
-#ifdef ONFIG_MTRACE
+#ifdef CONFIG_MTRACE
   printf("%s memory address " FMT_PADDR "with data :" FMT_WORD , ANSI_FMT("Write", ANSI_FG_WHITE), addr, data);
 #endif
 
