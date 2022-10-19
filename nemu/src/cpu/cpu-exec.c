@@ -27,11 +27,11 @@
 #define MAX_INST_TO_PRINT 10
 #define MAX_IRINGBUF_CAPACITY 20
 
+// complete iringbuf
 typedef struct Iringbuf{
   char iringbuf[MAX_IRINGBUF_CAPACITY][128];
   uint32_t iring_ptr;
 } Iringbuf;
-
 static Iringbuf irb;
 
 CPU_state cpu = {};
