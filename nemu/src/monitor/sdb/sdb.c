@@ -180,7 +180,7 @@ static int cmd_x(char *args){
   */
 
   for(; n>0; n--){
-        printf("%#x: ", l_addr);
+        printf(FMT_WORD ": ", l_addr);
         for(int i = 3; i >= 0; i--){
           // data = pmem_read(l_addr, 1);
           data = paddr_read(l_addr + i, 1);
