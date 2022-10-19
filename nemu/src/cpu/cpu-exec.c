@@ -25,6 +25,14 @@
  * You can modify this value as you want.
  */
 #define MAX_INST_TO_PRINT 10
+#define MAX_IRINGBUF_CAPACITY 20
+
+typedef struct Iringbuf{
+  char iringbuf[MAX_IRINGBUF_CAPACITY][128];
+  uint32_t iring_ptr;
+} Iringbuf;
+
+static Iringbuf irb;
 
 CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
@@ -43,6 +51,11 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_WATCHPOINT
   scan_wp();
 #endif
+
+// complete iringbuf
+  irb.iring_ptr = g_nr_guest_inst % MAX_INST_TO_PRINT;
+  stpcpy(irb.iringbuf[irb.iring_ptr], _this->logbuf);
+
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {
@@ -123,6 +136,13 @@ void cpu_exec(uint64_t n) {
            (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) :
             ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
           nemu_state.halt_pc);
+      printf("" ANSI_FMT("IRINGBUF", ANSI_FG_YELLOW) "\n");
+      // complete iringbuf
+      if(nemu_state.halt_ret != 0){
+        strcat(irb.iringbuf[irb.iring_ptr], "  <---");
+        
+        for(uint32_t i = 0; i < MAX_IRINGBUF_CAPACITY; i++) printf("%s\n", irb.iringbuf[i]);
+      }
       // fall through
     case NEMU_QUIT: statistic();
   }
