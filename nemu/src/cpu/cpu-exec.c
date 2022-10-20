@@ -26,6 +26,7 @@
  */
 #define MAX_INST_TO_PRINT 10
 #define MAX_IRINGBUF_CAPACITY 20
+#define MAX_FTRACE_CAPACITY 500
 
 // complete iringbuf
 typedef struct Iringbuf{
@@ -33,6 +34,21 @@ typedef struct Iringbuf{
   uint32_t iring_ptr;
 } Iringbuf;
 static Iringbuf irb;
+
+// complete ftrace
+typedef struct Func{
+  char func_name[32];
+  paddr_t func_addr;
+} Func;
+// static Func fc[100];
+void fill_func(Func *fc);
+
+typedef struct Ftarce{
+  char func_name[32];
+  paddr_t func_addr;
+  paddr_t caller_addr;
+} Ftarce;
+// static Ftarce ftc[MAX_FTRACE_CAPACITY];
 
 CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
