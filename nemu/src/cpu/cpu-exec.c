@@ -35,20 +35,11 @@ typedef struct Iringbuf{
 } Iringbuf;
 static Iringbuf irb;
 
-// complete ftrace
-typedef struct Func{
-  char func_name[32];
-  paddr_t func_addr;
-} Func;
-// static Func fc[100];
-void fill_func(Func *fc);
-
-typedef struct Ftarce{
-  char func_name[32];
-  paddr_t func_addr;
-  paddr_t caller_addr;
-} Ftarce;
-// static Ftarce ftc[MAX_FTRACE_CAPACITY];
+// ftrace
+#ifdef CONFIG_FTRACE
+void ftrace();
+void print_ftrace(paddr_t, paddr_t);
+#endif
 
 CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
@@ -78,6 +69,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
+  IFDEF(CONFIG_FTRACE, if(s->dnpc != s->snpc) ftrace(s->pc, s->dnpc));
   cpu.pc = s->dnpc;
 #ifdef CONFIG_ITRACE // fill the logbuf[], we can see it output with format as "lui  t0, 524288"
   char *p = s->logbuf;
@@ -119,6 +111,8 @@ static void statistic() {
   Log("total guest instructions = " NUMBERIC_FMT, g_nr_guest_inst);
   if (g_timer > 0) Log("simulation frequency = " NUMBERIC_FMT " inst/s", g_nr_guest_inst * 1000000 / g_timer);
   else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
+
+  IFDEF(CONFIG_FTRACE, printf_ftrace());
 }
 
 void assert_fail_msg() {

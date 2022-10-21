@@ -24,6 +24,11 @@ void init_device();
 void init_sdb();
 void init_disasm(const char *triple);
 
+#ifdef CONFIG_FTRACE
+void init_elf(const char* elf_file);
+void init_ftrace();
+#endif
+
 static void welcome() {
   Log("Trace: %s", MUXDEF(CONFIG_TRACE, ANSI_FMT("ON", ANSI_FG_GREEN), ANSI_FMT("OFF", ANSI_FG_RED)));
   IFDEF(CONFIG_TRACE, Log("If trace is enabled, a log file will be generated "
@@ -130,6 +135,12 @@ void init_monitor(int argc, char *argv[]) {
 
   /* Initialize the simple debugger. */
   init_sdb();
+
+  /* Initialize elf and ftrace if defined*/
+  #ifdef CONFIG_FTRACE
+  init_elf(elf_file);
+  init_ftrace();
+  #endif
 
   IFDEF(CONFIG_ITRACE, init_disasm(
     MUXDEF(CONFIG_ISA_x86,     "i686",
