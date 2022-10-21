@@ -1,6 +1,6 @@
 // ftrace
 
-#ifdef CONFIG_FTRACE
+// #ifdef CONFIG_FTRACE
 
 #include <elf.h>
 #include <common.h>
@@ -74,15 +74,15 @@ void print_ftrace(){
         if(ftc[i].call_or_ret == 0){ // call
             printf(FMT_PADDR ":", ftc[i].caller_addr);
             for(uint16_t j = 0; j < indent; j++) putchar(' ');
-            print("call[%s@" FMT_PADDR "]\n", ftc[i].func_name, ftc[i].func_addr);
+            printf("call[%s@" FMT_PADDR "]\n", ftc[i].func_name, ftc[i].func_addr);
             indent++;
         }else{
             indent--;
             printf(FMT_PADDR ":", ftc[i].caller_addr);
             for(uint16_t j = 0; j < indent; j++) putchar(' ');
-            print("ret[%s@" FMT_PADDR "]\n", ftc[i].func_name, ftc[i].func_addr);
+            printf("ret[%s@" FMT_PADDR "]\n", ftc[i].func_name, ftc[i].func_addr);
         }
     }
 }
 
-#endif
+// #endif
