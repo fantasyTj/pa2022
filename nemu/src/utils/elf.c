@@ -32,11 +32,11 @@ void init_elf(const char *elf_file){
     FILE *e_fp = fopen(elf_file, "r");
     Assert(e_fp, "Can not open '%s'", elf_file);
     elf_fp = e_fp;
+    load_ehdr();
+    load_shdr();
+    load_symtab();
+    load_strtab();
   }
-  load_ehdr();
-  load_shdr();
-  load_symtab();
-  load_strtab();
 }
 
 void load_ehdr(){
@@ -70,7 +70,7 @@ void load_symtab(){
 
 void load_strtab(){
   for(uint16_t i = 0; i < shnum; i++){
-    if(shdr[i].sh_type == SHT_SYMTAB){
+    if(shdr[i].sh_type == SHT_STRTAB){
       strtab_off = shdr[i].sh_offset;
       strtab_size = shdr[i].sh_size;
       break;
