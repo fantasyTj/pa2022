@@ -45,6 +45,7 @@ void init_ftrace(){
 
 void ftrace(paddr_t pc, paddr_t dnpc){
     // check "call"
+    if(nr_ftrace >= MAX_FTRACE_CAPACITY) return;
     for(uint16_t i = 0; i < nr_func; i++){
         if(dnpc == fc[i].func_addr){
             ftc[nr_ftrace].call_or_ret = 0; // call
