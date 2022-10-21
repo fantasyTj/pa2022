@@ -37,8 +37,8 @@ static Iringbuf irb;
 
 // ftrace
 #ifdef CONFIG_FTRACE
-void ftrace();
-void print_ftrace(paddr_t, paddr_t);
+void ftrace(paddr_t, paddr_t);
+void print_ftrace();
 #endif
 
 CPU_state cpu = {};
@@ -112,7 +112,7 @@ static void statistic() {
   if (g_timer > 0) Log("simulation frequency = " NUMBERIC_FMT " inst/s", g_nr_guest_inst * 1000000 / g_timer);
   else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
 
-  IFDEF(CONFIG_FTRACE, printf_ftrace());
+  IFDEF(CONFIG_FTRACE, print_ftrace());
 }
 
 void assert_fail_msg() {
