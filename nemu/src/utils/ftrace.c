@@ -1,9 +1,8 @@
 // ftrace
-
-// #ifdef CONFIG_FTRACE
-
-#include <elf.h>
 #include <common.h>
+
+#ifdef CONFIG_FTRACE
+#include <elf.h>
 
 #define MAX_FTRACE_CAPACITY 128
 
@@ -85,5 +84,4 @@ void print_ftrace(){
         }
     }
 }
-
-// #endif
+#endif
