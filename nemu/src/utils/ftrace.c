@@ -69,17 +69,17 @@ void ftrace(paddr_t pc, paddr_t dnpc){
 }
 
 void print_ftrace(){
-    uint16_t indent = 0;
+    int16_t indent = 0;
     for(uint16_t i = 0; i < nr_ftrace; i++){
         if(ftc[i].call_or_ret == 0){ // call
             printf(FMT_PADDR ":", ftc[i].caller_addr);
-            for(uint16_t j = 0; j < indent; j++) putchar(' ');
+            for(int16_t j = 0; j < indent; j++) putchar(' ');
             printf("call[%s@" FMT_PADDR "]\n", ftc[i].func_name, ftc[i].func_addr);
             indent++;
         }else{
             indent--;
             printf(FMT_PADDR ":", ftc[i].caller_addr);
-            for(uint16_t j = 0; j < indent; j++) putchar(' ');
+            for(int16_t j = 0; j < indent; j++) putchar(' ');
             printf("ret[%s@" FMT_PADDR "]\n", ftc[i].func_name, ftc[i].func_addr);
         }
     }
