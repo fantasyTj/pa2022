@@ -60,8 +60,8 @@ void ftrace(paddr_t pc, paddr_t dnpc){
         if(dnpc == ftc[i].caller_addr + 4){
             ftc[nr_ftrace].call_or_ret = 1; // ret
             ftc[nr_ftrace].caller_addr = pc;
-            ftc[nr_ftrace].func_addr = dnpc;
-            strcpy(ftc[nr_ftrace].func_name, fc[i].func_name);
+            ftc[nr_ftrace].func_addr = ftc[i].func_addr;
+            strcpy(ftc[nr_ftrace].func_name, ftc[i].func_name);
             nr_ftrace++;
             return;
         }
