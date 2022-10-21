@@ -43,7 +43,7 @@ void init_ftrace(){
     }
 }
 
-void ftarce(paddr_t pc, paddr_t dnpc){
+void ftrace(paddr_t pc, paddr_t dnpc){
     // check "call"
     for(uint16_t i = 0; i < nr_func; i++){
         if(dnpc == fc[i].func_addr){
