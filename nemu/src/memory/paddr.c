@@ -68,7 +68,6 @@ word_t paddr_read(paddr_t addr, int len) {
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
-  printf("here2\n");
 #ifdef CONFIG_MTRACE
   printf("%s memory address " FMT_PADDR " with data :" FMT_WORD "\n", ANSI_FMT("Write", ANSI_FG_WHITE), addr, data);
 #endif
