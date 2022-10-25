@@ -28,14 +28,20 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
         // case '\0': 
         case '%':{
           if(is_str) out[idx++] = '%';
-          else putch('%');
+          else{
+            putch('%');
+            idx++;
+          }
           break;
         }
         case 's':{
           s = va_arg(ap, char *);
           if(idx + strlen(s) > n) break;
           if(is_str) for(; *s; s++) out[idx++] = *s;
-          else for(; *s; s++) putch(*s);
+          else {
+            for(; *s; s++) putch(*s);
+            idx += strlen(s);
+          }
           break;
         }
         case 'd':
@@ -44,19 +50,25 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
           int32_t digit = num2str_inv(d_str, d);
           if(idx + digit > n) break;
           if(is_str) for(; digit >= 0; digit--) out[idx++] = d_str[digit];
-          else for(; digit >= 0; digit--) putch(d_str[digit]);
+          else{
+            for(; digit >= 0; digit--) putch(d_str[digit]);
+            idx += digit+1;
+          }
           break;
       }
       fmt += 2;
     }
     else {
       if(is_str) out[idx++] = *fmt;
-      else putch(*fmt);
+      else{
+        putch(*fmt);
+        idx++;
+      }
       fmt += 1;
     }
   }
   if(is_str) out[idx] = '\0';
-  return (is_str)?(idx-1):0;
+  return idx - 1;
 }
 
 int printf(const char *fmt, ...) {
