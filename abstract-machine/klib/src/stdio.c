@@ -5,72 +5,96 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-int printf(const char *fmt, ...) {
-  panic("Not implemented");
+static int32_t num2str_inv(char *start, int num){
+  int32_t idigit = 0;
+  while(1){
+    start[idigit++] = (num % 10) + '0';
+    if(!(num = num / 10)) break; 
+  }
+  if(num < 0) start[idigit++] = '-';
+
+  return idigit - 1;
 }
 
-int vsprintf(char *out, const char *fmt, va_list ap) {
-  panic("Not implemented");
-}
+static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap){
+  if(is_str) assert(out);
+  char *s; int d;
+  size_t idx = 0;
 
-int sprintf(char *out, const char *fmt, ...) {
-  va_list ap;
-  int d;
-  char *s;
-  size_t i = 0;
-
-  va_start(ap, fmt);
   while(*fmt){
+    if(idx >= n) break;
     if(*fmt == '%'){
       switch(*(fmt+1)){
         // case '\0': 
-        case '%': out[i++] = '%'; break;
-        case 's': 
-          s = va_arg(ap, char *);
-          strcpy(&out[i], s);
-          i += strlen(s);
+        case '%':{
+          if(is_str) out[idx++] = '%';
+          else putch('%');
           break;
+        }
+        case 's':{
+          s = va_arg(ap, char *);
+          if(idx + strlen(s) > n) break;
+          if(is_str) for(; *s; s++) out[idx++] = *s;
+          else for(; *s; s++) putch(*s);
+          break;
+        }
         case 'd':
           d = va_arg(ap, int);
-          int tmp_d = d;
-          if(d < 0){
-            out[i++] = '-';
-            tmp_d = -tmp_d;
-          } 
           char d_str[21];
-          d_str[20] = '\0';
-          int digit = 0;
-          while(1){
-            digit++;
-            d_str[20 - digit] = (tmp_d % 10) + '0';
-            if(!(tmp_d = tmp_d / 10)) break; 
-          }
-          strcpy(&out[i], &d_str[20 - digit]);
-          i += digit;
+          int32_t digit = num2str_inv(d_str, d);
+          if(idx + digit > n) break;
+          if(is_str) for(; digit >= 0; digit--) out[idx++] = d_str[digit];
+          else for(; digit >= 0; digit--) putch(d_str[digit]);
           break;
       }
       fmt += 2;
     }
     else {
-      out[i++] = *fmt;
+      if(is_str) out[idx++] = *fmt;
+      else putch(*fmt);
       fmt += 1;
     }
   }
-      
-  va_end(ap);
-  out[i] = '\0';  
+  out[idx] = '\0';
+  return idx - 1;
+}
 
-  return i-1;
+int printf(const char *fmt, ...) {
+  va_list ap;
+  va_start(ap, fmt);
+
+  int res = grl_vnp(false, NULL, -1, fmt, ap);
+
+  va_end(ap);
+  return res;
+}
+
+int vsprintf(char *out, const char *fmt, va_list ap) {
+  return vsnprintf(out, -1, fmt, ap);
+}
+
+int sprintf(char *out, const char *fmt, ...) {
+  va_list ap;
+  va_start(ap, fmt);
+
+  int res = vsprintf(out, fmt, ap);
+  
+  va_end(ap);
+  return res;
 }
   
-
-
 int snprintf(char *out, size_t n, const char *fmt, ...) {
-  panic("Not implemented");
+  va_list ap;
+  va_start(ap, fmt);
+
+  int res = vsnprintf(out, n, fmt, ap);
+
+  va_end(ap);
+  return res;
 }
 
 int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {
-  panic("Not implemented");
+  return grl_vnp(true, out, n, fmt, ap);
 }
 
 #endif
