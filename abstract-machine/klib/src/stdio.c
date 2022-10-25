@@ -55,8 +55,8 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
       fmt += 1;
     }
   }
-  out[idx] = '\0';
-  return idx - 1;
+  if(is_str) out[idx] = '\0';
+  return (is_str)?(idx-1):0;
 }
 
 int printf(const char *fmt, ...) {
