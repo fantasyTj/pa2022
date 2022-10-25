@@ -18,7 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
-#include <memory/paddr.h> // can i add this .h file?
+#include <memory/vaddr.h> // can i add this .h file?
 
 static int is_batch_mode = false;
 
@@ -183,7 +183,7 @@ static int cmd_x(char *args){
         printf(FMT_WORD ": ", l_addr);
         for(int i = 3; i >= 0; i--){
           // data = pmem_read(l_addr, 1);
-          data = paddr_read(l_addr + i, 1);
+          data = vaddr_read(l_addr + i, 1);
           printf("%02x ", data);
         }
         l_addr += 4;
