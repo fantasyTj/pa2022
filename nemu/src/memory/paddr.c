@@ -57,7 +57,6 @@ void init_mem() {
 }
 
 word_t paddr_read(paddr_t addr, int len) {
-  printf("here\n");
 #ifdef CONFIG_MTRACE
   printf("%s memory address " FMT_PADDR "\n", ANSI_FMT("Read", ANSI_FG_WHITE), addr);
 #endif
