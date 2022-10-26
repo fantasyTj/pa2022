@@ -7,7 +7,7 @@
 
 typedef struct fmt_info{
   char type;
-  uint32_t width;
+  int32_t width;
 } fmt_info;
 
 static int32_t num2str_inv(char *start, int num){
@@ -21,9 +21,9 @@ static int32_t num2str_inv(char *start, int num){
   return idigit - 1;
 }
 
-static uint32_t str2num(char *numstr){
+static int32_t str2num(char *numstr){
   size_t len = strlen(numstr);
-  uint32_t num = 0;
+  int32_t num = 0;
   for(size_t i = 0; i < len; i++) num = num * 10 + (numstr[i] - '0');
   return num;
 }
