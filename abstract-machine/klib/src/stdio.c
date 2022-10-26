@@ -74,17 +74,17 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
           char d_str[21];
           int32_t digit = num2str_inv(d_str, d);
           if(idx + digit > n) break;
-          int32_t delta = temp_info.width - digit;
-          if(delta > 0){
-            while(delta--){
-              if(is_str) out[idx++] = '0';
-              else{
-                putch('0');
-                idx++;
-              }
-            }
+          // int32_t delta = temp_info.width - digit;
+          // if(delta > 0){
+          //   while(delta--){
+          //     if(is_str) out[idx++] = '0';
+          //     else{
+          //       putch('0');
+          //       idx++;
+          //     }
+          //   }
             
-          }
+          // }
           if(is_str) for(; digit >= 0; digit--) out[idx++] = d_str[digit];
           else{
             for(; digit >= 0; digit--) putch(d_str[digit]);
