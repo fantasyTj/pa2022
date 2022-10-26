@@ -70,7 +70,7 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
           }
           break;
         }
-        case 'd':
+        case 'd':{
           d = va_arg(ap, int);
           char d_str[21];
           int32_t digit = num2str_inv(d_str, d);
@@ -92,6 +92,7 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
             idx += digit+1;
           }
           break;
+        }
       }
     }else {
       if(is_str) out[idx++] = *fmt;
