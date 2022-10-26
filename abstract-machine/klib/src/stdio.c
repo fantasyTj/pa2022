@@ -47,8 +47,8 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
       }
       numstr[t_idx] = '\0';
       temp_info.width = (t_idx == 0)?(0):(str2num(numstr));
-      putch(*fmt);
       temp_info.type = *fmt;
+      putch(temp_info.type);
       fmt+=1;
       putch(*fmt);
       switch(temp_info.type){
