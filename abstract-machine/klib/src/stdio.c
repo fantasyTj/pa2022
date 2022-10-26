@@ -35,8 +35,8 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
 
   while(*fmt){
     if(idx >= n) break;
-    if(*fmt++ == '%'){
-
+    if(*fmt == '%'){
+      fmt++;
       fmt_info temp_info;
       char numstr[8];
       uint32_t t_idx = 0;
