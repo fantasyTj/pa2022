@@ -39,9 +39,9 @@ void *malloc(size_t size) {
   char *old = brk;
   brk += size;
   if((uintptr_t)heap.start <= (uintptr_t)brk && (uintptr_t)brk < (uintptr_t)heap.end){
-    for (uint64_t *p = (uint64_t *)old; p != (uint64_t *)brk; p ++) {
-    *p = 0;
-  }
+    // for (uint64_t *p = (uint64_t *)old; p != (uint64_t *)brk; p ++) {
+    //   *p = 0;
+    // }
     return old;
   }else return NULL;
   
