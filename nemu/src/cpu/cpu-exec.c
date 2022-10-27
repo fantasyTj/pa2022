@@ -29,11 +29,13 @@
 #define MAX_FTRACE_CAPACITY 500
 
 // complete iringbuf
+#ifdef CONFIG_IRINGBUF
 typedef struct Iringbuf{
   char iringbuf[MAX_IRINGBUF_CAPACITY][128];
   uint32_t iring_ptr;
 } Iringbuf;
 static Iringbuf irb;
+#endif
 
 // ftrace
 #ifdef CONFIG_FTRACE
@@ -60,9 +62,10 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
 
 // complete iringbuf
+#ifdef CONFIG_IRINGBUF
   irb.iring_ptr = g_nr_guest_inst % MAX_INST_TO_PRINT;
   stpcpy(irb.iringbuf[irb.iring_ptr], _this->logbuf);
-
+#endif
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {
@@ -147,11 +150,13 @@ void cpu_exec(uint64_t n) {
             ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
           nemu_state.halt_pc);
       // complete iringbuf
+#ifdef CONFIG_IRINGBUF
       if(nemu_state.halt_ret != 0){
         strcat(irb.iringbuf[irb.iring_ptr], "  <---");
         printf("" ANSI_FMT("IRINGBUF", ANSI_FG_YELLOW) "\n");
         for(uint32_t i = 0; i < MAX_IRINGBUF_CAPACITY; i++) printf("%s\n", irb.iringbuf[i]);
       }
+#endif
       // fall through
     case NEMU_QUIT: statistic();
   }
