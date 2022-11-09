@@ -27,7 +27,7 @@ CFLAGS  := -O2 -MMD -Wall -Werror $(INCLUDES) $(CFLAGS)
 LDFLAGS := -O2 $(LDFLAGS)
 
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o) $(CXXSRC:%.cc=$(OBJ_DIR)/%.o)
-PREOBJS = $(SRCS:%.c=$(PREPRO_DIR)/%.i) $(CXXSRC:%.cc=$(PREPRO_DIR)/%.i)
+PREOBJS = $(SRCS:%.c=$(PREPRO_DIR)/%.i) $(CXXSRC:%.cc=$(PREPRO_DIR)/%.i) # for preprocessing
 
 # Compilation patterns
 $(OBJ_DIR)/%.o: %.c
@@ -42,15 +42,21 @@ $(OBJ_DIR)/%.o: %.cc
 	@$(CXX) $(CFLAGS) $(CXXFLAGS) -c -o $@ $<
 	$(call call_fixdep, $(@:.o=.d), $@)
 
+# for preprocessing
 $(PREPRO_DIR)/%.i: %.c
-	mkdir -p $(dir $@)
-	gcc -E $< -o $@
+	@mkdir -p $(dir $@)
+	@gcc -E $(INCLUDES) $< -o $@
 
 $(PREPRO_DIR)/%.i: %.cc
-	mkdir -p $(dir $@)
-	gcc -E $< -o $@
+	@mkdir -p $(dir $@)
+	@gcc -E $(INCLUDES) $< -o $@
 
+# for preprocessing
+.PHONY: prepro
 prepro: $(PREOBJS)
+
+clean_prepro:
+	-rm -rf $(PREPRO_DIR)
 
 # Depencies
 -include $(OBJS:.o=.d)
