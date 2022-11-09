@@ -13,6 +13,7 @@ BUILD_DIR = $(WORK_DIR)/build
 INC_PATH := $(WORK_DIR)/include $(INC_PATH)
 OBJ_DIR  = $(BUILD_DIR)/obj-$(NAME)$(SO)
 BINARY   = $(BUILD_DIR)/$(NAME)$(SO)
+PREPRO_DIR = $(BUILD_DIR)/preprocessing
 
 # Compilation flags
 ifeq ($(CC),clang)
@@ -26,6 +27,7 @@ CFLAGS  := -O2 -MMD -Wall -Werror $(INCLUDES) $(CFLAGS)
 LDFLAGS := -O2 $(LDFLAGS)
 
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o) $(CXXSRC:%.cc=$(OBJ_DIR)/%.o)
+PREOBJS = $(SRCS:%.c=$(PREPRO_DIR)/%.i) $(CXXSRC:%.cc=$(PREPRO_DIR)/%.i)
 
 # Compilation patterns
 $(OBJ_DIR)/%.o: %.c
@@ -39,6 +41,16 @@ $(OBJ_DIR)/%.o: %.cc
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CFLAGS) $(CXXFLAGS) -c -o $@ $<
 	$(call call_fixdep, $(@:.o=.d), $@)
+
+$(PREPRO_DIR)/%.i: %.c
+	mkdir -p $(dir $@)
+	gcc -E $< -o $@
+
+$(PREPRO_DIR)/%.i: %.cc
+	mkdir -p $(dir $@)
+	gcc -E $< -o $@
+
+prepro: $(PREOBJS)
 
 # Depencies
 -include $(OBJS:.o=.d)
