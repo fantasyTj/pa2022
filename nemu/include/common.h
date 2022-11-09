@@ -50,6 +50,6 @@ typedef uint16_t ioaddr_t;
 
 #include <debug.h>
 
-volatile static int dummy; // test
+// volatile static int dummy; // test
 
 #endif

@@ -40,6 +40,6 @@
 
 #define TODO() panic("please implement me")
 
-volatile static int dummy; // test
+// volatile static int dummy; // test
 
 #endif

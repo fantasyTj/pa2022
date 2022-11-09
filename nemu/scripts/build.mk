@@ -45,11 +45,11 @@ $(OBJ_DIR)/%.o: %.cc
 # for preprocessing
 $(PREPRO_DIR)/%.i: %.c
 	@mkdir -p $(dir $@)
-	@gcc -E $(INCLUDES) $< -o $@
+	@$(CC) -E $(INCLUDES) $< -o $@
 
 $(PREPRO_DIR)/%.i: %.cc
 	@mkdir -p $(dir $@)
-	@gcc -E $(INCLUDES) $< -o $@
+	@$(CXX) -E $(INCLUDES) $< -o $@
 
 # for preprocessing
 .PHONY: prepro
