@@ -21,6 +21,16 @@ static int32_t num2str_inv(char *start, int num){
   return idigit - 1;
 }
 
+static uint32_t unum2str_inv(char *start, unsigned num){
+  int32_t idigit = 0;
+  while(1){
+    start[idigit++] = (num % 10) + '0';
+    if(!(num = num / 10)) break; 
+  }
+
+  return idigit - 1;
+}
+
 static int32_t str2num(char *numstr){
   size_t len = strlen(numstr);
   int32_t num = 0;
@@ -30,7 +40,7 @@ static int32_t str2num(char *numstr){
 
 static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap){
   if(is_str) assert(out);
-  char *s; int d;
+  char *s; int d; unsigned u;
   size_t idx = 0;
 
   while(*fmt){
@@ -86,6 +96,28 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
           if(is_str) for(; digit >= 0; digit--) out[idx++] = d_str[digit];
           else{
             for(; digit >= 0; digit--) putch(d_str[digit]);
+            idx += digit+1;
+          }
+          break;
+        }
+        case 'u':{
+          u = va_arg(ap, unsigned);
+          char u_str[21];
+          uint32_t digit = unum2str_inv(u_str, u);
+          if(idx + digit > n) break;
+          int32_t delta = temp_info.width - digit - 1;
+          if(delta > 0){
+            while(delta--){
+              if(is_str) out[idx++] = '0';
+              else{
+                putch('0');
+                idx++;
+              }
+            }
+          }
+          if(is_str) for(; digit >= 0; digit--) out[idx++] = u_str[digit];
+          else{
+            for(; digit >= 0; digit--) putch(u_str[digit]);
             idx += digit+1;
           }
           break;
