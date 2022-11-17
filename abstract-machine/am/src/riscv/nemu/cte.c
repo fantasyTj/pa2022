@@ -8,11 +8,11 @@ Context* __am_irq_handle(Context *c) {
   // test
   printf("%d\n", -1);
   for(int i = 0; i < 32; i++){
-    printf("reg%d is %d\n", i, c->gpr[i]);
+    printf("reg%d is %u\n", i, c->gpr[i]);
   }
-  printf("mcause is %d\n", c->mcause);
-  printf("mstatus is %d\n", c->mstatus);
-  printf("mepc is %d\n", c->mepc);
+  printf("mcause is %u\n", c->mcause);
+  printf("mstatus is %u\n", c->mstatus);
+  printf("mepc is %u\n", c->mepc);
 
   if (user_handler) {
     Event ev = {0};

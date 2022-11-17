@@ -23,7 +23,7 @@ static int32_t num2str_inv(char *start, int num){
   return idigit - 1;
 }
 
-static uint32_t unum2str_inv(char *start, unsigned num){
+static int32_t unum2str_inv(char *start, unsigned num){
   int32_t idigit = 0;
   while(1){
     start[idigit++] = (num % 10) + '0';
@@ -103,9 +103,9 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
           break;
         }
         case 'u':{
-          u = va_arg(ap, unsigned);
+          u = va_arg(ap, unsigned int);
           char u_str[21];
-          uint32_t digit = unum2str_inv(u_str, u);
+          int32_t digit = unum2str_inv(u_str, u);
           if(idx + digit > n) break;
           int32_t delta = temp_info.width - digit - 1;
           if(delta > 0){
