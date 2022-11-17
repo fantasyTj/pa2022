@@ -11,12 +11,14 @@ typedef struct fmt_info{
 } fmt_info;
 
 static int32_t num2str_inv(char *start, int num){
+  bool flag = (num < 0);
+  if(flag) num = -num;
   int32_t idigit = 0;
   while(1){
     start[idigit++] = (num % 10) + '0';
     if(!(num = num / 10)) break; 
   }
-  if(num < 0) start[idigit++] = '-';
+  if(flag) start[idigit++] = '-';
 
   return idigit - 1;
 }
