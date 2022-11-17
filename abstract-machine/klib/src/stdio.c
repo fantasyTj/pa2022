@@ -46,7 +46,7 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
   size_t idx = 0;
 
   while(*fmt){
-    putch(*fmt);
+    // putch(*fmt);
     if(idx >= n) break;
     if(*fmt == '%'){
       fmt+=1;
