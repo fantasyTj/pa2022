@@ -18,7 +18,11 @@ Context* __am_irq_handle(Context *c) {
     switch (c->mcause) {
       case EVENT_YIELD: {
         ev.event = EVENT_YIELD; 
-        c->mepc += 4;
+        asm("lw t2, 136(sp)\n\t"
+              "addi t2, t2, 4\n\t"
+              "sw t2, 136(sp)"
+              : :
+              :"t2");
         break;
       }
       default: ev.event = EVENT_ERROR; break;
