@@ -6,6 +6,7 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
   // test
+  printf("%d\n", -1);
   for(int i = 0; i < 32; i++){
     printf("reg%d is %d\n", i, c->gpr[i]);
   }
