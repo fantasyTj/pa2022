@@ -23,8 +23,8 @@ Context* __am_irq_handle(Context *c) {
         // asm("lw t2, %0\n\t"
         //       "addi t2, t2, 4\n\t"
         //       "sw t2, %0"
-        //       : :"r"(mepc_addr)
-        //       :"t2");
+        //       : :"r"(c)
+              // :"t2");
         break;
       }
       default: ev.event = EVENT_ERROR; break;
