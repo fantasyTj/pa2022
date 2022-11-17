@@ -6,23 +6,25 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
   // test
-  for(int i = 0; i < 32; i++){
-    printf("reg%d is %u\n", i, c->gpr[i]);
-  }
-  printf("mcause is %u\n", c->mcause);
-  printf("mstatus is %u\n", c->mstatus);
-  printf("mepc is %u\n", c->mepc);
+  // for(int i = 0; i < 32; i++){
+  //   printf("reg%d is %u\n", i, c->gpr[i]);
+  // }
+  // printf("mcause is %u\n", c->mcause);
+  // printf("mstatus is %u\n", c->mstatus);
+  // printf("mepc is %u\n", c->mepc);
 
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
       case EVENT_YIELD: {
         ev.event = EVENT_YIELD; 
-        asm("lw t2, 136(sp)\n\t"
-              "addi t2, t2, 4\n\t"
-              "sw t2, 136(sp)"
-              : :
-              :"t2");
+        uint32_t *mepc_addr = (void *)c + 136;
+        *mepc_addr = c->mepc + 4;
+        // asm("lw t2, %0\n\t"
+        //       "addi t2, t2, 4\n\t"
+        //       "sw t2, %0"
+        //       : :"r"(mepc_addr)
+        //       :"t2");
         break;
       }
       default: ev.event = EVENT_ERROR; break;
