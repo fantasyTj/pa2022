@@ -23,12 +23,13 @@
 #define Mw vaddr_write
 
 enum {
-  TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_B, TYPE_r,
+  TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_B, TYPE_r, TYPE_C,
   TYPE_N, // none
 };
 
 #define src1R() do { *src1 = R(rs1); } while (0)
 #define src2R() do { *src2 = R(rs2); } while (0)
+#define R1() do{ *src1 = rs1; } while(0)
 #define immI() do { *imm = SEXT(BITS(i, 31, 20), 12); } while(0)
 #define immU() do { *imm = SEXT(BITS(i, 31, 12), 20) << 12; } while(0)
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
@@ -48,6 +49,7 @@ static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, wor
     case TYPE_J:                   immJ(); break;
     case TYPE_B: src1R(); src2R(); immB(); break;
     case TYPE_r: src1R(); src2R();         break;
+    case TYPE_C: R1();             immI(); break;
   }
 }
 
@@ -66,6 +68,13 @@ static int decode_exec(Decode *s) {
 #define COMPARATOR_U(token, src1, src2) ((src1) token (src2))
 #define MUL_S(src1, src2) (SEXT(src1, 32) * SEXT(src2, 32))  
 #define MUL_U(src1, src2) (BITS(src1, 31, 0) * BITS(src2, 31, 0))
+#define CSRRW(csr) do {if(dest) R(dest) = csr; csr = R(src1);} while(0)
+#define CSRRS(csr) do {R(dest) = csr; if(src1) csr |= R(src1);} while(0) // not complete
+#define CSRRC(csr) do {R(dest) = csr; if(src1) csr &= (~R(src1));} while(0) // not complete
+#define CSRRWI(csr) do {if(dest) R(dest) = csr; csr = src1;} while(0)
+#define CSRRSI(csr) do {R(dest) = csr; if(src1) csr |= src1;} while(0) // not complete
+#define CSRRCI(csr) do {R(dest) = csr; if(src1) csr &= (~src1);} while(0) // not complete
+
 
   INSTPAT_START();
   INSTPAT("??????? ????? ????? ??? ????? 01101 11", lui    , U, R(dest) = imm);
@@ -122,8 +131,38 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000001 ????? ????? 111 ????? 01100 11", remu   , r, R(dest) = src1 % src2);
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(R(17), s->pc));
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(R(17), s->pc)); // R(17) is $a7
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
+
+  INSTPAT("????000 00000 ????? 001 ????? 11100 11", csrrw  , C, CSRRW(cpu.csr.mstatus));
+  INSTPAT("????000 00101 ????? 001 ????? 11100 11", csrrw  , C, CSRRW(cpu.csr.mtvec));
+  INSTPAT("????010 00001 ????? 001 ????? 11100 11", csrrw  , C, CSRRW(cpu.csr.mepc));
+  INSTPAT("????010 00010 ????? 001 ????? 11100 11", csrrw  , C, CSRRW(cpu.csr.mcause));
+
+  INSTPAT("????000 00000 ????? 010 ????? 11100 11", csrrs  , C, CSRRS(cpu.csr.mstatus));
+  INSTPAT("????000 00101 ????? 010 ????? 11100 11", csrrs  , C, CSRRS(cpu.csr.mtvec));
+  INSTPAT("????010 00001 ????? 010 ????? 11100 11", csrrs  , C, CSRRS(cpu.csr.mepc));
+  INSTPAT("????010 00010 ????? 010 ????? 11100 11", csrrs  , C, CSRRS(cpu.csr.mcause));
+
+  INSTPAT("????000 00000 ????? 011 ????? 11100 11", csrrc  , C, CSRRC(cpu.csr.mstatus));
+  INSTPAT("????000 00101 ????? 011 ????? 11100 11", csrrc  , C, CSRRC(cpu.csr.mtvec));
+  INSTPAT("????010 00001 ????? 011 ????? 11100 11", csrrc  , C, CSRRC(cpu.csr.mepc));
+  INSTPAT("????010 00010 ????? 011 ????? 11100 11", csrrc  , C, CSRRC(cpu.csr.mcause));
+  
+  INSTPAT("????000 00000 ????? 101 ????? 11100 11", csrrwi , C, CSRRWI(cpu.csr.mstatus));
+  INSTPAT("????000 00101 ????? 101 ????? 11100 11", csrrwi , C, CSRRWI(cpu.csr.mtvec));
+  INSTPAT("????010 00001 ????? 101 ????? 11100 11", csrrwi , C, CSRRWI(cpu.csr.mepc));
+  INSTPAT("????010 00010 ????? 101 ????? 11100 11", csrrwi , C, CSRRWI(cpu.csr.mcause));
+  
+  INSTPAT("????000 00000 ????? 110 ????? 11100 11", csrrsi , C, CSRRSI(cpu.csr.mstatus));
+  INSTPAT("????000 00101 ????? 110 ????? 11100 11", csrrsi , C, CSRRSI(cpu.csr.mtvec));
+  INSTPAT("????010 00001 ????? 110 ????? 11100 11", csrrsi , C, CSRRSI(cpu.csr.mepc));
+  INSTPAT("????010 00010 ????? 110 ????? 11100 11", csrrsi , C, CSRRSI(cpu.csr.mcause));
+  
+  INSTPAT("????000 00000 ????? 111 ????? 11100 11", csrrci , C, CSRRCI(cpu.csr.mstatus));
+  INSTPAT("????000 00101 ????? 111 ????? 11100 11", csrrci , C, CSRRCI(cpu.csr.mtvec));
+  INSTPAT("????010 00001 ????? 111 ????? 11100 11", csrrci , C, CSRRCI(cpu.csr.mepc));
+  INSTPAT("????010 00010 ????? 111 ????? 11100 11", csrrci , C, CSRRCI(cpu.csr.mcause));
   INSTPAT_END();
 
   R(0) = 0; // reset $zero to 0
