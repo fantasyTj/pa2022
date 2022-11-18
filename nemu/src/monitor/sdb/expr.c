@@ -47,7 +47,7 @@ static struct rule {
   {"\\/", '/'},         // divide
   {"\\(", '('},         // left parenthesis
   {"\\)", ')'},         // right parenthesis
-  {"0?x[0-9]+", TK_HEX}, // hex number
+  {"0?x[0-9a-f]+", TK_HEX}, // hex number
   {"[0-9]+", TK_NUM},   // number
   {"\\$[a-z0-9]{1,3}", TK_REG},  // register
 };
