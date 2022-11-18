@@ -12,7 +12,6 @@ Context* __am_irq_handle(Context *c) {
   // printf("mcause is %u\n", c->mcause);
   // printf("mstatus is %u\n", c->mstatus);
   // printf("mepc is %u\n", c->mepc);
-  printf("mcasue is %d\n", c->mcause);
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
@@ -55,7 +54,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 }
 
 void yield() {
-  asm volatile("li a7, -1; ecall");
+  asm volatile("li a7, -1; ecall"); // 
 }
 
 bool ienabled() {
