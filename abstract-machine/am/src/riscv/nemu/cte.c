@@ -17,6 +17,7 @@ Context* __am_irq_handle(Context *c) {
     Event ev = {0};
     switch (c->mcause) {
       case EVENT_YIELD: {
+        printf("here\n");
         ev.event = EVENT_YIELD; 
         uint32_t *mepc_addr = (uint32_t *)(void *)c + 34;
         *mepc_addr = c->mepc + 4;
