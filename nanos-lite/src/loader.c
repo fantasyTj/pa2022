@@ -58,6 +58,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       p_offset = phdr[i].p_offset;
       p_filesz = phdr[i].p_filesz;
       p_vaddr = phdr[i].p_vaddr;
+      printf("vaddr is %x\n", p_vaddr);
       ramdisk_read((void *)p_vaddr, p_offset, p_filesz);
       p_memsz = phdr[i].p_memsz;
       memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_memsz);
@@ -65,6 +66,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       if(phdr[i].p_flags == 5) entry = p_vaddr;
     }
   }
+  printf("entry is %x\n", entry);
   return entry;
 }
 
