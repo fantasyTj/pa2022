@@ -43,7 +43,7 @@ void ftrace(paddr_t, paddr_t);
 void print_ftrace();
 #endif
 
-CPU_state cpu = {};
+CPU_state cpu = {.csr.mstatus = 0x1800};
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
