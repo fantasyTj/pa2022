@@ -16,9 +16,9 @@ Context* __am_irq_handle(Context *c) {
     Event ev = {0};
     switch (c->mcause) {
       case EVENT_YIELD: {
-        ev.event = EVENT_YIELD; 
-        uint32_t *mepc_addr = (uint32_t *)(void *)c + 34;
-        *mepc_addr = c->mepc + 4;
+        ev.event = EVENT_YIELD;
+        // uint32_t *mepc_addr = (uint32_t *)(void *)c + 34;
+        // *mepc_addr = c->mepc + 4;
         break;
       }
       case EVENT_SYSCALL: {
@@ -52,7 +52,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 }
 
 void yield() {
-  asm volatile("li a7, 1; ecall"); // can i modify this?
+  asm volatile("li t0, 1; li a7, -1; ecall"); // can i modify this?
 }
 
 bool ienabled() {
