@@ -95,6 +95,7 @@ void init_difftest(char *ref_so_file, long img_size, int port) {
   for(int i = 0; i < 32; i++){
     printf("reg%d is %u\n", i, ref_r.gpr[i]);
   }
+  isa_reg_display();
 }
 
 static void checkregs(CPU_state *ref, vaddr_t pc) {
