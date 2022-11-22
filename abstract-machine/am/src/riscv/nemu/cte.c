@@ -19,11 +19,10 @@ Context* __am_irq_handle(Context *c) {
         ev.event = EVENT_YIELD; 
         uint32_t *mepc_addr = (uint32_t *)(void *)c + 34;
         *mepc_addr = c->mepc + 4;
-        // asm("lw t2, %0\n\t"
-        //       "addi t2, t2, 4\n\t"
-        //       "sw t2, %0"
-        //       : :"r"(c)
-              // :"t2");
+        break;
+      }
+      case EVENT_SYSCALL: {
+        ev.event = EVENT_SYSCALL;
         break;
       }
       default: ev.event = EVENT_ERROR; break;
