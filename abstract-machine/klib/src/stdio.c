@@ -103,7 +103,7 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
           }
           break;
         }
-        case 'u':{
+        case 'u': case 'p':{
           u = va_arg(ap, unsigned int);
           char u_str[21];
           int32_t digit = unum2str_inv(u_str, u);
