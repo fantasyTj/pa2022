@@ -6,7 +6,7 @@ static Context* do_event(Event e, Context* c) {
   printf("event is %d\n", e.event);
   switch (e.event) {
     case 1: { // EVENT_YIELD
-      c->mepc = c->mepc + 4; 
+      c->mepc += 4; 
       // printf("yield\n");
       break;
     }
