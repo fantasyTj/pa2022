@@ -92,6 +92,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       p_filesz = phdr[i].p_filesz;
       p_vaddr = phdr[i].p_vaddr;
       printf("vaddr is %u\n", p_vaddr);
+      printf("offset is %u\n", p_offset);
       ramdisk_read((void *)p_vaddr, p_offset, p_filesz);
       p_memsz = phdr[i].p_memsz;
       memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_filesz);
