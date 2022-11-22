@@ -79,9 +79,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   uint16_t e_phnum = ehdr.e_phnum;
   assert(e_phoff);
   
+  // find the entry of .text section
+  uintptr_t entry = ehdr.e_entry;
+
   Elf_Phdr phdr[e_phnum];
   ramdisk_read(phdr, e_phoff, e_phnum*sizeof(Elf_Phdr));
-  uintptr_t entry = 0;
   Elf_Off p_offset;
   Elf_Filesz p_filesz, p_memsz;
   Elf_Addr p_vaddr;
@@ -97,10 +99,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       p_memsz = phdr[i].p_memsz;
       memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_filesz);
 
-      if(phdr[i].p_flags == 5) entry = p_vaddr;
+      // if(phdr[i].p_flags == 5) entry = p_vaddr;
     }
   }
-  printf("entry is %u\n", entry);
+  // printf("entry is %u\n", entry);
   return entry;
 }
 
