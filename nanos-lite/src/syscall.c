@@ -11,7 +11,7 @@ void do_syscall(Context *c) {
     case 0: assert(0);
     case 1: { // SYS_yield
       printf("here1\n");
-      // yield();
+      yield();
       c->mepc += 4;
       c->GPRx = 0;
       break;
