@@ -24,7 +24,7 @@ Context* __am_irq_handle(Context *c) {
         ev.event = EVENT_YIELD;
         // uint32_t *mepc_addr = (uint32_t *)(void *)c + 34;
         // *mepc_addr = c->mepc + 4;
-        c->mepc += 4;
+        // c->mepc += 4;
         break;
       }
       case 0: case 1: {
