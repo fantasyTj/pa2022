@@ -90,12 +90,12 @@ void init_difftest(char *ref_so_file, long img_size, int port) {
   ref_difftest_memcpy(RESET_VECTOR, guest_to_host(RESET_VECTOR), img_size, DIFFTEST_TO_REF);
   ref_difftest_regcpy(&cpu, DIFFTEST_TO_REF);
 
-  // CPU_state ref_r;
-  // ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
-  // for(int i = 0; i < 32; i++){
-  //   printf("reg%d is %u\n", i, ref_r.gpr[i]);
-  // }
-  // isa_reg_display();
+  CPU_state ref_r;
+  ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+  for(int i = 0; i < 32; i++){
+    printf("reg%d is %u\n", i, ref_r.gpr[i]);
+  }
+  isa_reg_display();
 }
 
 static void checkregs(CPU_state *ref, vaddr_t pc) {
