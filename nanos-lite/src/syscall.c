@@ -8,9 +8,9 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;
 
   switch (a[0]) {
-    case 0: break;
+    case 0: assert(0);
     case 1: { // SYS_yield
-      // printf("here1\n");
+      printf("here1\n");
       // yield();
       c->GPRx = 0;
       break;
