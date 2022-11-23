@@ -6,9 +6,9 @@ static Context* do_event(Event e, Context* c) {
   printf("event is %d\n", e.event);
   switch (e.event) {
     case 1: { // EVENT_YIELD
-      printf("mepc1 is %u", c->mepc);
+      // printf("mepc1 is %u", c->mepc);
       c->mepc += 4; 
-      printf("mepc2 is %u", c->mepc);
+      // printf("mepc2 is %u", c->mepc);
       // printf("yield\n");
       break;
     }
@@ -18,7 +18,7 @@ static Context* do_event(Event e, Context* c) {
     }
     default: panic("Unhandled event ID = %d", e.event);
   }
-  printf("mepc3 is %u\n", c->mepc);
+  // printf("mepc3 is %u\n", c->mepc);
   return c;
 }
 

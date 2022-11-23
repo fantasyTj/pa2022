@@ -9,7 +9,7 @@ Context* __am_irq_handle(Context *c) {
   // for(int i = 0; i < 32; i++){
   //   printf("reg%d is %u\n", i, c->gpr[i]);
   // }
-  printf("mcause is %u\n", c->mcause);
+  // printf("mcause is %u\n", c->mcause);
   // printf("mstatus is %u\n", c->mstatus);
   // printf("mepc is %u\n", c->mepc);
   if (user_handler) {
@@ -21,7 +21,7 @@ Context* __am_irq_handle(Context *c) {
       case 11: {
         // uint32_t temp_cause = c->GPR1;
         // asm volatile("sw a7, %0": "=m"(temp_cause));
-        printf("cause is %d", c->GPR1);
+        // printf("cause is %d", c->GPR1);
         switch(c->GPR1) {
           case -1: ev.event = EVENT_YIELD; break;
           case 0: case 1: ev.event = EVENT_SYSCALL; break;
