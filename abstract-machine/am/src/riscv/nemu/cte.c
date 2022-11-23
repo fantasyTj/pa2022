@@ -17,7 +17,7 @@ Context* __am_irq_handle(Context *c) {
 
     uint32_t temp_cause = 0;
     asm volatile("sw a7, %0": "=m"(temp_cause));
-    printf("temp_cause is %d\n", temp_cause);
+    // printf("temp_cause is %d\n", temp_cause);
     c->mcause = temp_cause;
     switch (c->mcause) {
       case -1: { // yield
