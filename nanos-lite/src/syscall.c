@@ -8,9 +8,10 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;
 
   switch (a[0]) {
-    case 0: assert(0);
+    case 0: { // SYS_exit
+      halt(c->GPR2);
+    }
     case 1: { // SYS_yield
-      printf("here1\n");
       yield();
       c->mepc += 4;
       c->GPRx = 0;
