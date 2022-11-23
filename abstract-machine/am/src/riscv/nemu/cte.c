@@ -15,22 +15,29 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
 
-    uint32_t temp_cause = 0;
-    asm volatile("sw a7, %0": "=m"(temp_cause));
     // printf("temp_cause is %d\n", temp_cause);
-    c->mcause = temp_cause;
+    // c->mcause = temp_cause;
     switch (c->mcause) {
-      case -1: { // yield
-        ev.event = EVENT_YIELD;
-        // uint32_t *mepc_addr = (uint32_t *)(void *)c + 34;
-        // *mepc_addr = c->mepc + 4;
-        // c->mepc += 4;
-        break;
+      case 11: {
+        // uint32_t temp_cause = c->GPR1;
+        // asm volatile("sw a7, %0": "=m"(temp_cause));
+        switch(c->GPR1) {
+          case -1: ev.event = EVENT_YIELD;
+          case 0: case 1: ev.event = EVENT_SYSCALL;
+          default: printf("unhandle when ecall\n");
+        }
       }
-      case 0: case 1: {
-        ev.event = EVENT_SYSCALL;
-        break;
-      }
+      // case -1: { // yield
+      //   ev.event = EVENT_YIELD;
+      //   // uint32_t *mepc_addr = (uint32_t *)(void *)c + 34;
+      //   // *mepc_addr = c->mepc + 4;
+      //   // c->mepc += 4;
+      //   break;
+      // }
+      // case 0: case 1: {
+      //   ev.event = EVENT_SYSCALL;
+      //   break;
+      // }
       default: ev.event = EVENT_ERROR; break;
     }
 
