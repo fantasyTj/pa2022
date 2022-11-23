@@ -15,14 +15,14 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
-      case EVENT_YIELD: {
+      case -1: { // yield
         ev.event = EVENT_YIELD;
         // uint32_t *mepc_addr = (uint32_t *)(void *)c + 34;
         // *mepc_addr = c->mepc + 4;
         c->mepc += 4;
         break;
       }
-      case EVENT_SYSCALL: {
+      case 0: case 1: {
         ev.event = EVENT_SYSCALL;
         break;
       }
