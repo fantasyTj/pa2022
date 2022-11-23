@@ -21,6 +21,7 @@ Context* __am_irq_handle(Context *c) {
       case 11: {
         // uint32_t temp_cause = c->GPR1;
         // asm volatile("sw a7, %0": "=m"(temp_cause));
+        printf("cause is %d", c->GPR1);
         switch(c->GPR1) {
           case -1: ev.event = EVENT_YIELD; break;
           case 0: case 1: ev.event = EVENT_SYSCALL; break;
