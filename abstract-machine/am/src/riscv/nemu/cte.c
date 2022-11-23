@@ -14,6 +14,10 @@ Context* __am_irq_handle(Context *c) {
   // printf("mepc is %u\n", c->mepc);
   if (user_handler) {
     Event ev = {0};
+
+    uint32_t temp_cause = 0;
+    asm volatile("sw a7, %0": "=m"(temp_cause));
+    c->mcause = temp_cause;
     switch (c->mcause) {
       case -1: { // yield
         ev.event = EVENT_YIELD;
