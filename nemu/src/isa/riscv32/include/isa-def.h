@@ -19,14 +19,14 @@
 #include <common.h>
 
 typedef struct {
+  word_t gpr[32];
+  vaddr_t pc;
   struct{
     word_t mepc;
     word_t mstatus;
     word_t mcause;
     word_t mtvec;
   } csr;
-  word_t gpr[32];
-  vaddr_t pc;
 } riscv32_CPU_state;
 
 // decode
