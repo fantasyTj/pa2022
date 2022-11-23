@@ -18,7 +18,7 @@ static Context* do_event(Event e, Context* c) {
     }
     default: panic("Unhandled event ID = %d", e.event);
   }
-  printf("mepc3 is %d\n", c->mepc);
+  printf("mepc3 is %u\n", c->mepc);
   return c;
 }
 
