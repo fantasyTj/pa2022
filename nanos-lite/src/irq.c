@@ -3,7 +3,7 @@
 void do_syscall(Context *c);
 
 static Context* do_event(Event e, Context* c) {
-  printf("event is %d\n", e.event);
+  // printf("event is %d\n", e.event);
   switch (e.event) {
     case 1: { // EVENT_YIELD
       // printf("mepc1 is %u", c->mepc);
