@@ -131,9 +131,9 @@ void difftest_step(vaddr_t pc, vaddr_t npc) {
 
   ref_difftest_exec(1);
   ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
-  // for(int i = 0; i < 32; i++){
-  //   printf("reg%d is %u\n", i, ref_r.gpr[i]);
-  // }
+  for(int i = 0; i < 32; i++){
+    printf("reg%d is %u\n", i, ref_r.gpr[i]);
+  }
 
   checkregs(&ref_r, pc);
 }
