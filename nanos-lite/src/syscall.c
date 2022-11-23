@@ -12,7 +12,7 @@ void do_syscall(Context *c) {
     case 1: { // SYS_yield
       printf("here1\n");
       yield();
-      c->mepc += 4;
+      // c->mepc += 4;
       c->GPRx = 0;
       break;
     }
