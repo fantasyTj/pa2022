@@ -23,7 +23,7 @@ void do_syscall(Context *c) {
     }
     case 4: { // SYS_write
       switch(a[1]){
-        default: {
+        case 1: case 2: {
           char *p = (void *)a[2];
           int count = a[3];
           for(int i = 0; i < count; i++){
@@ -34,6 +34,7 @@ void do_syscall(Context *c) {
         }
         // default: putch(a[1]+'0');
       }
+      c->mepc += 4;
       break;
     }
     default: panic("Unhandled syscall ID = %d", a[0]);
