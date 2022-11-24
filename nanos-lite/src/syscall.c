@@ -23,7 +23,7 @@ void do_syscall(Context *c) {
     }
     case 4: { // SYS_write
       switch(a[1]){
-        case 1: case 2: {
+        default: {
           char *p = (void *)a[2];
           int count = a[3];
           for(int i = 0; i < count; i++){
@@ -32,7 +32,7 @@ void do_syscall(Context *c) {
           c->GPRx = count;
           break;
         }
-        default: putch(a[1]+'0');
+        // default: putch(a[1]+'0');
       }
       break;
     }
