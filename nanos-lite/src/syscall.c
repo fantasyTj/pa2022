@@ -32,7 +32,7 @@ void do_syscall(Context *c) {
           c->GPRx = count;
           break;
         }
-        default: assert(0);
+        default: putch(a[1]+'0');
       }
       break;
     }
