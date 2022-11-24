@@ -98,7 +98,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       // printf("offset is %u\n", p_offset);
       ramdisk_read((void *)p_vaddr, p_offset, p_filesz);
       p_memsz = phdr[i].p_memsz;
-      memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_filesz+1);
+      memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_filesz+10);
 
       // if(p_memsz > p_filesz){
       //   program_break = p_vaddr + p_memsz;
