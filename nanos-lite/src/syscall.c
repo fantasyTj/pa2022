@@ -17,7 +17,6 @@ void do_syscall(Context *c) {
     }
     case 1: { // SYS_yield
       yield();
-      c->mepc += 4;
       c->GPRx = 0;
       break;
     }
@@ -34,9 +33,12 @@ void do_syscall(Context *c) {
         }
         // default: putch(a[1]+'0');
       }
-      c->mepc += 4;
       break;
+    }
+    case 9: {
+      c->GPRx = 0;
     }
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
+  c->mepc += 4;
 }
