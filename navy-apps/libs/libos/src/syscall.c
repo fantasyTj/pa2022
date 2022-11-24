@@ -70,14 +70,14 @@ int _write(int fd, void *buf, size_t count) {
 void *_sbrk(intptr_t increment) {
   extern char _end;
   void *pnew_end = &_end + increment;
-  char temp[10];
-  sprintf(temp, "%p", &_end);
-    _write(1, temp, 10);
+  char temp[12];
+  sprintf(temp, "%p\n", &_end);
+    _write(1, temp, 11);
   
   if(_syscall_(SYS_brk, pnew_end, 0, 0) == 0){
     void *ret = &_end;
-    sprintf(temp, "%p", &_end);
-    _write(1, temp, 10);
+    sprintf(temp, "%p\n", &_end);
+    _write(1, temp, 11);
     return ret;
   }else return (void *)-1;
 }
