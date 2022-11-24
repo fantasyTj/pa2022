@@ -1,6 +1,7 @@
 #include <proc.h>
 #include <elf.h>
 
+uintptr_t program_break;
 
 #ifdef __LP64__
 # define Elf_Ehdr Elf64_Ehdr
@@ -99,6 +100,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       p_memsz = phdr[i].p_memsz;
       memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_filesz);
 
+      if(p_memsz > p_filesz){
+        program_break = p_vaddr + p_memsz;
+      }
       // if(phdr[i].p_flags == 5) entry = p_vaddr;
     }
   }

@@ -36,6 +36,8 @@ void do_syscall(Context *c) {
       break;
     }
     case 9: {
+      extern uintptr_t program_break;
+      memset((void *)program_break, 0, program_break-a[0]);
       c->GPRx = 0;
       break;
     }
