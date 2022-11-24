@@ -33,8 +33,8 @@ void do_syscall(Context *c) {
           break;
         }
         default: assert(0);
-        break;
       }
+      break;
     }
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
