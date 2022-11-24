@@ -24,7 +24,7 @@ Context* __am_irq_handle(Context *c) {
         // printf("cause is %d", c->GPR1);
         switch(c->GPR1) {
           case -1: ev.event = EVENT_YIELD; break;
-          case 0: case 1: ev.event = EVENT_SYSCALL; break;
+          case 0: case 1: case 4: ev.event = EVENT_SYSCALL; break;
           default: printf("unhandle when ecall\n");
         }
         break;
