@@ -7,15 +7,33 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
+#ifdef CONFIG_STRACE
+  printf("System_call %d with parameters 1. %d, 2. %d, 3. %d\n", ANSI_FMT(a[0], ANSI_FG_CYAN), ANSI_FMT(a[1], ANSI_FG_WHITE), ANSI_FMT(a[2], ANSI_FG_WHITE), ANSI_FMT(a[3], ANSI_FG_WHITE));
+#endif
+
   switch (a[0]) {
     case 0: { // SYS_exit
-      halt(c->GPR2);
+      halt(a[1]);
     }
     case 1: { // SYS_yield
       yield();
       c->mepc += 4;
       c->GPRx = 0;
       break;
+    }
+    case 4: { // SYS_write
+      switch(a[1]){
+        case 1: case 2: {
+          char *p = (void *)a[2];
+          int count = a[3];
+          for(int i = 0; i < count; i++){
+            putch(*p++);
+          }
+          c->GPRx = count;
+          break;
+        }
+        default: assert(0);
+      }
     }
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
