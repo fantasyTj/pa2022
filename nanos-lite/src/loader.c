@@ -29,7 +29,7 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 size_t get_ramdisk_size(void);
 
-int fs_open(const char *pathname);
+int fs_open(const char *pathname, int flags, int mode);
 size_t fs_read(int fd, void *buf, size_t count);
 size_t fs_write(int fd, const void *buf, size_t count);
 size_t fs_lseek(int fd, size_t offset, int whence);
@@ -37,7 +37,7 @@ size_t fs_lseek(int fd, size_t offset, int whence);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   assert(filename);
-  int fd = fs_open(filename);
+  int fd = fs_open(filename, 0, 0);
   Elf_Ehdr ehdr;
   fs_lseek(fd, 0, SEEK_SET);
   fs_read(fd, &ehdr, sizeof(Elf_Ehdr));
