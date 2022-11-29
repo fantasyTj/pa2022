@@ -2,6 +2,7 @@
 #include <sys/time.h>
 
 int main(){
+    printf("sizeof time_t is %d\n", sizeof(__time_t));
     int msec = 5;
     struct timeval tv;
     while(1){
