@@ -83,6 +83,14 @@ void do_syscall(Context *c) {
       c->GPRx = fs_lseek(a[1], a[2], a[3]);
       break;
     }
+    case SYS_gettimeofday: {
+      __time_t tm = io_read(AM_TIMER_UPTIME).us;
+      struct timeval *tv = (void *)a[1];
+      tv->tv_sec = tm / 1000000;
+      tv->tv_usec = tm;
+      c->GPRx = 0;
+      break;
+    }
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
   c->mepc += 4;
