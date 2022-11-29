@@ -36,7 +36,7 @@ static Finfo file_table[] __attribute__((used)) = {
   {"end", 0, 0},
 };
 
-int fs_open(const char *pathname){
+int fs_open(const char *pathname, int flags, int mode){
   int i = 3;
   while(true){
     if(strcmp(file_table[i].name, "end") == 0) assert(0);
