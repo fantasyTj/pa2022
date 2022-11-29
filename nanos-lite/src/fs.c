@@ -74,7 +74,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){ // modified size_t with off_
   switch(whence){
     case SEEK_SET: file_table[fd].open_offset = offset; break;
     case SEEK_CUR: file_table[fd].open_offset += offset; break;
-    case SEEK_END: file_table[fd].open_offset = file_table[fd].size + offset; break;
+    case SEEK_END: file_table[fd].open_offset = (file_table[fd].size-1) + offset; break;
     default: return -1;
   }
   return file_table[fd].open_offset;
