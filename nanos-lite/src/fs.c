@@ -80,6 +80,9 @@ off_t fs_lseek(int fd, off_t offset, int whence){ // modified size_t with off_t?
   return file_table[fd].open_offset;
 }
 
+const char *fd2name(int fd){
+  return file_table[fd].name;
+}
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb

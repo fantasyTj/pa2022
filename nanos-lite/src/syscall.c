@@ -6,6 +6,7 @@ size_t fs_read(int fd, void *buf, size_t count);
 size_t fs_write(int fd, const void *buf, size_t count);
 size_t fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
+const char *fd2name(int fd);
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -16,6 +17,10 @@ void do_syscall(Context *c) {
 
 #ifdef CONFIG_STRACE
   printf("System_call %d with parameters 1. %d, 2. %d, 3. %d\n", ANSI_FMT(a[0], ANSI_FG_CYAN), ANSI_FMT(a[1], ANSI_FG_WHITE), ANSI_FMT(a[2], ANSI_FG_WHITE), ANSI_FMT(a[3], ANSI_FG_WHITE));
+  if(a[0] == 3 || a[0] == 4){
+    char fmt_[] = (a[0]==3)?("Read"):("Write");
+    printf("%s file %s\n", fmt_, ANSI_FMT(fd2name(a[1]), ANSI_FG_GREEN));
+  }
 #endif
 
   switch (a[0]) {
