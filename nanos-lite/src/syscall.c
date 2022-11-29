@@ -1,5 +1,12 @@
 #include <common.h>
 #include "syscall.h"
+
+int fs_open(const char *pathname, int flags, int mode);
+size_t fs_read(int fd, void *buf, size_t count);
+size_t fs_write(int fd, const void *buf, size_t count);
+size_t fs_lseek(int fd, size_t offset, int whence);
+int fs_close(int fd);
+
 void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -12,16 +19,17 @@ void do_syscall(Context *c) {
 #endif
 
   switch (a[0]) {
-    case 0: { // SYS_exit
+    case SYS_exit: {
       halt(a[1]);
     }
-    case 1: { // SYS_yield
+    case SYS_yield: {
       yield();
       c->GPRx = 0;
       break;
     }
-    case 4: { // SYS_write
+    case SYS_write: {
       switch(a[1]){
+        case 0: break;
         case 1: case 2: {
           char *p = (void *)a[2];
           int count = a[3];
@@ -31,15 +39,41 @@ void do_syscall(Context *c) {
           c->GPRx = count;
           break;
         }
-        // default: putch(a[1]+'0');
+        default: {
+          c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
+        }
       }
       break;
     }
-    case 9: {
+    case SYS_read: {
+      switch(a[1]){
+        case 0: break;
+        case 1: case 2: {
+          break;
+        }
+        default: {
+          c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
+        }
+      }
+      break;
+    }
+    case SYS_brk: {
       // extern uintptr_t program_break;
       // memset((void *)program_break, 0, program_break-a[0]);
       // program_break = a[0];
       c->GPRx = 0;
+      break;
+    }
+    case SYS_open: {
+      c->GPRx = fs_open(((char *)a[1]), a[2], a[3]);
+      break;
+    }
+    case SYS_close: {
+      c->GPRx = fs_close(a[1]);
+      break;
+    }
+    case SYS_lseek: {
+      c->GPRx = fs_lseek(a[1], a[2], a[3]);
       break;
     }
     default: panic("Unhandled syscall ID = %d", a[0]);
