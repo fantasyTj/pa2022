@@ -50,7 +50,6 @@ int fs_close(int fd){
 }
 
 size_t fs_read(int fd, void *buf, size_t count){
-  printf("count is %u\n", count);
   size_t size = file_table[fd].size, disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
   if(open_offset+count > size){
     ramdisk_read(buf, disk_offset+open_offset, size-open_offset);
