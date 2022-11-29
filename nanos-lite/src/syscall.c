@@ -39,8 +39,6 @@ void do_syscall(Context *c) {
       // extern uintptr_t program_break;
       // memset((void *)program_break, 0, program_break-a[0]);
       // program_break = a[0];
-      extern Area heap;
-      printf("heap start is %u\n", heap.start);
       c->GPRx = 0;
       break;
     }

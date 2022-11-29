@@ -29,50 +29,19 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 size_t get_ramdisk_size(void);
 
-// static uintptr_t loader(PCB *pcb, const char *filename) {
-//   if(filename == NULL) filename = "../build/ramdisk.img";
-//   FILE *elf = fopen(filename, "r");
-//   assert(elf);
-
-//   size_t fread_buf;
-//   Elf_Ehdr ehdr;
-//   fread_buf = fread(&ehdr, sizeof(Elf_Ehdr), 1, elf);
-//   assert(fread_buf);
-//   assert(*(uint32_t *)ehdr.e_ident == 0x464c457f); // check magic number for elf
-//   assert(ehdr.e_machine == EXPECT_TYPE);
-
-//   Elf_Off e_phoff = ehdr.e_phoff;
-//   uint16_t e_phnum = ehdr.e_phnum;
-//   assert(e_phoff);
-//   fseek(elf, e_phoff, SEEK_SET);
-//   Elf_Phdr phdr[e_phnum];
-//   fread_buf = fread(phdr, sizeof(Elf_Phdr), e_phnum, elf);
-//   assert(fread_buf);
-//   uintptr_t entry = 0;
-//   Elf_Off p_offset;
-//   Elf_Filesz p_filesz, p_memsz;
-//   Elf_Addr p_vaddr;
-//   // Load read-exec segment and read-write segment
-//   for(int i = 0; i < e_phnum; i++){
-//     if(phdr[i].p_type == PT_LOAD){
-//       p_offset = phdr[i].p_offset;
-//       p_filesz = phdr[i].p_filesz;
-//       p_vaddr = phdr[i].p_vaddr;
-//       printf("vaddr is %x\n", p_vaddr);
-//       ramdisk_read((void *)p_vaddr, p_offset, p_filesz);
-//       p_memsz = phdr[i].p_memsz;
-//       memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_memsz);
-
-//       if(phdr[i].p_flags == 5) entry = p_vaddr;
-//     }
-//   }
-//   printf("entry is %x\n", entry);
-//   return entry;
-// }
+int fs_open(const char *pathname);
+size_t fs_read(int fd, void *buf, size_t count);
+size_t fs_write(int fd, const void *buf, size_t count);
+size_t fs_lseek(int fd, size_t offset, int whence);
+#include <fs.h>
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
+  assert(filename);
+  int fd = fs_open(filename);
   Elf_Ehdr ehdr;
-  ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
+  fs_lseek(fd, 0, SEEK_SET);
+  fs_read(fd, &ehdr, sizeof(Elf_Ehdr));
+  // ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
   assert(*(uint32_t *)ehdr.e_ident == 0x464c457f); // check magic number for elf
   assert(ehdr.e_machine == EXPECT_TYPE);
 
@@ -84,7 +53,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   uintptr_t entry = ehdr.e_entry;
 
   Elf_Phdr phdr[e_phnum];
-  ramdisk_read(phdr, e_phoff, e_phnum*sizeof(Elf_Phdr));
+  fs_lseek(fd, e_phoff, SEEK_SET);
+  fs_read(fd, phdr, e_phnum*sizeof(Elf_Phdr));
+  // ramdisk_read(phdr, e_phoff, e_phnum*sizeof(Elf_Phdr));
   Elf_Off p_offset;
   Elf_Filesz p_filesz, p_memsz;
   Elf_Addr p_vaddr;
@@ -96,7 +67,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       p_vaddr = phdr[i].p_vaddr;
       // printf("vaddr is %u\n", p_vaddr);
       // printf("offset is %u\n", p_offset);
-      ramdisk_read((void *)p_vaddr, p_offset, p_filesz);
+      fs_lseek(fd, p_offset, SEEK_SET);
+      fs_read(fd, (void *)p_vaddr, p_filesz);
+      // ramdisk_read((void *)p_vaddr, p_offset, p_filesz);
       p_memsz = phdr[i].p_memsz;
       memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_filesz);
 
