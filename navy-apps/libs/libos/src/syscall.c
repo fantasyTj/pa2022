@@ -93,7 +93,7 @@ int _close(int fd) {
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  _exit(SYS_lseek);
+  // _exit(SYS_lseek);
   return _syscall_(SYS_lseek, fd, offset, whence);
 }
 
