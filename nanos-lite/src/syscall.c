@@ -18,8 +18,10 @@ void do_syscall(Context *c) {
 #ifdef CONFIG_STRACE
   printf("System_call %d with parameters 1. %d, 2. %d, 3. %d\n", ANSI_FMT(a[0], ANSI_FG_CYAN), ANSI_FMT(a[1], ANSI_FG_WHITE), ANSI_FMT(a[2], ANSI_FG_WHITE), ANSI_FMT(a[3], ANSI_FG_WHITE));
   if(a[0] == 3 || a[0] == 4){
-    char fmt_[] = (a[0]==3)?("Read"):("Write");
-    printf("%s file %s\n", fmt_, ANSI_FMT(fd2name(a[1]), ANSI_FG_GREEN));
+    char fmt_[6];
+    if(a[0] == 3) strcpy(fmt_, "Read");
+    else strcpy(fmt_, "Write");
+    printf("%s file %s\n", fmt, ANSI_FMT(fd2name(a[1]), ANSI_FG_GREEN));
   }
 #endif
 

@@ -70,7 +70,7 @@ size_t fs_write(int fd, const void *buf, size_t count){
   return count;
 }
 
-off_t fs_lseek(int fd, off_t offset, int whence){ // modified size_t with off_t?
+size_t fs_lseek(int fd, size_t offset, int whence){ // modified size_t with off_t?
   switch(whence){
     case SEEK_SET: file_table[fd].open_offset = offset; break;
     case SEEK_CUR: file_table[fd].open_offset += offset; break;
