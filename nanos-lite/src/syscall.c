@@ -7,6 +7,8 @@ size_t fs_write(int fd, const void *buf, size_t count);
 size_t fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
 const char *fd2name(int fd);
+size_t vfs_read(int fd, void *buf, size_t count);
+size_t vfs_write(int fd, const void *buf, size_t count);
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -35,33 +37,35 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_write: {
-      switch(a[1]){
-        case 0: break;
-        case 1: case 2: {
-          char *p = (void *)a[2];
-          int count = a[3];
-          for(int i = 0; i < count; i++){
-            putch(*p++);
-          }
-          c->GPRx = count;
-          break;
-        }
-        default: {
-          c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
-        }
-      }
+      vfs_write(a[1], (void *)a[2], a[3]);
+      // switch(a[1]){
+      //   case 0: break;
+      //   case 1: case 2: {
+      //     char *p = (void *)a[2];
+      //     int count = a[3];
+      //     for(int i = 0; i < count; i++){
+      //       putch(*p++);
+      //     }
+      //     c->GPRx = count;
+      //     break;
+      //   }
+      //   default: {
+      //     c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
+      //   }
+      // }
       break;
     }
     case SYS_read: {
-      switch(a[1]){
-        case 0: break;
-        case 1: case 2: {
-          break;
-        }
-        default: {
-          c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
-        }
-      }
+      vfs_read(a[1], (void *)a[2], a[3]);
+      // switch(a[1]){
+      //   case 0: break;
+      //   case 1: case 2: {
+      //     break;
+      //   }
+      //   default: {
+      //     c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
+      //   }
+      // }
       break;
     }
     case SYS_brk: {

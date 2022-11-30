@@ -5,6 +5,12 @@ typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
+size_t serial_write(const void *buf, size_t offset, size_t len);
+size_t events_read(void *buf, size_t offset, size_t len);
+size_t dispinfo_read(void *buf, size_t offset, size_t len);
+size_t fb_write(const void *buf, size_t offset, size_t len);
+size_t unsuported_r(void *buf, size_t offset, size_t len);
+size_t unsuported_w(const void *buf, size_t offset, size_t len);
 
 typedef struct {
   char *name;
@@ -29,12 +35,27 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
-  [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
-  [FD_STDOUT] = {"stdout", 0, 0, invalid_read, invalid_write},
-  [FD_STDERR] = {"stderr", 0, 0, invalid_read, invalid_write},
+  [FD_STDIN]  = {"stdin", 0, 0, unsuported_r, unsuported_w},
+  [FD_STDOUT] = {"stdout", 0, 0, unsuported_r, serial_write},
+  [FD_STDERR] = {"stderr", 0, 0, unsuported_r, serial_write},
 #include "files.h"
   {"end", 0, 0},
 };
+
+static void bind(){
+  int i = 3;
+  while(true){
+    if(strcmp(file_table[i].name, "end") == 0) break;
+    if(!strcmp(file_table[i].name, "\\dev\\events")){
+      file_table[i].read = events_read;
+      file_table[i].write = unsuported_w;
+    }else{
+      file_table[i].read = ramdisk_read;
+      file_table[i].write = ramdisk_write;
+    }
+    i++;
+  }
+}
 
 int fs_open(const char *pathname, int flags, int mode){
   int i = 3;
@@ -84,6 +105,17 @@ const char *fd2name(int fd){
   return file_table[fd].name;
 }
 
+size_t vfs_read(int fd, void *buf, size_t count){
+  ReadFn func = file_table[fd].read;
+  return func(buf, file_table[fd].open_offset+file_table[fd].disk_offset, count);
+}
+
+size_t vfs_write(int fd, const void *buf, size_t count){
+  WriteFn func = file_table[fd].write;
+  return func(buf, file_table[fd].open_offset+file_table[fd].disk_offset, count);
+}
+
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  bind();
 }

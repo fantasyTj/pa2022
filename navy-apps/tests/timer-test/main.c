@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <sys/time.h>
-#include <stdint.h>
-// #include "../../libs/libndl/include/NDL.h"
-uint32_t NDL_GetTicks();
-int NDL_Init(uint32_t flags);
-
+#include <NDL.h>
 
 int main(){
     NDL_Init(0);
