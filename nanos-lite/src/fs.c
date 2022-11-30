@@ -46,7 +46,7 @@ static void bind(){
   int i = 3;
   while(true){
     if(strcmp(file_table[i].name, "end") == 0) break;
-    if(!strcmp(file_table[i].name, "\\dev\\events")){
+    if(!strcmp(file_table[i].name, "/dev/events")){
       file_table[i].read = events_read;
       file_table[i].write = unsuported_w;
     }else{
