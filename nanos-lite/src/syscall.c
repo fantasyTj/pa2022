@@ -37,35 +37,35 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_write: {
-      vfs_write(a[1], (void *)a[2], a[3]);
-      // switch(a[1]){
-      //   case 0: break;
-      //   case 1: case 2: {
-      //     char *p = (void *)a[2];
-      //     int count = a[3];
-      //     for(int i = 0; i < count; i++){
-      //       putch(*p++);
-      //     }
-      //     c->GPRx = count;
-      //     break;
-      //   }
-      //   default: {
-      //     c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
-      //   }
-      // }
+      // vfs_write(a[1], (void *)a[2], a[3]);
+      switch(a[1]){
+        case 0: break;
+        case 1: case 2: {
+          char *p = (void *)a[2];
+          int count = a[3];
+          for(int i = 0; i < count; i++){
+            putch(*p++);
+          }
+          c->GPRx = count;
+          break;
+        }
+        default: {
+          c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
+        }
+      }
       break;
     }
     case SYS_read: {
-      vfs_read(a[1], (void *)a[2], a[3]);
-      // switch(a[1]){
-      //   case 0: break;
-      //   case 1: case 2: {
-      //     break;
-      //   }
-      //   default: {
-      //     c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
-      //   }
-      // }
+      // vfs_read(a[1], (void *)a[2], a[3]);
+      switch(a[1]){
+        case 0: break;
+        case 1: case 2: {
+          break;
+        }
+        default: {
+          c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
+        }
+      }
       break;
     }
     case SYS_brk: {
