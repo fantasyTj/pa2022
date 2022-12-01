@@ -10,7 +10,7 @@ static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
-static FILE* events_fp = NULL;
+// static FILE* events_fp = NULL;
 
 uint32_t NDL_GetTicks() {
   struct timeval tv;
@@ -25,7 +25,7 @@ int NDL_PollEvent(char *buf, int len) {
     
   //   events_fp = fopen("/dev/events", "r+");
   // }
-  FILE *events_fp = fopen("/dex/events", "r+");
+  FILE *events_fp = fopen("/dev/events", "r+");
   assert(events_fp);
   printf("succ\n");
   size_t flag;
