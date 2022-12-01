@@ -93,7 +93,6 @@ size_t fs_write(int fd, const void *buf, size_t count){
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence){ // modified size_t with off_t?
-  printf("here\n");
   switch(whence){
     case SEEK_SET: file_table[fd].open_offset = offset; break;
     case SEEK_CUR: file_table[fd].open_offset += offset; break;
@@ -123,8 +122,8 @@ size_t vfs_read(int fd, void *buf, size_t count){
 
 size_t vfs_write(int fd, const void *buf, size_t count){
   WriteFn func = file_table[fd].write;
-  size_t size = file_table[fd].size, disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
-  assert(open_offset+count <= size);
+  size_t disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
+  // if(size) assert(open_offset+count <= size); // assume read is always legal
   func(buf, disk_offset+open_offset, count);
   file_table[fd].open_offset = open_offset+count;
   return count;
