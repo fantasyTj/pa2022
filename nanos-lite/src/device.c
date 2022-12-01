@@ -27,6 +27,7 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
+  printf("he\n");
   static size_t disk_offset;
   if(!disk_offset) disk_offset = offset;
 
@@ -38,7 +39,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     strcpy(msg, (ev.keydown)?("kd "):("ku ")); // initialnize msg
     strcat(msg, keyname[ev.keycode]);
     strcat(msg, "\n");
-    
+
     void *start_pos = &ramdisk_start + disk_offset;
     strcpy(start_pos, msg);
     strcpy(buf, start_pos);
