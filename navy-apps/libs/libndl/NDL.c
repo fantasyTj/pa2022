@@ -10,7 +10,7 @@ static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
-static FILE* events_fp;
+static FILE* events_fp = NULL;
 
 uint32_t NDL_GetTicks() {
   struct timeval tv;
