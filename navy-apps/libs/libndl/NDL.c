@@ -22,6 +22,7 @@ int NDL_PollEvent(char *buf, int len) {
   // if(events_fp) printf("here\n");
   if(!events_fp) {
     // printf("here\n");
+    ;
     events_fp = fopen("/dev/events", "r+");
   }
   assert(events_fp);
