@@ -108,12 +108,25 @@ const char *fd2name(int fd){
 
 size_t vfs_read(int fd, void *buf, size_t count){
   ReadFn func = file_table[fd].read;
-  return func(buf, file_table[fd].open_offset+file_table[fd].disk_offset, count);
+  size_t size = file_table[fd].size, disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
+  if(open_offset+count > size){
+    func(buf, disk_offset+open_offset, size-open_offset);
+    file_table[fd].open_offset = 0;
+    return size-open_offset;
+  }else{
+    func(buf, disk_offset+open_offset, count);
+    file_table[fd].open_offset = (open_offset + count);
+    return count;
+  }
 }
 
 size_t vfs_write(int fd, const void *buf, size_t count){
   WriteFn func = file_table[fd].write;
-  return func(buf, file_table[fd].open_offset+file_table[fd].disk_offset, count);
+  size_t size = file_table[fd].size, disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
+  assert(open_offset+count <= size);
+  func(buf, disk_offset+open_offset, count);
+  file_table[fd].open_offset = open_offset+count;
+  return count;
 }
 
 void init_fs() {
