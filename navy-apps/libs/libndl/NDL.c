@@ -29,7 +29,7 @@ int NDL_PollEvent(char *buf, int len) {
   // if(events_fp) printf("h1\n");
   // else printf("h2\n");
   assert(events_fp);
-  printf("succ\n");
+  // printf("succ\n");
   size_t flag;
   if(fread(buf, 3, len, events_fp)) flag = 1;
   // return fread(buf, 1, len, events_fp);
