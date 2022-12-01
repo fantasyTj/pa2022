@@ -27,8 +27,10 @@ int NDL_PollEvent(char *buf, int len) {
   }
   assert(events_fp);
   printf("succ\n");
-  return fread(buf, 1, len, events_fp);
-  // return 0;
+  size_t flag;
+  if(fread(buf, 1, len, events_fp)) flag = 1;
+  // return fread(buf, 1, len, events_fp);
+  return flag;
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
