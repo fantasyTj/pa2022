@@ -27,6 +27,7 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
+  // snprintf(buf,len,"kd %s",...);
   putch('h');
   static size_t disk_offset;
   if(!disk_offset) disk_offset = offset;
