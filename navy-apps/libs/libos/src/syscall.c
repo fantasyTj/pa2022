@@ -71,12 +71,12 @@ static char* program_break;
 extern char _end;
 
 void *_sbrk(intptr_t increment) {
-  char temp_buf[40];
+  // char temp_buf[40];
   // return (void *)(-1);
   if(program_break == NULL) program_break = &_end;
   char *new_pb = program_break + increment;
-  sprintf(temp_buf, "new_pb is %p\n", new_pb);
-  _write(1, temp_buf, 40);
+  // sprintf(temp_buf, "new_pb is %p\n", new_pb);
+  // _write(1, temp_buf, 40);
   if(_syscall_(SYS_brk, (intptr_t)new_pb, 0, 0) == 0){
     program_break = new_pb;
     return (program_break - increment);
