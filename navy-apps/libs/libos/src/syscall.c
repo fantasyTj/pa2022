@@ -73,14 +73,14 @@ extern char _end;
 void *_sbrk(intptr_t increment) {
   char temp_buf[40];
   sprintf(temp_buf, "incre is %d\n", increment);
-  _write(1, temp_buf, 40);
+  _write(2, temp_buf, 40);
   // return (void *)(-1);
   if(program_break == NULL){
     program_break = &_end;
     sprintf(temp_buf, "_end is %p\n", &_end);
-    _write(1, temp_buf, 40);
+    _write(2, temp_buf, 40);
     sprintf(temp_buf, "inipb is %p\n", program_break);
-    _write(1, temp_buf, 40);
+    _write(2, temp_buf, 40);
     // sprintf(temp_buf, "initialize\n");
     // _write(1, temp_buf, 40);
   }
@@ -89,7 +89,7 @@ void *_sbrk(intptr_t increment) {
   if(_syscall_(SYS_brk, (intptr_t)(program_break+increment), 0, 0) == 0){
     program_break += increment;
     sprintf(temp_buf, "new_pb is %p\n", program_break);
-    _write(1, temp_buf, 40);
+    _write(2, temp_buf, 40);
     return old;
   }else return (void *)(-1);
 }
