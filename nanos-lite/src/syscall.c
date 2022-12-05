@@ -17,13 +17,14 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
+#define CONFIG_STRACE
 #ifdef CONFIG_STRACE
-  printf("System_call %d with parameters 1. %d, 2. %d, 3. %d\n", ANSI_FMT(a[0], ANSI_FG_CYAN), ANSI_FMT(a[1], ANSI_FG_WHITE), ANSI_FMT(a[2], ANSI_FG_WHITE), ANSI_FMT(a[3], ANSI_FG_WHITE));
+  printf("System_call %d with parameters 1. %d, 2. %d, 3. %d\n", a[0], a[1], a[2], a[3]);
   if(a[0] == 3 || a[0] == 4){
     char fmt_[6];
     if(a[0] == 3) strcpy(fmt_, "Read");
     else strcpy(fmt_, "Write");
-    printf("%s file %s\n", fmt, ANSI_FMT(fd2name(a[1]), ANSI_FG_GREEN));
+    printf("%s file %s\n", fmt_, fd2name(a[1]));
   }
 #endif
 
