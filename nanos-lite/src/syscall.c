@@ -24,7 +24,8 @@ void do_syscall(Context *c) {
   "SYS_fstat","SYS_time","SYS_signal","SYS_execve","SYS_fork","SYS_link",
   "SYS_unlink","SYS_wait","SYS_times","SYS_gettimeofday"};
 
-  if(a[0]!=4)printf("System_call %s with parameters 1:%d, 2:%d, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
+  // if(a[0]!=4)
+  printf("System_call %s with parameters 1:%d, 2:%d, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
   if(a[0] == 3 || a[0] == 4){
     char fmt_[6];
     if(a[0] == 3) strcpy(fmt_, "Read");
