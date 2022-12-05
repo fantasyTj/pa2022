@@ -38,6 +38,7 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, unsuported_r, unsuported_w},
   [FD_STDOUT] = {"stdout", 0, 0, unsuported_r, serial_write},
   [FD_STDERR] = {"stderr", 0, 0, unsuported_r, serial_write},
+  // [FD_EVENTS] = {"/dev/events",0,0,}
 #include "files.h"
   {"end", 0, 0},
 };
@@ -126,6 +127,7 @@ size_t vfs_write(int fd, const void *buf, size_t count){
   WriteFn func = file_table[fd].write;
   size_t disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
   // if(size) assert(open_offset+count <= size); // assume read is always legal
+  // if()
   func(buf, disk_offset+open_offset, count);
   file_table[fd].open_offset = open_offset+count;
   return count;
