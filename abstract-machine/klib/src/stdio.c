@@ -33,6 +33,17 @@ static int32_t unum2str_inv(char *start, unsigned num){
   return idigit - 1;
 }
 
+static int32_t unum2hexstr_inv(char *start, unsigned num){
+  char dict[16] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+  int32_t idigit = 0;
+  while(1){
+    start[idigit++] = dict[num%16];
+    if(!(num = num / 16)) break; 
+  }
+
+  return idigit - 1;
+}
+
 static int32_t str2num(char *numstr){
   size_t len = strlen(numstr);
   int32_t num = 0;
@@ -42,7 +53,7 @@ static int32_t str2num(char *numstr){
 
 static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap){
   if(is_str) assert(out);
-  char *s; int d; unsigned u;
+  char *s; int d; unsigned u; unsigned p;
   size_t idx = 0;
 
   while(*fmt){
@@ -103,7 +114,7 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
           }
           break;
         }
-        case 'u': case 'p':{
+        case 'u':{
           u = va_arg(ap, unsigned int);
           char u_str[21];
           int32_t digit = unum2str_inv(u_str, u);
@@ -121,6 +132,35 @@ static int grl_vnp(bool is_str, char *out, size_t n, const char *fmt, va_list ap
           if(is_str) for(; digit >= 0; digit--) out[idx++] = u_str[digit];
           else{
             for(; digit >= 0; digit--) putch(u_str[digit]);
+            idx += digit+1;
+          }
+          break;
+        }
+        case 'p':{
+          p = va_arg(ap, unsigned int);
+          char p_str[21];
+          int32_t digit = unum2hexstr_inv(p_str, p);
+          if(idx + digit > n) break;
+          int32_t delta = temp_info.width - digit - 1;
+          if(is_str){
+            out[idx++] = '0';
+            out[idx++] = 'x';
+          }else{
+            putch('0'); idx+=1;
+            putch('x'); idx+=1;
+          }
+          if(delta > 0){
+            while(delta--){
+              if(is_str) out[idx++] = '0';
+              else{
+                putch('0');
+                idx++;
+              }
+            }
+          }
+          if(is_str) for(; digit >= 0; digit--) out[idx++] = p_str[digit];
+          else{
+            for(; digit >= 0; digit--) putch(p_str[digit]);
             idx += digit+1;
           }
           break;
