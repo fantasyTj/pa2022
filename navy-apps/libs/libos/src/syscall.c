@@ -82,12 +82,13 @@ void *_sbrk(intptr_t increment) {
     sprintf(temp_buf, "initialize\n");
     _write(1, temp_buf, 40);
   }
-  char *new_pb = program_break + increment;
-  sprintf(temp_buf, "new_pb is %p\n", new_pb);
-  _write(1, temp_buf, 40);
-  if(_syscall_(SYS_brk, (intptr_t)new_pb, 0, 0) == 0){
-    program_break = new_pb;
-    return (program_break - increment);
+  char *old = program_break;
+  // char *new_pb = program_break + increment;
+  if(_syscall_(SYS_brk, (intptr_t)(program_break+increment), 0, 0) == 0){
+    program_break += increment;
+    sprintf(temp_buf, "new_pb is %p\n", program_break);
+    _write(1, temp_buf, 40);
+    return old;
   }else return (void *)(-1);
 }
 
