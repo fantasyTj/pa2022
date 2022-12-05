@@ -59,7 +59,7 @@ static Finfo file_table[] __attribute__((used)) = {
 // }
 
 int fs_open(const char *pathname, int flags, int mode){
-  int i = 3;
+  int i = 4;
   while(true){
     putch(i+'0');
     if(strcmp(file_table[i].name, "end") == 0) assert(0);
