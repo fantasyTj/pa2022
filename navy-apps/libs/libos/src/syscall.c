@@ -67,7 +67,7 @@ int _write(int fd, void *buf, size_t count) {
   return _syscall_(SYS_write, fd, (intptr_t)buf, count);
 }
 
-static char* program_break=NULL;
+static void* program_break=NULL;
 extern char _end;
 
 void *_sbrk(intptr_t increment) {
@@ -77,19 +77,19 @@ void *_sbrk(intptr_t increment) {
   // return (void *)(-1);
   if(program_break == NULL){
     program_break = &_end;
-    sprintf(temp_buf, "_end is %p\n", &_end);
-    _write(2, temp_buf, 40);
-    sprintf(temp_buf, "inipb is %p\n", program_break);
-    _write(2, temp_buf, 40);
+    // sprintf(temp_buf, "_end is %p\n", &_end);
+    // _write(2, temp_buf, 40);
+    // sprintf(temp_buf, "inipb is %p\n", program_break);
+    // _write(2, temp_buf, 40);
     // sprintf(temp_buf, "initialize\n");
     // _write(1, temp_buf, 40);
   }
   char *old = program_break;
   // char *new_pb = program_break + increment;
   if(_syscall_(SYS_brk, (intptr_t)(program_break+increment), 0, 0) == 0){
-    program_break += increment;
-    sprintf(temp_buf, "new_pb is %p\n", program_break);
-    _write(2, temp_buf, 40);
+    // program_break += increment;
+    // sprintf(temp_buf, "new_pb is %p\n", program_break);
+    // _write(2, temp_buf, 40);
     return old;
   }else return (void *)(-1);
 }
