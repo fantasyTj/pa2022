@@ -19,7 +19,12 @@ void do_syscall(Context *c) {
 
 #define CONFIG_STRACE
 #ifdef CONFIG_STRACE
-  printf("System_call %d with parameters 1. %d, 2. %d, 3. %d\n", a[0], a[1], a[2], a[3]);
+  char *syscall_name[20] = {"SYS_exit","SYS_yield","SYS_open","SYS_read",
+  "SYS_write","SYS_kill","SYS_getpid","SYS_close","SYS_lseek","SYS_brk",
+  "SYS_fstat","SYS_time","SYS_signal","SYS_execve","SYS_fork","SYS_link",
+  "SYS_unlink","SYS_wait","SYS_times","SYS_gettimeofday"};
+
+  printf("System_call %s with parameters 1:%d, 2:%d, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
   if(a[0] == 3 || a[0] == 4){
     char fmt_[6];
     if(a[0] == 3) strcpy(fmt_, "Read");
