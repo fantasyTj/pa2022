@@ -29,7 +29,7 @@ void do_syscall(Context *c) {
     char fmt_[6];
     if(a[0] == 3) strcpy(fmt_, "Read");
     else strcpy(fmt_, "Write");
-    printf("%s file %s\n", fmt_, fd2name(a[1]));
+    // printf("%s file %s\n", fmt_, fd2name(a[1]));
   }
 #endif
 
