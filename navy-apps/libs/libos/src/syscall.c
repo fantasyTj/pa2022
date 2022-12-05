@@ -77,6 +77,8 @@ void *_sbrk(intptr_t increment) {
   // return (void *)(-1);
   if(program_break == NULL){
     program_break = &_end;
+    sprintf(temp_buf, "_end is %p\n", &_end);
+    _write(1, temp_buf, 40);
     sprintf(temp_buf, "initialize\n");
     _write(1, temp_buf, 40);
   }
