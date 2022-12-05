@@ -62,22 +62,19 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_read: {
-      // vfs_read(a[1], (void *)a[2], a[3]);
-      switch(a[1]){
-        case 0: break;
-        case 1: case 2: {
-          break;
-        }
-        default: {
-          c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
-        }
-      }
+      vfs_read(a[1], (void *)a[2], a[3]);
+      // switch(a[1]){
+      //   case 0: break;
+      //   case 1: case 2: {
+      //     break;
+      //   }
+      //   default: {
+      //     c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
+      //   }
+      // }
       break;
     }
     case SYS_brk: {
-      // extern uintptr_t program_break;
-      // memset((void *)program_break, 0, program_break-a[0]);
-      // program_break = a[0];
       c->GPRx = 0;
       break;
     }
