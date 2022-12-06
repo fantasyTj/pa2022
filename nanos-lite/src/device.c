@@ -35,7 +35,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   }else{
     strcpy(fmt1, (ev.keydown)?("kd "):("ku ")); // initialnize msg
     strcpy(fmt2, keyname[ev.keycode]);
-    snprintf(buf, len, "%s %s\0", fmt1, fmt2);
+    snprintf(buf, len, "%s (%d)%s\0", fmt1, ev.keycode ,fmt2);
     return len;
   }
 }
