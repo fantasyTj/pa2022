@@ -138,8 +138,8 @@ size_t vfs_write(int fd, const void *buf, size_t count){
       return count;
     }
   }else{
-    printf("count is %u\n", count);
     file_table[fd].open_offset += count;
+    printf("offset is %u\n", file_table[fd].disk_offset);
     return file_table[fd].write(buf, file_table[fd].disk_offset, count);
   }
 }
