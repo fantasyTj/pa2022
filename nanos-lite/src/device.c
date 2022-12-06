@@ -27,26 +27,17 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
-  // snprintf(buf,len,"kd %s",...);
-  putch('h');
-  static size_t disk_offset;
-  if(!disk_offset) disk_offset = offset;
-
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
-  char msg[64];
+  char fmt1[3];
+  char fmt2[20];
   if(ev.keycode == AM_KEY_NONE){
     return 0;
   }else{
-    strcpy(msg, (ev.keydown)?("kd "):("ku ")); // initialnize msg
-    strcat(msg, keyname[ev.keycode]);
-    strcat(msg, "\n");
-
-    void *start_pos = &ramdisk_start + disk_offset;
-    strcpy(start_pos, msg);
-    strcpy(buf, start_pos);
-    return strlen(start_pos);
+    strcpy(fmt1, (ev.keydown)?("kd "):("ku ")); // initialnize msg
+    strcpy(fmt2, keyname[ev.keycode]);
+    snprintf(buf, len, "%s %s\n", fmt1, fmt2);
+    return len;
   }
-  return 0;
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
