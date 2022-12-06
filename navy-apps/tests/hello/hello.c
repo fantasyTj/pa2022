@@ -2,9 +2,9 @@
 #include <stdio.h>
 
 int main() {
-  //write(1, "Hello World!\n", 13);
-  printf("Hello world!\n");
-  /*
+  write(1, "Hello World!\n", 13);
+  // printf("Hello world!\n");
+  
   int i = 2;
   volatile int j = 0;
   while (1) {
@@ -13,6 +13,6 @@ int main() {
       printf("Hello World from Navy-apps for the %dth time!\n", i ++);
       j = 0;
     }
-  }*/
+  }
   return 0;
 }
