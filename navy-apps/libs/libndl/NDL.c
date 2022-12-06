@@ -25,7 +25,7 @@ int NDL_PollEvent(char *buf, int len) {
     
   //   events_fp = fopen("/dev/events", "r+");
   // }
-  int events_fd = open("/share/files/num", "r+");
+  int events_fd = open("/dev/evnets", "r+");
   // if(events_fp) printf("h1\n");
   // else printf("h2\n");
   assert(events_fd);
