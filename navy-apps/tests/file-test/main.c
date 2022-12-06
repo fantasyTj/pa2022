@@ -13,7 +13,6 @@ int main() {
   int i, n;
   for (i = 500; i < 1000; i ++) {
     fscanf(fp, "%d", &n);
-    printf("i+1 is %d, n is %d\n", i+1, n);
     assert(n == i + 1);
   }
 
