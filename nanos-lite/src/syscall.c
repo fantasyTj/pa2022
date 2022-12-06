@@ -26,12 +26,14 @@ void do_syscall(Context *c) {
 
   // if(a[0]!=4)
   
-  if(a[0] == 3 || a[0] == 4 || a[0] == 9){
+  if(a[0] == 3 || a[0] == 4){
     printf("System_call %s with parameters 1:%d, 2:%p, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
     // char fmt_[6];
     // if(a[0] == 3) strcpy(fmt_, "Read");
     // else strcpy(fmt_, "Write");
     // printf("%s file %s\n", fmt_, fd2name(a[1]));
+  }else if(a[0] == 9){
+    printf("System_call %s with parameters 1:%p, 2:%d, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
   }else{
     printf("System_call %s with parameters 1:%d, 2:%d, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
   }
