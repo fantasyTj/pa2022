@@ -35,12 +35,15 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   }else{
     strcpy(fmt1, (ev.keydown)?("kd "):("ku ")); // initialnize msg
     strcpy(fmt2, keyname[ev.keycode]);
-    snprintf(buf, len, "%s %s\n", fmt1, fmt2);
+    snprintf(buf, len, "%s %s\n\0", fmt1, fmt2);
     return len;
   }
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
+  AM_GPU_CONFIG_T cfg = io_read(AM_GPU_CONFIG);
+  int w = cfg.width, h = cfg.height;
+  snprintf(buf, len, "WIDTH: %d\nHEIGHT: %d\0", w, h);
   return 0;
 }
 
