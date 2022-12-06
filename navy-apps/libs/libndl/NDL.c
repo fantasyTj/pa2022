@@ -42,8 +42,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     assert(disp_fd);
     char buf[64];
     read(disp_fd, buf, 64);
-    sscanf(buf, "WIDTH:%d", w);
-    sscanf(buf, "HEIGHT:%d", h);
+    sscanf(buf, "WIDTH:%d HEIGHT:%d", w, h);
   }
   
   if (getenv("NWM_APP")) {
@@ -66,6 +65,24 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  int W, H;
+  int disp_fd = open("/proc/dispinfo", 0, 0);
+  assert(disp_fd);
+  char buf[64];
+  read(disp_fd, buf, 64);
+  sscanf(buf, "WIDTH:%d HEIGHT:%d", &W, &H);
+
+  int left_w = (W-w)/2, right_w = W-left_w-w;
+  int on_h = (H-h)/2, below_h = H-on_h-h;
+
+  int fb_fd = open("/dev/fb", 0, 0);
+  for(int i = 0; i < on_h; i++) write(fb_fd, NULL, W);
+  for(int i = 0; i < h; i++){
+    write(fb_fd, NULL, left_w);
+    write(fb_fd, pixels+(i*w), w);
+    write(fb_fd, NULL, right_w);
+  }
+  for(int i = 0; i < below_h; i++) write(fb_fd, NULL, W);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {

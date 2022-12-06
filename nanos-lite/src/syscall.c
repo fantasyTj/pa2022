@@ -26,7 +26,7 @@ void do_syscall(Context *c) {
 
   // if(a[0]!=4)
   
-  if(a[0] == 3 || a[0] == 4){
+  if(a[0] == 3 || a[0] == 4 || a[0] == 9){
     printf("System_call %s with parameters 1:%d, 2:%p, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
     // char fmt_[6];
     // if(a[0] == 3) strcpy(fmt_, "Read");

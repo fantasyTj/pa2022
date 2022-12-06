@@ -124,8 +124,7 @@ size_t vfs_read(int fd, void *buf, size_t count){
       return count;
     }
   }else{
-    file_table[fd].read(buf, disk_offset, count);
-    return count;
+    return file_table[fd].read(buf, disk_offset, count);
   }
   // ReadFn func = file_table[fd].read;
   
@@ -143,13 +142,26 @@ size_t vfs_read(int fd, void *buf, size_t count){
 }
 
 size_t vfs_write(int fd, const void *buf, size_t count){
-  WriteFn func = file_table[fd].write;
-  size_t disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
-  // if(size) assert(open_offset+count <= size); // assume read is always legal
-  // if()
-  func(buf, disk_offset+open_offset, count);
-  file_table[fd].open_offset = open_offset+count;
-  return count;
+  size_t size = file_table[fd].size, disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
+  if(file_table[fd].write == NULL){
+    if(open_offset+count>size){
+      ramdisk_write(buf, disk_offset+open_offset, size-open_offset);
+      file_table[fd].open_offset = 0;
+      return size-open_offset;
+    }else{
+      ramdisk_write(buf, disk_offset+open_offset, count);
+      file_table[fd].open_offset += count;
+      return count;
+    }
+  }else{
+    return file_table[fd].write(buf, file_table[fd].disk_offset, count);
+  }
+  // WriteFn func = file_table[fd].write;
+  // // if(size) assert(open_offset+count <= size); // assume read is always legal
+  // // if()
+  // func(buf, disk_offset+open_offset, count);
+  // file_table[fd].open_offset = open_offset+count;
+  // return count;
 }
 
 void init_fs() {
