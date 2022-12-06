@@ -50,34 +50,10 @@ void do_syscall(Context *c) {
     }
     case SYS_write: {
       c->GPRx = vfs_write(a[1], (void *)a[2], a[3]);
-      // switch(a[1]){
-      //   case 0: break;
-      //   case 1: case 2: {
-      //     char *p = (void *)a[2];
-      //     int count = a[3];
-      //     for(int i = 0; i < count; i++){
-      //       putch(*p++);
-      //     }
-      //     c->GPRx = count;
-      //     break;
-      //   }
-      //   default: {
-      //     c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
-      //   }
-      // }
       break;
     }
     case SYS_read: {
       c->GPRx = vfs_read(a[1], (void *)a[2], a[3]);
-      // switch(a[1]){
-      //   case 0: break;
-      //   case 1: case 2: {
-      //     break;
-      //   }
-      //   default: {
-      //     c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
-      //   }
-      // }
       break;
     }
     case SYS_brk: {
@@ -85,7 +61,6 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_open: {
-      // putch('a');
       c->GPRx = fs_open(((char *)a[1]), a[2], a[3]);
       break;
     }
