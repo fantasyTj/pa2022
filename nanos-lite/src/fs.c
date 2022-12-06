@@ -154,7 +154,9 @@ size_t vfs_write(int fd, const void *buf, size_t count){
       return count;
     }
   }else{
-    return file_table[fd].write(buf, file_table[fd].disk_offset, count);
+    size_t ret = file_table[fd].write(buf, file_table[fd].disk_offset, count);
+    printf("preret val is %u\n", ret);
+    return ret;
   }
   // WriteFn func = file_table[fd].write;
   // // if(size) assert(open_offset+count <= size); // assume read is always legal
