@@ -108,5 +108,4 @@ void do_syscall(Context *c) {
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
   c->mepc += 4;
-  printf("ret val is %u\n", c->GPRx);
 }

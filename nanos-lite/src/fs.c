@@ -115,12 +115,10 @@ size_t vfs_read(int fd, void *buf, size_t count){
     if(open_offset+count > size){
       ramdisk_read(buf, disk_offset+open_offset, size-open_offset);
       file_table[fd].open_offset = 0;
-      printf("offset is %u\n", file_table[fd].open_offset);
       return size-open_offset;
     }else{
       ramdisk_read(buf, disk_offset+open_offset, count);
       file_table[fd].open_offset = (open_offset + count);
-      printf("offset is %u\n", file_table[fd].open_offset);
       return count;
     }
   }else{
@@ -154,9 +152,7 @@ size_t vfs_write(int fd, const void *buf, size_t count){
       return count;
     }
   }else{
-    size_t ret = file_table[fd].write(buf, file_table[fd].disk_offset, count);
-    printf("preret val is %u\n", ret);
-    return ret;
+    return file_table[fd].write(buf, file_table[fd].disk_offset, count);
   }
   // WriteFn func = file_table[fd].write;
   // // if(size) assert(open_offset+count <= size); // assume read is always legal
