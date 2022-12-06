@@ -49,7 +49,7 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_write: {
-      vfs_write(a[1], (void *)a[2], a[3]);
+      c->GPRx = vfs_write(a[1], (void *)a[2], a[3]);
       // switch(a[1]){
       //   case 0: break;
       //   case 1: case 2: {
@@ -68,7 +68,7 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_read: {
-      vfs_read(a[1], (void *)a[2], a[3]);
+      c->GPRx = vfs_read(a[1], (void *)a[2], a[3]);
       // switch(a[1]){
       //   case 0: break;
       //   case 1: case 2: {
