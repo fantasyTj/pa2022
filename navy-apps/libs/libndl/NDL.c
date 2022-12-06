@@ -72,6 +72,8 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   read(disp_fd, buf, 64);
   sscanf(buf, "WIDTH:%d HEIGHT:%d", &W, &H);
 
+  assert(W>=w && H>=h);
+
   int left_w = (W-w)/2, right_w = W-left_w-w;
   int on_h = (H-h)/2, below_h = H-on_h-h;
 
