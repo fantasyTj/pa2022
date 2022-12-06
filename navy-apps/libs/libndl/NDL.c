@@ -25,13 +25,13 @@ int NDL_PollEvent(char *buf, int len) {
     
   //   events_fp = fopen("/dev/events", "r+");
   // }
-  FILE *fp = fopen("/share/files/num", "r+");
+  int events_fd = open("/share/files/num", "r+");
   // if(events_fp) printf("h1\n");
   // else printf("h2\n");
-  assert(fp);
+  assert(events_fd);
   // printf("succ\n");
-  size_t flag;
-  if(fread(buf, 3, len, fp)) flag = 1;
+  size_t flag = 0;
+  if(read(events_fd, buf, len)) flag = 1;
   // return fread(buf, 1, len, events_fp);
   return flag;
 }
