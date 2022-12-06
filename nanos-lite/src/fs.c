@@ -127,7 +127,9 @@ size_t vfs_read(int fd, void *buf, size_t count){
 
 size_t vfs_write(int fd, const void *buf, size_t count){
   size_t size = file_table[fd].size, disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
-  if(file_table[fd].write == NULL){
+  if(file_table[fd].write == serial_write){
+    return serial_write(buf, 0, count);
+  }else if(file_table[fd].write == NULL){
     if(open_offset+count>size){
       ramdisk_write(buf, disk_offset+open_offset, size-open_offset);
       file_table[fd].open_offset = 0;
@@ -137,10 +139,9 @@ size_t vfs_write(int fd, const void *buf, size_t count){
       file_table[fd].open_offset += count;
       return count;
     }
-  }else{
+  }else{ // fb_write
     file_table[fd].open_offset += count;
-    printf("offset is %u\n", file_table[fd].disk_offset);
-    return file_table[fd].write(buf, file_table[fd].disk_offset, count);
+    return fb_write(buf, open_offset, count);
   }
 }
 
