@@ -27,6 +27,7 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
+  printf("i was invoked\n");
   if(*w==0 && *h==0){
     int disp_fd = open("/proc/dispinfo", 0, 0);
     assert(disp_fd);
