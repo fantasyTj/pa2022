@@ -21,10 +21,11 @@ SDL_Surface* IMG_Load(const char *filename) {
   fseek(fp, 0, SEEK_SET);
   void *buf = malloc(size);
   fread(buf, size, 1, fp);
-  SDL_Surface* ret = STBIMG_LoadFromMemory(buf, size);
+  SDL_Surface *ret_pt = malloc(sizeof(SDL_Surface));
+  ret_pt = STBIMG_LoadFromMemory(buf, size);
   free(buf);
   fclose(fp);
-  return ret;
+  return ret_pt;
 }
 
 int IMG_isPNG(SDL_RWops *src) {
