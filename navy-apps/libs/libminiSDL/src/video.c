@@ -27,11 +27,13 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   uint32_t src_pos = src_x*(src->w) + src_y;
   uint32_t dst_pos = dst_x*(dst->w) + dst_y;
   uint16_t src_W = src->w, dst_W = src->w;
+  uint32_t *dst_px = dst->pixels, *src_px = src->pixels;
   for(int i = 0; i < w; i++){
     for(int j = 0; j < h; j++){
       // printf("i is %d, j is %d\n", i, j);
       // printf("before is %u\n", dst->pixels[dst_pos+j+i*dst_W]);
-      dst->pixels[dst_pos+j+i*dst_W] = src->pixels[src_pos+j+i*src_W];
+      // dst->pixels[dst_pos+j+i*dst_W] = src->pixels[src_pos+j+i*src_W];
+      dst_px[dst_pos+j+i*dst_W] = src_px[src_pos+j+i*src_W];
       // printf("after is %u\n", dst->pixels[dst_pos+j+i*dst_W]);
     }
   }
@@ -54,9 +56,11 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   }
   uint32_t pos = (dst->w)*x + y;
   uint16_t W = dst->w;
+  uint32_t *dst_px = dst->pixels;
   for(int i = 0; i < w; i++){
     for(int j = 0; j < h; j++){
-      dst->pixels[pos+j+i*W] = color;
+      // dst->pixels[pos+j+i*W] = color;
+      dst_px[pos+j+i*W] = color;
     }
   }
 }
