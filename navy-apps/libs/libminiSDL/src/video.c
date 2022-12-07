@@ -35,6 +35,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
       // printf("before is %u\n", dst->pixels[dst_pos+j+i*dst_W]);
       // dst->pixels[dst_pos+j+i*dst_W] = src->pixels[src_pos+j+i*src_W];
       dst_px[dst_pos+j+i*dst_W] = src_px[src_pos+j+i*src_W];
+      printf("srcpx is %u\n", src_px[src_pos+j+i*src_W]);
       printf("dstpx is %u\n", dst_px[dst_pos+j+i*dst_W]);
       // printf("after is %u\n", dst->pixels[dst_pos+j+i*dst_W]);
     }
