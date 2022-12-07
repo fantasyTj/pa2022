@@ -24,15 +24,15 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     dst_x = dstrect->x; dst_y = dstrect->y;
   }
   printf("w is %u, h is %u, sx is %u, sy is %u, dx is %u, dy is %u, dw is %u\n", w, h, src_x, src_y, dst_x, dst_y, dst->w);
-  uint32_t src_pos = src_x*(src->w) + src_y;
+  uint32_t src_pos = src_y*(src->w) + src_x;
   printf("srcpos is %u\n", src_pos);
   
-  uint32_t dst_pos = dst_x*(dst->w) + dst_y;
+  uint32_t dst_pos = dst_y*(dst->w) + dst_x;
   printf("dstpos is %u\n", dst_pos);
   uint16_t src_W = src->w, dst_W = dst->w;
   uint32_t *dst_px = (uint32_t *)dst->pixels, *src_px = (uint32_t *)src->pixels;
-  for(int i = 0; i < w; i++){
-    for(int j = 0; j < h; j++){
+  for(int i = 0; i < h; i++){
+    for(int j = 0; j < w; j++){
       // printf("i is %d, j is %d\n", i, j);
       // printf("before is %u\n", dst->pixels[dst_pos+j+i*dst_W]);
       // dst->pixels[dst_pos+j+i*dst_W] = src->pixels[src_pos+j+i*src_W];
@@ -59,11 +59,11 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
     x = dstrect->x; y = dstrect->y;
     w = dstrect->w; h = dstrect->h;
   }
-  uint32_t pos = (dst->w)*x + y;
+  uint32_t pos = (dst->w)*y + x;
   uint16_t W = dst->w;
   uint32_t *dst_px = (uint32_t *)dst->pixels;
-  for(int i = 0; i < w; i++){
-    for(int j = 0; j < h; j++){
+  for(int i = 0; i < h; i++){
+    for(int j = 0; j < w; j++){
       // dst->pixels[pos+j+i*W] = color;
       dst_px[pos+j+i*W] = color;
     }
