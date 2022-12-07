@@ -65,8 +65,8 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   sscanf(buf, "WIDTH:%d HEIGHT:%d", &W, &H);
   assert(W>=w && H>=h);
   // printf("W is %d, H is %d, w is %d, h is %d\n", W, H, w, h);
-  int left_w = (W-screen_w)/2, right_w = W-left_w-w;
-  int on_h = (H-screen_h)/2, below_h = H-on_h-h;
+  int left_w = (W-screen_w)/2, right_w = W-left_w-screen_w;
+  int on_h = (H-screen_h)/2, below_h = H-on_h-screen_h;
 
   int fb_fd = open("/dev/fb", 0, 0);
   for(int i = 0; i < on_h+y; i++) write(fb_fd, NULL, W);
