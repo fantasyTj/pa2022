@@ -25,7 +25,6 @@ void render() {
   }
   char fname[256];
   sprintf(fname, path, cur);
-  printf("gethere2\n");
   slide = SDL_LoadBMP(fname);
   assert(slide);
   SDL_UpdateRect(slide, 0, 0, 0, 0);
@@ -48,8 +47,11 @@ void next(int rep) {
 }
 
 int main() {
+  printf("here1?\n");
   SDL_Init(0);
+  printf("here2?\n");
   SDL_Surface *screen = SDL_SetVideoMode(W, H, 32, SDL_HWSURFACE);
+  printf("here3?\n");
 
   int rep = 0, g = 0;
 
