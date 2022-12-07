@@ -13,7 +13,20 @@ int SDL_PushEvent(SDL_Event *ev) {
 }
 
 int SDL_PollEvent(SDL_Event *ev) {
-  return 0;
+  char buf[64];
+  if(!NDL_PollEvent(buf, 64)) return 0;
+  else{
+    int keycode;
+    if(buf[1] == 'd'){
+      ev->key.type = SDL_KEYDOWN;
+      sscanf(buf, "kd (%d)", &keycode);
+    }else{
+      ev->key.type = SDL_KEYUP;
+      sscanf(buf, "ku (%d)", &keycode);
+    }
+    ev->key.keysym.sym = (uint8_t)keycode;
+    return 1;
+  }
 }
 
 int SDL_WaitEvent(SDL_Event *event) {
@@ -21,13 +34,14 @@ int SDL_WaitEvent(SDL_Event *event) {
   while(!NDL_PollEvent(buf, 64)) ;
   int keycode;
   if(buf[1] == 'd'){ // kd
-    event->key.type = SDL_KEYUP;
+    event->key.type = SDL_KEYDOWN;
     sscanf(buf, "kd (%d)", &keycode);
   }else{
-    event->key.type = SDL_KEYDOWN;
+    event->key.type = SDL_KEYUP;
     sscanf(buf, "ku (%d)", &keycode);
   }
   event->key.keysym.sym = (uint8_t)keycode;
+  return 1;
 }
 
 int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {

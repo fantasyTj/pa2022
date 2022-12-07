@@ -31,7 +31,6 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   char fmt1[3];
   char fmt2[20];
   if(ev.keycode == AM_KEY_NONE){
-    printf("keydown? %d\n", ev.keydown);
     return 0;
   }else{
     strcpy(fmt1, (ev.keydown)?("kd "):("ku ")); // initialnize msg
