@@ -29,10 +29,10 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   uint16_t src_W = src->w, dst_W = src->w;
   for(int i = 0; i < w; i++){
     for(int j = 0; j < h; j++){
-      printf("i is %d, j is %d\n", i, j);
-      printf("before is %u\n", dst->pixels[dst_pos+j+i*dst_W]);
+      // printf("i is %d, j is %d\n", i, j);
+      // printf("before is %u\n", dst->pixels[dst_pos+j+i*dst_W]);
       dst->pixels[dst_pos+j+i*dst_W] = src->pixels[src_pos+j+i*src_W];
-      printf("after is %u\n", dst->pixels[dst_pos+j+i*dst_W]);
+      // printf("after is %u\n", dst->pixels[dst_pos+j+i*dst_W]);
     }
   }
 
