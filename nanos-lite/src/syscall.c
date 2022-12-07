@@ -17,7 +17,7 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
-// #define CONFIG_STRACE
+#define CONFIG_STRACE
 #ifdef CONFIG_STRACE
   char *syscall_name[20] = {"SYS_exit","SYS_yield","SYS_open","SYS_read",
   "SYS_write","SYS_kill","SYS_getpid","SYS_close","SYS_lseek","SYS_brk",
@@ -27,7 +27,7 @@ void do_syscall(Context *c) {
   // if(a[0]!=4)
   
   if(a[0] == 3 || a[0] == 4){
-    printf("System_call %s with parameters 1:%d, 2:%p, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
+    // printf("System_call %s with parameters 1:%d, 2:%p, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
     // char fmt_[6];
     // if(a[0] == 3) strcpy(fmt_, "Read");
     // else strcpy(fmt_, "Write");
@@ -35,7 +35,7 @@ void do_syscall(Context *c) {
   }else if(a[0] == 9){
     printf("System_call %s with parameters 1:%p, 2:%d, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
   }else{
-    printf("System_call %s with parameters 1:%d, 2:%d, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
+    // printf("System_call %s with parameters 1:%d, 2:%d, 3:%d\n", syscall_name[a[0]], a[1], a[2], a[3]);
   }
 #endif
 

@@ -116,12 +116,12 @@ size_t vfs_read(int fd, void *buf, size_t count){
     if(open_offset+count >= size){
       ramdisk_read(buf, disk_offset+open_offset, size-open_offset);
       file_table[fd].open_offset = 0;
-      printf("fd is %d, size is %u, offset is %u\n", fd ,size, file_table[fd].open_offset);
+      // printf("fd is %d, size is %u, offset is %u\n", fd ,size, file_table[fd].open_offset);
       return size-open_offset;
     }else{
       ramdisk_read(buf, disk_offset+open_offset, count);
       file_table[fd].open_offset = (open_offset + count);
-      printf("fd is %d, size is %u, offset is %u\n", fd, size, file_table[fd].open_offset);
+      // printf("fd is %d, size is %u, offset is %u\n", fd, size, file_table[fd].open_offset);
       return count;
     }
   }else{
