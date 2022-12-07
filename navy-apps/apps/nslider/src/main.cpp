@@ -22,6 +22,7 @@ static int cur = 0;
 void render() {
   if (slide) {
     SDL_FreeSurface(slide);
+    printf("come here\n");
   }
   char fname[256];
   sprintf(fname, path, cur);
