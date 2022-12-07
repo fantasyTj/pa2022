@@ -71,6 +71,7 @@ int fs_open(const char *pathname, int flags, int mode){
 }
 
 int fs_close(int fd){
+  file_table[fd].open_offset = 0;
   return 0;
 }
 
@@ -112,7 +113,7 @@ const char *fd2name(int fd){
 size_t vfs_read(int fd, void *buf, size_t count){
   size_t size = file_table[fd].size, disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
   if(file_table[fd].read == NULL){
-    if(open_offset+count >= size){
+    if(open_offset+count > size){
       ramdisk_read(buf, disk_offset+open_offset, size-open_offset);
       file_table[fd].open_offset = 0;
       printf("size is %u, offset is %u\n", size, file_table[fd].open_offset);
