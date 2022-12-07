@@ -142,7 +142,7 @@ size_t vfs_write(int fd, const void *buf, size_t count){
     }
   }else{ // fb_write
     file_table[fd].open_offset += count;
-    if(file_table[fd].open_offset >= size) file_table[fd].open_offset = 0;
+    // if(file_table[fd].open_offset >= size) file_table[fd].open_offset = 0;
     return fb_write(buf, open_offset, count);
   }
 }
