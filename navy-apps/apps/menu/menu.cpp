@@ -127,9 +127,9 @@ static void draw_ch(BDF_Font *font, int x, int y, char ch, uint32_t fg, uint32_t
 
 static void draw_str(BDF_Font *font, int x, int y, char *str, uint32_t fp, uint32_t bg) {
   while (*str) {
-    printf("reach here1\n");
+    // printf("reach here1\n");
     draw_ch(font, x, y, *str, fp, bg);
-    printf("reach here2\n");
+    // printf("reach here2\n");
     x += font->w;
     str ++;
   }
