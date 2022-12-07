@@ -27,7 +27,6 @@ void render() {
   sprintf(fname, path, cur);
   slide = SDL_LoadBMP(fname);
   assert(slide);
-  printf("come here\n");
   SDL_UpdateRect(slide, 0, 0, 0, 0);
 }
 
@@ -39,11 +38,9 @@ void prev(int rep) {
 }
 
 void next(int rep) {
-  printf("gethere\n");
   if (rep == 0) rep = 1;
   cur += rep;
   if (cur >= N) cur = N - 1;
-  printf("page is %d\n", cur);
   render();
 }
 
