@@ -44,6 +44,7 @@ void next(int rep) {
   if (cur >= N) cur = N - 1;
   printf("page is %d\n", cur);
   render();
+  printf("gethere2\n");
 }
 
 int main() {
