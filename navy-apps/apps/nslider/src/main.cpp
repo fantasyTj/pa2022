@@ -22,12 +22,12 @@ static int cur = 0;
 void render() {
   if (slide) {
     SDL_FreeSurface(slide);
-    printf("come here\n");
   }
   char fname[256];
   sprintf(fname, path, cur);
   slide = SDL_LoadBMP(fname);
   assert(slide);
+  printf("come here\n");
   SDL_UpdateRect(slide, 0, 0, 0, 0);
 }
 
