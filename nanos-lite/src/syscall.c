@@ -17,7 +17,7 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
-#define CONFIG_STRACE
+// #define CONFIG_STRACE
 #ifdef CONFIG_STRACE
   char *syscall_name[20] = {"SYS_exit","SYS_yield","SYS_open","SYS_read",
   "SYS_write","SYS_kill","SYS_getpid","SYS_close","SYS_lseek","SYS_brk",
