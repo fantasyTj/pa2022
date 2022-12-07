@@ -33,10 +33,10 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     }
   }
 
-  if(dstrect){
-    dstrect->x = src_x; dstrect->y = src_y;
-    dstrect->w = w; dstrect->h = h;
-  }
+  // if(dstrect){
+  //   dstrect->x = src_x; dstrect->y = src_y;
+  //   dstrect->w = w; dstrect->h = h;
+  // }
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
