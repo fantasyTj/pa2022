@@ -30,11 +30,13 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   for(int i = 0; i < w; i++){
     for(int j = 0; j < h; j++){
       dst->pixels[dst_pos+j+i*dst_W] = src->pixels[src_pos+j+i*src_W];
-      printf("i is %d, j is %d\n", i, j);
     }
   }
 
-  *dstrect = *srcrect;
+  if(dstrect){
+    dstrect->x = src_x; dstrect->y = src_y;
+    dstrect->w = w; dstrect->h = h;
+  }
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
