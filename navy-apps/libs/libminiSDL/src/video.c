@@ -5,55 +5,54 @@
 #include <stdlib.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
-  // assert(dst && src);
-  // assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  assert(dst && src);
+  assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 
-  // int16_t src_x, src_y, dst_x, dst_y;
-  // uint16_t w, h;
-  // if(srcrect == NULL){
-  //   src_x = 0; src_y =0;
-  //   w = src->w; h = src->h;
-  // }else{
-  //   src_x = srcrect->x; src_y = srcrect->y;
-  //   w = srcrect->w; h = srcrect->h;
-  // }
+  int16_t src_x, src_y, dst_x, dst_y;
+  uint16_t w, h;
+  if(srcrect == NULL){
+    src_x = 0; src_y =0;
+    w = src->w; h = src->h;
+  }else{
+    src_x = srcrect->x; src_y = srcrect->y;
+    w = srcrect->w; h = srcrect->h;
+  }
 
-  // if(dstrect == NULL){
-  //   dst_x = 0; dst_y = 0;
-  // }else{
-  //   dst_x = dstrect->x; dst_y = dstrect->y;
-  // }
+  if(dstrect == NULL){
+    dst_x = 0; dst_y = 0;
+  }else{
+    dst_x = dstrect->x; dst_y = dstrect->y;
+  }
 
-  // uint32_t src_pos = src_x*src->w + src_y;
-  // uint32_t dst_pos = dst_x*dst->w + dst_y;
-  // uint16_t src_W = src->w, dst_W = src->w;
-  // uint32_t pixel[w*h];
-  // for(int i = 0; i < w; i++){
-  //   for(int j = 0; i < h; j++){
-  //     dst->pixels[dst_pos+j+i*dst_W] = src->pixels[src_pos+j+i*src_W];
-  //   }
-  // }
+  uint32_t src_pos = src_x*(src->w) + src_y;
+  uint32_t dst_pos = dst_x*(dst->w) + dst_y;
+  uint16_t src_W = src->w, dst_W = src->w;
+  for(int i = 0; i < w; i++){
+    for(int j = 0; i < h; j++){
+      dst->pixels[dst_pos+j+i*dst_W] = src->pixels[src_pos+j+i*src_W];
+    }
+  }
 
-  // *dstrect = *srcrect;
+  *dstrect = *srcrect;
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-  // int16_t x, y;
-  // uint16_t w, h;
-  // if(dstrect == NULL){
-  //   x = 0; y = 0;
-  //   w = dst->w; h = dst->h;
-  // }else{
-  //   x = dstrect->x; y = dstrect->y;
-  //   w = dstrect->w; h = dstrect->h;
-  // }
-  // uint32_t pos = dst->w*x + y;
-  // uint16_t W = dst->w;
-  // for(int i = 0; i < w; i++){
-  //   for(int j = 0; j < h; j++){
-  //     dst->pixels[pos+j+i*W];
-  //   }
-  // }
+  int16_t x, y;
+  uint16_t w, h;
+  if(dstrect == NULL){
+    x = 0; y = 0;
+    w = dst->w; h = dst->h;
+  }else{
+    x = dstrect->x; y = dstrect->y;
+    w = dstrect->w; h = dstrect->h;
+  }
+  uint32_t pos = (dst->w)*x + y;
+  uint16_t W = dst->w;
+  for(int i = 0; i < w; i++){
+    for(int j = 0; j < h; j++){
+      dst->pixels[pos+j+i*W] = color;
+    }
+  }
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
