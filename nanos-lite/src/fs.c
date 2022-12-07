@@ -159,4 +159,5 @@ void init_fs() {
   AM_GPU_CONFIG_T cfg = io_read(AM_GPU_CONFIG);
   int w = cfg.width, h = cfg.height;
   file_table[fs_open("/dev/fb", 0, 0)].size = w*h;
+  printf("/dev/fb size is %u\n", file_table[fs_open("/dev/fb", 0, 0)].size);
 }
