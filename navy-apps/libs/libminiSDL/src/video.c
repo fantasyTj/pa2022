@@ -108,11 +108,13 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
         pixels[i*w + j] = palette[s->pixels[i*w + j]].val;
       }
     }
+    printf("pixel ready\n");
     if(x==0 && y==0 && w==0 && h==0){
       NDL_DrawRect(pixels, 0, 0, s->w, s->h);
     }else{
       NDL_DrawRect(pixels, x, y, w, h);
     }
+    printf("draw ready\n");
   }else{
     if(x==0 && y==0 && w==0 && h==0){
       NDL_DrawRect((uint32_t *)s->pixels, 0, 0, s->w, s->h);
