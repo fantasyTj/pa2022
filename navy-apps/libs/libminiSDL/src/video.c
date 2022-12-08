@@ -98,12 +98,12 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if(s->format->BytesPerPixel == 1){
-    printf("callupdate\n");
     int w = s->w, h = s->h;
     SDL_Color *palette = s->format->palette->colors;
     uint32_t pixels[w*h];
     for(int i = 0; i < h; i++){
       for(int j = 0; j < w; j++){
+        printf("color is %u\n", palette[s->pixels[i*w + j]].val);
         pixels[i*w + j] = palette[s->pixels[i*w + j]].val;
       }
     }
