@@ -113,9 +113,10 @@ const char *fd2name(int fd){
 size_t vfs_read(int fd, void *buf, size_t count){
   size_t size = file_table[fd].size, disk_offset = file_table[fd].disk_offset, open_offset = file_table[fd].open_offset;
   if(file_table[fd].read == NULL){
-    if(open_offset+count >= size){
+    if(open_offset+count > size){
+      if(size - open_offset <= 0) return 0;
       ramdisk_read(buf, disk_offset+open_offset, size-open_offset);
-      file_table[fd].open_offset = 0;
+      file_table[fd].open_offset = size;
       // printf("fd is %d, size is %u, offset is %u\n", fd ,size, file_table[fd].open_offset);
       return size-open_offset;
     }else{
@@ -134,9 +135,10 @@ size_t vfs_write(int fd, const void *buf, size_t count){
   if(file_table[fd].write == serial_write){
     return serial_write(buf, 0, count);
   }else if(file_table[fd].write == NULL){
-    if(open_offset+count >= size){
+    if(open_offset+count > size){
+      if(size - open_offset <= 0) return 0;
       ramdisk_write(buf, disk_offset+open_offset, size-open_offset);
-      file_table[fd].open_offset = 0;
+      file_table[fd].open_offset = size;
       return size-open_offset;
     }else{
       ramdisk_write(buf, disk_offset+open_offset, count);
@@ -146,10 +148,16 @@ size_t vfs_write(int fd, const void *buf, size_t count){
   }else{ // fb_write
     file_table[fd].open_offset += count;
     // printf("size is %d, offset is %d\n", size, file_table[fd].open_offset);
-    if(file_table[fd].open_offset >= size){
-      file_table[fd].open_offset = 0;
-      // printf("gethere\n");
-    }
+    // if(open_offset+count > size){
+    //   if(size - open_offset <= 0) return 0;
+    //   fb_write(buf, disk_offset+open_offset, size-open_offset);
+    //   file_table[fd].open_offset = size;
+    //   return size-open_offset;
+    // }else{
+    //   ramdisk_write(buf, disk_offset+open_offset, count);
+    //   file_table[fd].open_offset += count;
+    //   return count;
+    // }
     return fb_write(buf, open_offset, count);
   }
 }
