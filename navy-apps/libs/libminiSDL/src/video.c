@@ -114,6 +114,13 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
       for(int j = 0; j < w; j++){
         // printf("i is %u, j is %u\n", i, j);
         // printf("color is %u\n", palette[s->pixels[i*w + j]].val);
+        printf("%d %d pixel is %u\n", s->pixels[i*w + j]);
+      }
+    }
+    for(int i = 0; i < h; i++){
+      for(int j = 0; j < w; j++){
+        // printf("i is %u, j is %u\n", i, j);
+        // printf("color is %u\n", palette[s->pixels[i*w + j]].val);
         pixels[i*w + j] = palette[s->pixels[i*w + j]].val;
       }
     }
