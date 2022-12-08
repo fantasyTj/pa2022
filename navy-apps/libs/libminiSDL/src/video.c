@@ -119,6 +119,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
       NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
     }
   }
+  printf("retupdate\n");
 }
 
 // APIs below are already implemented.
