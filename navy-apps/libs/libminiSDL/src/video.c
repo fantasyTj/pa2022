@@ -96,6 +96,14 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 
 }
 
+void showcolor(SDL_Palette *pal){
+  int ncolors = pal->ncolors;
+  printf("ncolors is %d\n", ncolors);
+  for(int i = 0; i < ncolors; i++){
+    printf("c: %u\n", pal->colors[i]);
+  }
+}
+
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if(s->format->BytesPerPixel == 1){
     int w = s->w, h = s->h;
