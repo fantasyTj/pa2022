@@ -106,6 +106,7 @@ void showcolor(SDL_Palette *pal){
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if(s->format->BytesPerPixel == 1){
+    showcolor(s->format->palette);
     int w = s->w, h = s->h;
     SDL_Color *palette = s->format->palette->colors;
     uint32_t pixels[w*h];
