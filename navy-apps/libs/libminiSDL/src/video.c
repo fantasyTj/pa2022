@@ -4,18 +4,19 @@
 #include <string.h>
 #include <stdlib.h>
 
-static uint8_t getPaletteIndex(SDL_Palette *pal ,uint32_t color_val){
-  int ncolors = pal->ncolors;
-  SDL_Color *colors = pal->colors;
-  for(int i = 0; i < ncolors; i++){
-    if(color_val == colors[i].val){
-      return i;
-    }
-  }
-  assert(0);
-}
+// static uint8_t getPaletteIndex(SDL_Palette *pal ,uint32_t color_val){
+//   int ncolors = pal->ncolors;
+//   SDL_Color *colors = pal->colors;
+//   for(int i = 0; i < ncolors; i++){
+//     if(color_val == colors[i].val){
+//       return i;
+//     }
+//   }
+//   assert(0);
+// }
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
+  printf("callblit\n");
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 
@@ -54,7 +55,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
       }
     }
   }
-  
+
   if(dstrect){
     dstrect->x = src_x; dstrect->y = src_y;
     dstrect->w = w; dstrect->h = h;
@@ -62,6 +63,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+  printf("callfill\n");
   int16_t x, y;
   uint16_t w, h;
   if(dstrect == NULL){
@@ -95,6 +97,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
+  printf("callupdate\n");
   if(s->format->BytesPerPixel == 1){
     int w = s->w, h = s->h;
     SDL_Color *palette = s->format->palette->colors;
