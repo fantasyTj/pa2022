@@ -113,6 +113,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     if(x==0 && y==0 && w==0 && h==0){
       uint32_t pixels[s_w*s_h];
       for(int i = 0; i < s_h; i++){
+        printf("i is %d\n", i);
         for(int j = 0; j < s_w; j++){
           pixels[i*s_w + j] = palette[pixels_8[i*s_w + j]].val;
         }
