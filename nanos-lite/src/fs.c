@@ -152,7 +152,7 @@ size_t vfs_write(int fd, const void *buf, size_t count){
       file_table[fd].open_offset = 0;
       // printf("gethere\n");
     }
-    printf("openoffset is %u\n", file_table[fd].open_offset);
+    // printf("openoffset is %u\n", file_table[fd].open_offset);
     return fb_write(buf, open_offset, count);
   }
 }
