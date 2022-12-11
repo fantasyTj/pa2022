@@ -106,39 +106,42 @@ void showcolor(SDL_Palette *pal){
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if(s->format->BytesPerPixel == 1){
-    // showcolor(s->format->palette);
     int s_w = s->w, s_h = s->h;
     SDL_Color *palette = s->format->palette->colors;
-    uint32_t pixels[s_w*s_h];
     uint8_t *pixels_8 = s->pixels;
-    // for(int i = 0; i < h; i++){
-    //   for(int j = 0; j < w; j++){
-    //     printf("i is %u, j is %u\n", i, j);
-    //     // printf("color is %u\n", palette[s->pixels[i*w + j]].val);
-    //     printf("%d %d pixel is %u\n", i, j, s->pixels[i*w + j]);
-    //   }
-    // }
-    for(int i = 0; i < s_h; i++){
-      printf("i is %d,,,\n", i);
-      for(int j = 0; j < s_w; j++){
-        // printf("i is %u, j is %u\n", i, j);
-        // printf("color is %u\n", palette[s->pixels[i*w + j]].val);
-        // pixels[i*s_w+j] = palette[pixels_8[i*s_w+j]].val;
-        pixels[i*s_w+j] = 0;
-      }
-    }
-    printf("pixel ready\n");
+
     if(x==0 && y==0 && w==0 && h==0){
-      NDL_DrawRect(pixels, 0, 0, s->w, s->h);
+      uint32_t pixels[s_w*s_h];
+      for(int i = 0; i < s_h; i++){
+        for(int j = 0; j < s_w; j++){
+          pixels[i*s_w + j] = palette[pixels_8[i*s_w + j]].val;
+        }
+      }
+      NDL_DrawRect(pixels, 0, 0, s_w, s_h);
     }else{
+      uint32_t pixels[w*h];
+      uint32_t pos_ini = y*s_w + x;
+      for(int i = 0; i < h; i++){
+        for(int j = 0; j < w; j++){
+          pixels[i*w+j] = palette[pixels_8[pos_ini+j+i*s_w]].val;
+        }
+      }
       NDL_DrawRect(pixels, x, y, w, h);
     }
-    printf("draw ready\n");
   }else{
     if(x==0 && y==0 && w==0 && h==0){
       NDL_DrawRect((uint32_t *)s->pixels, 0, 0, s->w, s->h);
     }else{
-      NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
+      int s_w = s->w, s_h = s->h;
+      uint32_t pixels[w*h];
+      uint32_t pos_ini = y*s_w + x;
+      uint32_t *pixels_32 = s->pixels;
+      for(int i = 0; i < h; i++){
+        for(int j = 0; j < w; j++){
+          pixels[i*w+j] = pixels_32[pos_ini+j+i*s_w];
+        }
+      }
+      NDL_DrawRect(pixels, x, y, w, h);
     }
   }
 }
