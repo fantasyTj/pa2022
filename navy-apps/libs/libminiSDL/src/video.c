@@ -123,14 +123,17 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
       NDL_DrawRect(pixels, 0, 0, s_w, s_h);
       free(pixels);
     }else{
-      uint32_t pixels[w*h];
+      uint32_t *pixels = malloc(w*h*sizeof(uint32_t));
+      // uint32_t pixels[w*h];
       uint32_t pos_ini = y*s_w + x;
       for(int i = 0; i < h; i++){
         for(int j = 0; j < w; j++){
+          // pixels[i*w+j] = palette[pixels_8[pos_ini+j+i*s_w]].val;
           pixels[i*w+j] = palette[pixels_8[pos_ini+j+i*s_w]].val;
         }
       }
       NDL_DrawRect(pixels, x, y, w, h);
+      free(pixels);
     }
   }else{
     if(x==0 && y==0 && w==0 && h==0){
