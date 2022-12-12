@@ -56,7 +56,10 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
     keystate[i] = 0;
   }
   SDL_Event ev;
-  if(!SDL_PollEvent(&ev)) return keystate;
+  if(!SDL_PollEvent(&ev)){
+    printf("NULL\n");
+    return keystate;
+  }
   else{
     if(ev.key.type == SDL_KEYDOWN){
       printf("key %u\n", ev.key.keysym.sym);
