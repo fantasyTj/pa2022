@@ -72,7 +72,7 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
   //   return keystate;
   // }
   int res = SDL_PollEvent(&ev);
-  printf("res is %d\n", res);
+  printf("2res is %d\n", res);
   if(!res) return keystate;
   else{
     printf("here\n");
