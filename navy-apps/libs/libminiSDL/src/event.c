@@ -16,7 +16,8 @@ int SDL_PushEvent(SDL_Event *ev) {
 
 int SDL_PollEvent(SDL_Event *ev) {
   char buf[64];
-  if(!NDL_PollEvent(buf, 64)) return 0;
+  int res;
+  if(!NDL_PollEvent(buf, 64)) res = 0;
   else{
     printf("keydown\n");
     int keycode;
@@ -28,8 +29,9 @@ int SDL_PollEvent(SDL_Event *ev) {
       sscanf(buf, "ku (%d)", &keycode);
     }
     ev->key.keysym.sym = (uint8_t)keycode;
+    res = 1;
   }
-  return 1;
+  return res;
 }
 
 int SDL_WaitEvent(SDL_Event *event) {
