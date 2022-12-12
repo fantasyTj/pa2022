@@ -31,6 +31,7 @@ int SDL_PollEvent(SDL_Event *ev) {
     ev->key.keysym.sym = (uint8_t)keycode;
     res = 1;
   }
+  printf("1res is %d\n", res);
   return res;
 }
 
