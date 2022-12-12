@@ -28,7 +28,6 @@ int SDL_PollEvent(SDL_Event *ev) {
       sscanf(buf, "ku (%d)", &keycode);
     }
     ev->key.keysym.sym = (uint8_t)keycode;
-    printf("reachhere\n");
     return 1;
   }
 }
@@ -58,15 +57,21 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
     keystate[i] = 0;
   }
   SDL_Event ev;
-  if(!SDL_PollEvent(&ev)){
-    // printf("b1\n");
-    return keystate;
-  }else{
-    printf("b2\n");
-    if(ev.key.type == SDL_KEYDOWN){
-      printf("key %u\n", ev.key.keysym.sym);
-      keystate[ev.key.keysym.sym] = 1;
-    }
+  // if(!SDL_PollEvent(&ev)){
+  //   // printf("b1\n");
+  //   return keystate;
+  // }else{
+  //   printf("b2\n");
+  //   if(ev.key.type == SDL_KEYDOWN){
+  //     printf("key %u\n", ev.key.keysym.sym);
+  //     keystate[ev.key.keysym.sym] = 1;
+  //   }
+  //   return keystate;
+  // }
+  int res = SDL_PollEvent(&ev);
+  if(!res) return keystate;
+  else{
+    printf("here\n");
     return keystate;
   }
 }
