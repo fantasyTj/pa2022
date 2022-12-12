@@ -23,8 +23,13 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
-  printf("cmd is %s\n", cmd);
-  execve(cmd, NULL, NULL);
+  char *cmd_t;
+  if(!strncmp(cmd, "/bin", 4)){
+    strncpy(cmd_t, cmd, strlen(cmd)-1);
+    execve(cmd_t, NULL, NULL);
+  }else{
+    return;
+  }
 }
 
 void builtin_sh_run() {
