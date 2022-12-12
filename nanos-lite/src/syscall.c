@@ -10,6 +10,10 @@ const char *fd2name(int fd);
 size_t vfs_read(int fd, void *buf, size_t count);
 size_t vfs_write(int fd, const void *buf, size_t count);
 
+#include <proc.h>
+void naive_uload(PCB *pcb, const char *filename);
+const char *default_bin = "/bin/menu";
+
 void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -41,7 +45,8 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
     case SYS_exit: {
-      halt(a[1]);
+      // halt(a[1]);
+      naive_uload(NULL, default_bin);
     }
     case SYS_yield: {
       yield();
@@ -78,6 +83,10 @@ void do_syscall(Context *c) {
       tv->tv_sec = tm / 1000000;
       tv->tv_usec = tm;
       c->GPRx = 0;
+      break;
+    }
+    case SYS_execve: {
+      naive_uload(NULL, (char *)a[0]);
       break;
     }
     default: panic("Unhandled syscall ID = %d", a[0]);
