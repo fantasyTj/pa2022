@@ -122,7 +122,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
           // pixels[i*s_w + j] = 0;
         }
       }
-      for(int i = 0; i < s_w*s_h; i++) printf("pixel is %u\t", pixels[i]);
+      for(int i = 0; i < s_w*s_h; i+=10) printf("pixel is %u\n", pixels[i]);
       NDL_DrawRect(pixels, 0, 0, s_w, s_h);
       free(pixels);
     }else{
