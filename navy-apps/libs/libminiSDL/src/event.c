@@ -18,6 +18,7 @@ int SDL_PollEvent(SDL_Event *ev) {
   char buf[64];
   if(!NDL_PollEvent(buf, 64)) return 0;
   else{
+    printf("keydown\n");
     int keycode;
     if(buf[1] == 'd'){
       ev->key.type = SDL_KEYDOWN;
