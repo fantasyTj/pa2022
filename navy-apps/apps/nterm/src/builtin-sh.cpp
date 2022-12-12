@@ -24,7 +24,7 @@ static void sh_prompt() {
 
 static void sh_handle_cmd(const char *cmd) {
   const char *exec_argv[2];
-  char *cmd_t;
+  char cmd_t[64];
   if(!strncmp(cmd, "/bin", 4)){
     strncpy(cmd_t, cmd, strlen(cmd)-1);
     exec_argv[0] = cmd_t;
