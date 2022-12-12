@@ -107,12 +107,13 @@ void showcolor(SDL_Palette *pal){
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   printf("call update\n");
   if(s->format->BytesPerPixel == 1){
-    showcolor(s->format->palette);
+    // showcolor(s->format->palette);
     int s_w = s->w, s_h = s->h;
     SDL_Color *palette = s->format->palette->colors;
     uint8_t *pixels_8 = s->pixels;
 
     if(x==0 && y==0 && w==0 && h==0){
+      printf("b1\n");
       uint32_t *pixels = (uint32_t *)malloc(s_w*s_h*sizeof(uint32_t));
       // uint32_t pixels[s_w*s_h];
       for(int i = 0; i < s_h; i++){
@@ -124,6 +125,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
       NDL_DrawRect(pixels, 0, 0, s_w, s_h);
       free(pixels);
     }else{
+      printf("b2\n");
       uint32_t *pixels = (uint32_t *)malloc(w*h*sizeof(uint32_t));
       // uint32_t pixels[w*h];
       uint32_t pos_ini = y*s_w + x;
