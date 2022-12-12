@@ -12,7 +12,7 @@ size_t vfs_write(int fd, const void *buf, size_t count);
 
 #include <proc.h>
 void naive_uload(PCB *pcb, const char *filename);
-const char *default_bin = "/bin/menu";
+const char *default_bin = "/bin/nterm";
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
