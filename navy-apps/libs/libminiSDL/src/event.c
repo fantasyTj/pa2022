@@ -60,6 +60,24 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
     keystate[i] = 0;
   }
   SDL_Event ev;
+  char buf[64];
+  if(!NDL_PollEvent(buf, 64)) return keystate;
+  else{
+    printf("b2\n");
+    int keycode;
+    if(buf[1] == 'd'){
+      ev.key.type = SDL_KEYDOWN;
+      sscanf(buf, "kd (%d)", &keycode);
+      keystate[keycode] = 1;
+    }
+    // else{
+    //   ev.key.type = SDL_KEYUP;
+    //   sscanf(buf, "ku (%d)", &keycode);
+    // }
+    return keystate;
+  }
+  // printf("1res is %d\n", res);
+  // return res;
   // if(!SDL_PollEvent(&ev)){
   //   // printf("b1\n");
   //   return keystate;
@@ -71,11 +89,11 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
   //   }
   //   return keystate;
   // }
-  int res = SDL_PollEvent(&ev);
-  printf("2res is %d\n", res);
-  if(!res) return keystate;
-  else{
-    printf("here\n");
-    return keystate;
-  }
+  // int res = SDL_PollEvent(&ev);
+  // printf("2res is %d\n", res);
+  // if(!res) return keystate;
+  // else{
+  //   printf("here\n");
+  //   return keystate;
+  // }
 }
