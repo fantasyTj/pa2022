@@ -16,7 +16,7 @@
 // }
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
-  printf("callblit\n");
+  // printf("callblit\n");
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 
@@ -63,7 +63,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-  printf("callfill\n");
+  // printf("callfill\n");
   int16_t x, y;
   uint16_t w, h;
   if(dstrect == NULL){
@@ -105,7 +105,7 @@ void showcolor(SDL_Palette *pal){
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
-  printf("call update\n");
+  // printf("call update\n");
   if(s->format->BytesPerPixel == 1){
     int s_w = s->w, s_h = s->h;
     SDL_Color *palette = s->format->palette->colors;
