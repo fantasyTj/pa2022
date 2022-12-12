@@ -28,7 +28,7 @@ static void sh_handle_cmd(const char *cmd) {
   if(!strncmp(cmd, "/bin", 4)){
     size_t slen = strlen(cmd);
     strncpy(cmd_t, cmd, slen);
-    cmd_t[slen-2] = '\0';
+    cmd_t[slen-1] = '\0';
     exec_argv[0] = cmd_t;
     exec_argv[1] = NULL;
     printf("cmd is %s\n", exec_argv[0]);
