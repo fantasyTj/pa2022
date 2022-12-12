@@ -86,7 +86,7 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_execve: {
-      naive_uload(NULL, (char *)a[0]);
+      naive_uload(NULL, (char *)a[1]);
       break;
     }
     default: panic("Unhandled syscall ID = %d", a[0]);
