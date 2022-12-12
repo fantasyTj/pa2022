@@ -28,6 +28,7 @@ int SDL_PollEvent(SDL_Event *ev) {
       sscanf(buf, "ku (%d)", &keycode);
     }
     ev->key.keysym.sym = (uint8_t)keycode;
+    printf("reachhere\n");
     return 1;
   }
 }
@@ -60,8 +61,7 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
   if(!SDL_PollEvent(&ev)){
     // printf("b1\n");
     return keystate;
-  }
-  else{
+  }else{
     printf("b2\n");
     if(ev.key.type == SDL_KEYDOWN){
       printf("key %u\n", ev.key.keysym.sym);
