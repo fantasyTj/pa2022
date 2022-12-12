@@ -58,7 +58,7 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
   }
   SDL_Event ev;
   if(!SDL_PollEvent(&ev)){
-    printf("b1\n");
+    // printf("b1\n");
     return keystate;
   }
   else{
