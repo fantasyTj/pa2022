@@ -113,12 +113,12 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     uint8_t *pixels_8 = s->pixels;
 
     if(x==0 && y==0 && w==0 && h==0){
-      // printf("b1\n");
       uint32_t *pixels = (uint32_t *)malloc(s_w*s_h*sizeof(uint32_t));
-      // uint32_t pixels[s_w*s_h];
+      SDL_Color pal_i;
       for(int i = 0; i < s_h; i++){
         for(int j = 0; j < s_w; j++){
-          pixels[i*s_w + j] = (palette[pixels_8[i*s_w + j]].val>>8);
+          pal_i = palette[pixels_8[i*s_w + j]];
+          pixels[i*s_w + j] = (pal_i.r<<16)+(pal_i.g<<8)+(pal_i.b);
           // pixels[i*s_w + j] = 66666;
         }
       }
@@ -128,11 +128,12 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     }else{
       // printf("b2\n");
       uint32_t *pixels = (uint32_t *)malloc(w*h*sizeof(uint32_t));
-      // uint32_t pixels[w*h];
       uint32_t pos_ini = y*s_w + x;
+      SDL_Color pal_i;
       for(int i = 0; i < h; i++){
         for(int j = 0; j < w; j++){
-          pixels[i*w+j] = (palette[pixels_8[pos_ini+j+i*s_w]].val>>8);
+          pal_i = palette[pixels_8[pos_ini+j+i*s_w]];
+          pixels[i*w+j] = (pal_i.r<<16)+(pal_i.g<<8)+(pal_i.b);
           // pixels[i*w+j] = 88888;
         }
       }
