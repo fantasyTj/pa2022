@@ -16,7 +16,7 @@ int SDL_PushEvent(SDL_Event *ev) {
 
 int SDL_PollEvent(SDL_Event *ev) {
   char buf[64];
-  if(!NDL_PollEvent(buf, 64)) return 0;
+  if(!NDL_PollEvent(buf, 64)) return 1;
   else{
     printf("keydown\n");
     int keycode;
