@@ -42,7 +42,7 @@ static void sh_handle_cmd(const char *cmd) {
   cmd_t[slen-1] = '\0';
   exec_argv[0] = cmd_t;
   exec_argv[1] = NULL;
-  execvp(exec_argv[0], (char **)exec_argv, NULL);
+  execvp(exec_argv[0], (char **)exec_argv);
 }
 
 void builtin_sh_run() {
