@@ -18,7 +18,6 @@ int SDL_PollEvent(SDL_Event *ev) {
   char buf[64];
   if(!NDL_PollEvent(buf, 64)) return 0;
   else{
-    printf("keydown\n");
     int keycode;
     if(buf[1] == 'd'){
       ev->key.type = SDL_KEYDOWN;
@@ -58,10 +57,11 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
   }
   SDL_Event ev;
   if(!SDL_PollEvent(&ev)){
-    printf("NULL\n");
+    printf("b1\n");
     return keystate;
   }
   else{
+    printf("b2\n");
     if(ev.key.type == SDL_KEYDOWN){
       printf("key %u\n", ev.key.keysym.sym);
       keystate[ev.key.keysym.sym] = 1;
