@@ -29,6 +29,7 @@ int SDL_PollEvent(SDL_Event *ev) {
     }
     ev->key.keysym.sym = (uint8_t)keycode;
     return 1;
+    printf("reach here\n");
   }
 }
 
