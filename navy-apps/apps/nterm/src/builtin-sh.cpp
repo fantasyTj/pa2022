@@ -29,7 +29,8 @@ static void sh_handle_cmd(const char *cmd) {
     strncpy(cmd_t, cmd, strlen(cmd)-1);
     exec_argv[0] = cmd_t;
     exec_argv[1] = NULL;
-    execve(cmd_t, (char **)exec_argv, NULL);
+    printf("cmd is %s\n", exec_argv[0]);
+    execve(exec_argv[0], (char **)exec_argv, NULL);
   }else{
     return;
   }
