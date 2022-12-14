@@ -43,9 +43,11 @@ int SDL_WaitEvent(SDL_Event *event) {
   if(buf[1] == 'd'){ // kd
     event->key.type = SDL_KEYDOWN;
     sscanf(buf, "kd (%d)", &keycode);
+    keystate[keycode] = 1;
   }else{
     event->key.type = SDL_KEYUP;
     sscanf(buf, "ku (%d)", &keycode);
+    keystate[keycode] = 0;
   }
   event->key.keysym.sym = (uint8_t)keycode;
   return 1;
