@@ -23,6 +23,7 @@ Context* __am_irq_handle(Context *c) {
     }
 
     c = user_handler(ev, c);
+    c->mstatus = 0x1800;
     assert(c != NULL);
   }
 
