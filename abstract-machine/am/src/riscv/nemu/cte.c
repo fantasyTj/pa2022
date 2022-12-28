@@ -41,8 +41,12 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   return true;
 }
 
+#define LOCAL_CONTEXT_SIZE  35
+
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+  Context *context_start = (Context *)(kstack.end - sizeof(Context));
+  context_start->mepc = (uintptr_t)entry;
+  return context_start;
 }
 
 void yield() {

@@ -1,6 +1,7 @@
 #include <common.h>
 
 void do_syscall(Context *c);
+Context* schedule(Context *prev);
 
 static Context* do_event(Event e, Context* c) {
   // printf("event is %d\n", e.event);
@@ -8,6 +9,7 @@ static Context* do_event(Event e, Context* c) {
     case 1: { // EVENT_YIELD
       // printf("mepc1 is %u", c->mepc);
       c->mepc += 4; 
+      c = schedule(c);
       // printf("mepc2 is %u", c->mepc);
       // printf("yield\n");
       break;
