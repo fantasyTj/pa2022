@@ -8,11 +8,14 @@ void call_main(uintptr_t *args) {
   printf("args is %p\n", args);
   void *pt = (void *)args;
   int argc = *(int *)pt;
+  printf("argc is %d\n", argc);
   char **argv = (char **)(pt + sizeof(int *));
+  printf("reach here1\n");
   char **envp = argv;
+  printf("reach here2\n");
   while(*envp) envp++;
   envp++;
-  printf("reach here\n");
+  printf("reach here3\n");
   char *empty[] =  {NULL };
   // environ = empty;
   environ = envp;
