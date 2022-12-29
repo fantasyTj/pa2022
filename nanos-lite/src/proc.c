@@ -45,6 +45,7 @@ void *load_args(void *end, char *const argv[], char *const envp[]) {
   int argc = argv_num;
   void *semi = end - (128 + argv_space + envp_space); // 128 is for safe
   void *start = semi - (4*(1+(argv_num+1)+(envp_num+1)));
+  memset(start, 0, end - start);
   // set argc
   int *argc_pt = (int *)start;
   *argc_pt = argc;
@@ -57,8 +58,6 @@ void *load_args(void *end, char *const argv[], char *const envp[]) {
     char_start++;
     char_semi += argv_num_arr[i];
   }
-  *char_start = NULL;
-  char_start++;
   *char_start = NULL;
   char_start++;
   // set envp
