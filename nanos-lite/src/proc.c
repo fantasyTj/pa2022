@@ -71,8 +71,8 @@ void context_uload(PCB *_pcb, const char *filename, char *const argv[], char *co
   Area kstack = {.start = (void *)_pcb, .end = (void *)_pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(_pcb, filename);
   _pcb->cp = ucontext(NULL, kstack, (void *)entry);
-  // _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
-  _pcb->cp->GPRx = (uintptr_t)heap.end;
+  _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
+  // _pcb->cp->GPRx = (uintptr_t)heap.end;
   printf("heap.end is %p\n", heap.end);
 }
 
@@ -80,9 +80,9 @@ void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)1);
   // context_kload(&pcb[1], hello_fun, (void *)1);
   char *empty[] =  {NULL };
-  // char *argv[] = {"--skip", NULL};
-  // context_uload(&pcb[1], "/bin/pal", argv, empty);
-  context_uload(&pcb[1], "/bin/pal", empty, empty);
+  char *argv[] = {"--skip", NULL};
+  context_uload(&pcb[1], "/bin/pal", argv, empty);
+  // context_uload(&pcb[1], "/bin/pal", empty, empty);
   switch_boot_pcb();
 
   Log("Initializing processes...");
