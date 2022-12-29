@@ -64,6 +64,7 @@ void *load_args(void *end, char *const argv[], char *const envp[]) {
     char_semi += envp_num_arr[i];
   }
   
+  printf("new heap_end is %p\n", argc_pt);
   return (void *)argc_pt;
 }
 
