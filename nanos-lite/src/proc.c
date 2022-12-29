@@ -73,6 +73,7 @@ void context_uload(PCB *_pcb, const char *filename, char *const argv[], char *co
   _pcb->cp = ucontext(NULL, kstack, (void *)entry);
   // _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
   _pcb->cp->GPRx = (uintptr_t)heap.end;
+  printf("heap.end is %p\n", heap.end);
 }
 
 void init_proc() {
