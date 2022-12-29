@@ -27,17 +27,57 @@ void context_kload(PCB *_pcb, void (*entry)(void *), void *arg) {
   _pcb->cp = kcontext(kstack, entry, arg);
 }
 
-void context_uload(PCB *_pcb, const char *filename) {
+#define UP(a, num) (((a) + (num) - 1) & ~((num) - 1))
+
+void *load_args(void *end, char *const argv[], char *const envp[]) {
+  int argv_num = 0, envp_num = 0;
+  int argv_num_arr[32], envp_num_arr[32]; // assume max_num is 32
+  int argv_space = 0, envp_space = 0;
+  while(*(argv + argv_num)) {
+    argv_num_arr[argv_num] = UP((strlen(argv[argv_num])+1), 4);
+    argv_space += argv_num_arr[argv_num++];
+  }
+  while(*(envp + envp_num)) {
+    envp_num_arr[envp_num] = UP((strlen(envp[envp_num])+1), 4);
+    envp_space += envp_num_arr[envp_num++];
+  }
+
+  int argc = argv_num;
+  void *semi = end - (8 + argv_space + envp_space); // 8 is for safe
+  void *start = semi - (4*(1+(argv_num+1)+(envp_num+1)));
+  // set argc
+  int *argc_pt = (int *)start;
+  *argc_pt = argc;
+
+  char **char_start = (char **)(start + sizeof(int *));
+  char *char_semi = (char *)semi;
+  // set argv
+  for(int i = 0; i < argv_num; i++) {
+    *char_start = strcpy(char_semi, argv[i]);
+    char_start++;
+    char_semi += argv_num_arr[i];
+  }
+  // set envp
+  for(int i = 0; i < envp_num; i++) {
+    *char_start = strcpy(char_semi, envp[i]);
+    char_start++;
+    char_semi += envp_num_arr[i];
+  }
+  
+  return (void *)argc_pt;
+}
+
+void context_uload(PCB *_pcb, const char *filename, char *const argv[], char *const envp[]) {
   Area kstack = {.start = (void *)_pcb, .end = (void *)_pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(_pcb, filename);
   _pcb->cp = ucontext(NULL, kstack, (void *)entry);
-  _pcb->cp->GPRx = (uintptr_t)heap.end;
+  _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
 }
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)1);
   // context_kload(&pcb[1], hello_fun, (void *)1);
-  context_uload(&pcb[1], "/bin/pal");
+  context_uload(&pcb[1], "/bin/pal", NULL, NULL);
   switch_boot_pcb();
 
   Log("Initializing processes...");
