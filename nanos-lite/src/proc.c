@@ -43,7 +43,7 @@ void *load_args(void *end, char *const argv[], char *const envp[]) {
   }
 
   int argc = argv_num;
-  void *semi = end - (8 + argv_space + envp_space); // 8 is for safe
+  void *semi = end - (128 + argv_space + envp_space); // 128 is for safe
   void *start = semi - (4*(1+(argv_num+1)+(envp_num+1)));
   // set argc
   int *argc_pt = (int *)start;
