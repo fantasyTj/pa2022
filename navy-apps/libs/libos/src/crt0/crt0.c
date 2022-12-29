@@ -21,7 +21,7 @@ void call_main(uintptr_t *args) {
   environ = empty;
   // environ = envp;
   // printf("pt is %p, argv is %p, envp is %p\n", pt, argv, envp);
-  exit(main(0, empty, empty));
-  // exit(main(1, argv, empty));
+  // exit(main(0, empty, empty));
+  exit(main(argc, argv, empty));
   assert(0);
 }
