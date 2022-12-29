@@ -58,6 +58,7 @@ void *load_args(void *end, char *const argv[], char *const envp[]) {
     char_semi += argv_num_arr[i];
   }
   *char_start = NULL;
+  char_start++;
   // set envp
   for(int i = 0; i < envp_num; i++) {
     *char_start = strcpy(char_semi, envp[i]);
