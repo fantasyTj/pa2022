@@ -5,17 +5,17 @@
 int main(int argc, char *argv[], char *envp[]);
 extern char **environ;
 void call_main(uintptr_t *args) {
-  printf("args is %p\n", args);
+  // printf("args is %p\n", args);
   void *pt = (void *)args;
   int argc = *(int *)pt;
-  printf("argc is %d\n", argc);
+  // printf("argc is %d\n", argc);
   char **argv = (char **)(pt + sizeof(int *));
-  printf("reach here1\n");
+  // printf("reach here1\n");
   char **envp = argv;
-  printf("reach here2\n");
+  // printf("reach here2\n");
   while(*envp) envp++;
   envp++;
-  printf("reach here3\n");
+  // printf("reach here3\n");
   // char *argv[] = {"--skip", NULL};
   char *empty[] =  {NULL };
   // environ = empty;
