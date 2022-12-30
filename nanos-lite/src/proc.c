@@ -16,7 +16,7 @@ void switch_boot_pcb() {
 void hello_fun(void *arg) {
   int j = 1;
   while (1) {
-    // Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
+    Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
     j ++;
     yield();
   }
@@ -45,7 +45,7 @@ void *load_args(void *end, char *const argv[], char *const envp[]) {
   int argc = argv_num;
   void *semi = end - (128 + argv_space + envp_space); // 128 is for safe
   void *start = semi - (4*(1+(argv_num+1)+(envp_num+1)));
-  memset(start, 0, end - start);
+  memset(start, 0, end - start); // initial all the bits to 0
   // set argc
   int *argc_pt = (int *)start;
   *argc_pt = argc;
