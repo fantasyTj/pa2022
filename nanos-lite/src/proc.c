@@ -42,6 +42,7 @@ static void *load_args(void *end, char *const argv[], char *const envp[]) {
   }
   while(*(envp + envp_num)) {
     printf("%p\n", envp);
+    printf("envp_num is %d\n", envp_num);
     printf("envp[%d] is %s\n", envp_num, envp[envp_num]);
     envp_num_arr[envp_num] = UP((strlen(envp[envp_num])+1), 4);
     envp_space += envp_num_arr[envp_num++];
