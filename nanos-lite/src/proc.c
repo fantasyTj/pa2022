@@ -32,7 +32,7 @@ void context_kload(PCB *_pcb, void (*entry)(void *), void *arg) {
 #define UP(a, num) (((a) + (num) - 1) & ~((num) - 1))
 
 static void *load_args(void *end, char *const argv[], char *const envp[]) {
-  printf("%s\n", envp[0]);
+  // printf("%s\n", envp[0]);
   int argv_num = 0, envp_num = 0;
   int argv_num_arr[32], envp_num_arr[32]; // assume max_num is 32
   int argv_space = 0, envp_space = 0;
@@ -44,7 +44,7 @@ static void *load_args(void *end, char *const argv[], char *const envp[]) {
   while(*(envp + envp_num)) {
     printf("%p\n", envp);
     printf("envp_num is %d\n", envp_num);
-    printf("envp[%d] is %s\n", envp_num, envp[envp_num]);
+    printf("envp[%d] is %s\n", envp_num, *(envp+envp_num));
     envp_num_arr[envp_num] = UP((strlen(envp[envp_num])+1), 4);
     envp_space += envp_num_arr[envp_num++];
   }
