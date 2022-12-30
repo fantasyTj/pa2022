@@ -36,10 +36,12 @@ static void *load_args(void *end, char *const argv[], char *const envp[]) {
   int argv_num_arr[32], envp_num_arr[32]; // assume max_num is 32
   int argv_space = 0, envp_space = 0;
   while(*(argv + argv_num)) {
+    printf("argv[%d] is %s\n", argv_num, argv[argv_num]);
     argv_num_arr[argv_num] = UP((strlen(argv[argv_num])+1), 4);
     argv_space += argv_num_arr[argv_num++];
   }
   while(*(envp + envp_num)) {
+    printf("envp[%d] is %s\n", envp_num, envp[envp_num]);
     envp_num_arr[envp_num] = UP((strlen(envp[envp_num])+1), 4);
     envp_space += envp_num_arr[envp_num++];
   }
