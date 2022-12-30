@@ -23,6 +23,7 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
+  printf("cmd is %s\n", cmd);
   const char *exec_argv[3];
   char cmd_t[64];
   size_t slen = strlen(cmd);
