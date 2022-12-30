@@ -23,13 +23,16 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
-  const char *exec_argv[2];
+  const char *exec_argv[3];
   char cmd_t[64];
   size_t slen = strlen(cmd);
   strncpy(cmd_t, cmd, slen);
   cmd_t[slen-1] = '\0';
-  exec_argv[0] = cmd_t;
-  exec_argv[1] = NULL;
+  // exec_argv[0] = cmd_t;
+  // exec_argv[1] = NULL;
+  exec_argv[0] = strtok(cmd_t, " ");
+  exec_argv[1] = strtok(NULL, " ");
+  exec_argv[2] = NULL;
   execvp(exec_argv[0], (char **)exec_argv);
 }
 
