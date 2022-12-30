@@ -81,8 +81,8 @@ static void *load_args(void *end, char *const argv[], char *const envp[]) {
 void context_uload(PCB *_pcb, const char *filename, char *const argv[], char *const envp[]) {
   printf("%p %p\n", envp, *envp);
   _pcb->cp->GPRx = (uintptr_t)(load_args((new_page(8)+(8*PGSIZE)), argv, envp));
-  Area kstack = {.start = (void *)_pcb, .end = (void *)_pcb + sizeof(PCB)};
   printf("reach here2\n");
+  Area kstack = {.start = (void *)_pcb, .end = (void *)_pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(_pcb, filename);
   printf("reach here3\n");
   _pcb->cp = ucontext(NULL, kstack, (void *)entry);
