@@ -67,6 +67,7 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_open: {
+      printf("%s\n", (char *)a[1]);
       c->GPRx = fs_open(((char *)a[1]), a[2], a[3]);
       break;
     }
@@ -87,6 +88,7 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_execve: {
+      printf("%s\n", (char *)a[1]);
       if(fs_open((char *)a[1], 0, 0) >= 0) {
         context_uload(current, (char *)a[1], (char **)a[2], (char **)a[3]);
         switch_boot_pcb();
