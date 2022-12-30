@@ -34,6 +34,9 @@ static void sh_handle_cmd(const char *cmd) {
   exec_argv[0] = strtok(cmd_t, " ");
   exec_argv[1] = strtok(NULL, " ");
   exec_argv[2] = NULL;
+  for(int i = 0; i < 3; i++) {
+    printf("argv[%d] is %s\n", exec_argv[i]);
+  }
   execvp(exec_argv[0], (char **)exec_argv);
 }
 
