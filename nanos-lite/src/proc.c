@@ -90,8 +90,8 @@ void init_proc() {
   // char *argv[] = {"/bin/pal", "--skip", NULL};
   // context_uload(&pcb[1], "/bin/pal", argv, empty);
 
-  char *argv[] = {"/bin/exec-test", NULL};
-  context_uload(&pcb[1], "/bin/exec-test", argv, empty);
+  char *argv[] = {"/bin/menu", NULL};
+  context_uload(&pcb[1], "/bin/menu", argv, empty);
   // context_uload(&pcb[1], "/bin/pal", empty, empty);
   switch_boot_pcb();
 
