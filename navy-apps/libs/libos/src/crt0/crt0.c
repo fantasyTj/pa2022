@@ -11,10 +11,8 @@ void call_main(uintptr_t *args) {
   // printf("argc is %d\n", argc);
   char **argv = (char **)(pt + sizeof(int *));
   // printf("reach here1\n");
-  char **envp = argv;
+  char **envp = argv + argc + 1;
   // printf("reach here2\n");
-  while(*envp) envp++;
-  envp++;
   // printf("reach here3\n");
   // char *argv[] = {"--skip", NULL};
   char *empty[] =  {NULL };

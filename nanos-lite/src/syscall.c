@@ -14,6 +14,7 @@ size_t vfs_write(int fd, const void *buf, size_t count);
 void naive_uload(PCB *pcb, const char *filename);
 const char *default_bin = "/bin/nterm";
 
+
 void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -86,7 +87,10 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_execve: {
-      naive_uload(NULL, (char *)a[1]);
+      context_uload(current, (char *)a[1], (char **)a[2], (char **)a[3]);
+      switch_boot_pcb();
+      yield();
+      // naive_uload(NULL, (char *)a[1]);
       break;
     }
     default: panic("Unhandled syscall ID = %d", a[0]);

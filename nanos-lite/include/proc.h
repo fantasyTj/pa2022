@@ -6,6 +6,7 @@
 
 #define STACK_SIZE (8 * PGSIZE)
 
+
 typedef union {
   uint8_t stack[STACK_SIZE] PG_ALIGN;
   struct {
@@ -17,5 +18,9 @@ typedef union {
 } PCB;
 
 extern PCB *current;
+
+void switch_boot_pcb();
+void context_uload(PCB *_pcb, const char *filename, char *const argv[], char *const envp[]);
+void context_kload(PCB *_pcb, void (*entry)(void *), void *arg);
 
 #endif

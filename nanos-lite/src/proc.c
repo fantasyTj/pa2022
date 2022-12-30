@@ -31,7 +31,7 @@ void context_kload(PCB *_pcb, void (*entry)(void *), void *arg) {
 
 #define UP(a, num) (((a) + (num) - 1) & ~((num) - 1))
 
-void *load_args(void *end, char *const argv[], char *const envp[]) {
+static void *load_args(void *end, char *const argv[], char *const envp[]) {
   int argv_num = 0, envp_num = 0;
   int argv_num_arr[32], envp_num_arr[32]; // assume max_num is 32
   int argv_space = 0, envp_space = 0;
@@ -69,7 +69,7 @@ void *load_args(void *end, char *const argv[], char *const envp[]) {
     char_semi += envp_num_arr[i];
   }
   
-  printf("new heap_end is %p\n", argc_pt);
+  // printf("new heap_end is %p\n", argc_pt);
   return (void *)argc_pt;
 }
 
@@ -77,17 +77,21 @@ void context_uload(PCB *_pcb, const char *filename, char *const argv[], char *co
   Area kstack = {.start = (void *)_pcb, .end = (void *)_pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(_pcb, filename);
   _pcb->cp = ucontext(NULL, kstack, (void *)entry);
-  _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
+  _pcb->cp->GPRx = (uintptr_t)(load_args((new_page(8)+(8*PGSIZE)), argv, envp));
+  // _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
   // _pcb->cp->GPRx = (uintptr_t)heap.end;
-  printf("heap.end is %p\n", heap.end);
+  // printf("heap.end is %p\n", heap.end);
 }
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)1);
   // context_kload(&pcb[1], hello_fun, (void *)1);
   char *empty[] =  {NULL };
-  char *argv[] = {"/bin/pal", "--skip", NULL};
-  context_uload(&pcb[1], "/bin/pal", argv, empty);
+  // char *argv[] = {"/bin/pal", "--skip", NULL};
+  // context_uload(&pcb[1], "/bin/pal", argv, empty);
+
+  char *argv[] = {"/bin/exec-test", NULL};
+  context_uload(&pcb[1], "/bin/exec-test", argv, empty);
   // context_uload(&pcb[1], "/bin/pal", empty, empty);
   switch_boot_pcb();
 
