@@ -80,6 +80,7 @@ static void *load_args(void *end, char *const argv[], char *const envp[]) {
 
 void context_uload(PCB *_pcb, const char *filename, char *const argv[], char *const envp[]) {
   printf("reach here2\n");
+  printf("%p %p\n", envp, *envp);
   Area kstack = {.start = (void *)_pcb, .end = (void *)_pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(_pcb, filename);
   _pcb->cp = ucontext(NULL, kstack, (void *)entry);
