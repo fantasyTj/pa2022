@@ -64,7 +64,7 @@ int fs_open(const char *pathname, int flags, int mode){
   int i = 3;
   while(true){
     // putch('0'+i);
-    if(strcmp(file_table[i].name, "end") == 0) assert(0);
+    if(strcmp(file_table[i].name, "end") == 0) return -1;
     if(strcmp(file_table[i].name, pathname) == 0) return i;
     i++;
   }
