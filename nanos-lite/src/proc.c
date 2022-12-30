@@ -84,9 +84,9 @@ void context_uload(PCB *_pcb, const char *filename, char *const argv[], char *co
   _pcb->cp->GPRx = (uintptr_t)(load_args((new_page(8)+(8*PGSIZE)), argv, envp));
   Area kstack = {.start = (void *)_pcb, .end = (void *)_pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(_pcb, filename);
-  printf("1%p %p\n", envp, *envp);
+  printf("reach here3\n");
   _pcb->cp = ucontext(NULL, kstack, (void *)entry);
-  printf("2%p %p\n", envp, *envp);
+  printf("reach here4\n");
   // _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
   // _pcb->cp->GPRx = (uintptr_t)heap.end;
   // printf("heap.end is %p\n", heap.end);
