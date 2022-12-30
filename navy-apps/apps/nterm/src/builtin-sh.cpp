@@ -23,7 +23,7 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
-  printf("cmd is %s\n", cmd);
+  // printf("cmd is %s\n", cmd);
   const char *exec_argv[3];
   char cmd_t[64];
   size_t slen = strlen(cmd);
@@ -34,9 +34,9 @@ static void sh_handle_cmd(const char *cmd) {
   exec_argv[0] = strtok(cmd_t, " ");
   exec_argv[1] = strtok(NULL, " ");
   exec_argv[2] = NULL;
-  for(int i = 0; i < 3; i++) {
-    printf("argv[%d] is %s\n", i, exec_argv[i]);
-  }
+  // for(int i = 0; i < 3; i++) {
+  //   printf("argv[%d] is %s\n", i, exec_argv[i]);
+  // }
   execvp(exec_argv[0], (char **)exec_argv);
 }
 
