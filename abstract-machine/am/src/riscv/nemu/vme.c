@@ -72,12 +72,12 @@ void __am_switch(Context *c) {
 #define PNN_MASK (0xfffff000)
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
-  printf("va is %p, pa is %p\n", va, pa);
+  printf("va is %p, pa is %p\t", va, pa);
   uintptr_t u_ptr = (uintptr_t)as->ptr, u_va = (uintptr_t)va, u_pa = (uintptr_t)pa;
   uintptr_t first_level = (u_ptr&PNN_MASK) | (HIGH_T(u_va)<<2);
   uint32_t first_val = *(uint32_t *)first_level;
   if(first_val % 2 != 0) { // already has firstpagetable
-    printf("hit\n");
+    // printf("hit\n");
     uintptr_t second_level = (first_val&PNN_MASK) | (LOW_T(u_va)<<2);
     *(uint32_t *)(second_level) = ((u_pa&PNN_MASK) | 1);
   }else {
