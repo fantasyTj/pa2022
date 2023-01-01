@@ -77,7 +77,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   uint32_t first_val = *(uint32_t *)first_level;
   if(first_val % 2 != 0) { // already has firstpagetable
     // printf("hit\n");
-    printf("va is %p, low_t is %p", u_va, LOW_T(u_pa));
+    printf("va is %p, low_t is %p\n", u_va, LOW_T(u_pa));
     uintptr_t second_level = (first_val&PNN_MASK) | (LOW_T(u_va)<<2);
     *(uint32_t *)(second_level) = ((u_pa&PNN_MASK) | 1);
   }else {
