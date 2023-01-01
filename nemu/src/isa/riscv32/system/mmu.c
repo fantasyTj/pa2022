@@ -29,6 +29,6 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   printf("first_val is 0x%x\n", first_val);
   vaddr_t second_page = (first_val&_PNN_MASK) | ((vaddr&_LOW_T(vaddr))<<2);
   uint32_t second_val = paddr_read(second_page, 4);
-  printf("second_val is 0x%x\n", second_val);
+  printf("page is 0x%x, second_val is 0x%x\n", second_page, second_val);
   return MEM_RET_OK | (second_val&_PNN_MASK);
 }
