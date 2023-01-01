@@ -39,6 +39,7 @@ void isa_reg_display()
     }
     putchar('\n');
   }
+  printf("satp: 0x%.8x\n", cpu.csr.satp);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success)
