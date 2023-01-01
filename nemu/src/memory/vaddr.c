@@ -24,7 +24,7 @@ word_t vaddr_ifetch(vaddr_t addr, int len) {
   }else {
     vaddr_t trans_res = isa_mmu_translate(addr, len, MEM_TYPE_IFETCH);
     // printf("res is 0x%x\n", trans_res | (addr&TEMP_MASK));
-    assert(trans_res == (addr&(~TEMP_MASK)));
+    // assert(trans_res == (addr&(~TEMP_MASK)));
     return paddr_read(trans_res | (addr&TEMP_MASK), len);
   }
 }

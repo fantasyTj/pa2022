@@ -75,29 +75,33 @@ static void *load_args(void *end, char *const argv[], char *const envp[]) {
   return (void *)argc_pt;
 }
 
-void context_uload(PCB *_pcb, const char *filename, char *const argv[], char *const envp[]) {
+void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
   // printf("%p %p\n", envp, *envp);
-  Area kstack = {.start = (void *)_pcb, .end = (void *)_pcb + sizeof(PCB)};
-  _pcb->cp = ucontext(NULL, kstack, NULL);
-  _pcb->cp->GPRx = (uintptr_t)(load_args((new_page(8)+(8*PGSIZE)), argv, envp));
-  uintptr_t entry = load_getentry(_pcb, filename);
-  _pcb->cp = ucontext(NULL, kstack, (void *)entry);
-  // printf("reach here2\n");
-  // printf("reach here3\n");
-  // printf("reach here4\n");
+  protect(&pcb->as);
+  Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
+  pcb->cp = ucontext(NULL, kstack, NULL);
+  // alloc stack
+  void *end = pcb->as.area.end;
+  void *va = end - (8 * PGSIZE);
+  for( ; va < end; va += PGSIZE) {
+    map(&pcb->as, va, new_page(1), 0);
+  }
+  pcb->cp->GPRx = (uintptr_t)(load_args(end, argv, envp));
+  uintptr_t entry = load_getentry(pcb, filename);
+  pcb->cp = ucontext(NULL, kstack, (void *)entry);
   // _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
   // _pcb->cp->GPRx = (uintptr_t)heap.end;
   // printf("heap.end is %p\n", heap.end);
 }
 
 void init_proc() {
-  context_kload(&pcb[0], hello_fun, (void *)1);
+  // context_kload(&pcb[0], hello_fun, (void *)1);
   char *empty[] =  {NULL };
   // char *argv[] = {"/bin/pal", "--skip", NULL};
   // context_uload(&pcb[1], "/bin/pal", argv, empty);
 
-  char *argv[] = {"/bin/nterm", NULL};
-  context_uload(&pcb[1], "/bin/nterm", argv, empty);
+  char *argv[] = {"/bin/dummy", NULL};
+  context_uload(&pcb[0], "/bin/dummy", argv, empty);
   // context_uload(&pcb[1], "/bin/pal", empty, empty);
   switch_boot_pcb();
 

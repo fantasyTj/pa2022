@@ -92,6 +92,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   Context *context_start = (Context *)(kstack.end - sizeof(Context));
+  context_start->pdir = as->ptr;
   context_start->mepc = (uintptr_t)entry;
   return context_start;
 }
