@@ -72,7 +72,6 @@ void __am_switch(Context *c) {
 #define PNN_MASK (0xfffff000)
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
-  printf("va is %p, pa is %p\t", va, pa);
   uintptr_t u_ptr = (uintptr_t)as->ptr, u_va = (uintptr_t)va, u_pa = (uintptr_t)pa;
   uintptr_t first_level = (u_ptr&PNN_MASK) | (HIGH_T(u_va)<<2);
   uint32_t first_val = *(uint32_t *)first_level;
@@ -81,13 +80,12 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     uintptr_t second_level = (first_val&PNN_MASK) | (LOW_T(u_va)<<2);
     *(uint32_t *)(second_level) = ((u_pa&PNN_MASK) | 1);
   }else {
-    printf("miss\n");
+    printf("miss at va is %p, pa is %p\n", va, pa);
     uintptr_t second_page = (uintptr_t)pgalloc_usr(PGSIZE);
     *(uint32_t *)first_level = ((second_page&PNN_MASK) | 1);
     uintptr_t second_level = (second_page&PNN_MASK) | (LOW_T(u_va)<<2);
     *(uint32_t *)second_level = ((u_pa&PNN_MASK) | 1);
   }
-  printf("\n");
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
