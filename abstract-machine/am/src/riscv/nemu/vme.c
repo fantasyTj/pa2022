@@ -77,16 +77,17 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   uint32_t first_val = *(uint32_t *)first_level;
   if(first_val % 2 != 0) { // already has firstpagetable
     // printf("hit\n");
+    printf("va is %p, low_t is %p", u_va, LOW_T(u_pa));
     uintptr_t second_level = (first_val&PNN_MASK) | (LOW_T(u_va)<<2);
     *(uint32_t *)(second_level) = ((u_pa&PNN_MASK) | 1);
   }else {
-    printf("miss at va is %p, pa is %p\n", va, pa);
+    // printf("miss at va is %p, pa is %p\n", va, pa);
     uintptr_t second_page = (uintptr_t)pgalloc_usr(PGSIZE);
     *(uint32_t *)first_level = ((second_page&PNN_MASK) | 1);
-    printf("first val is %p\n", *(uint32_t *)first_level);
+    // printf("first val is %p\n", *(uint32_t *)first_level);
     uintptr_t second_level = (second_page&PNN_MASK) | (LOW_T(u_va)<<2);
     *(uint32_t *)second_level = ((u_pa&PNN_MASK) | 1);
-    printf("second val is %p\n", *(uint32_t *)second_level);
+    // printf("second val is %p\n", *(uint32_t *)second_level);
   }
 }
 
