@@ -81,7 +81,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     uintptr_t second_level = (first_val&PNN_MASK) | (LOW_T(u_va)<<2);
     *(uint32_t *)(second_level) = ((u_pa&PNN_MASK) | 1);
   }else {
-    // printf("va is %p, low_t is %p\n", u_va, LOW_T(u_pa));
+    printf("va is %p, low_t is %p\n", u_va, LOW_T(u_pa));
     // printf("miss at va is %p, pa is %p\n", va, pa);
     uintptr_t second_page = (uintptr_t)pgalloc_usr(PGSIZE);
     *(uint32_t *)first_level = ((second_page&PNN_MASK) | 1);
