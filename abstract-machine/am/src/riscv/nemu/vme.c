@@ -87,6 +87,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     uintptr_t second_level = (second_page&PNN_MASK) | (LOW_T(u_va)<<2);
     *(uint32_t *)second_level = ((u_pa&PNN_MASK) | 1);
   }
+  printf("\n");
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
