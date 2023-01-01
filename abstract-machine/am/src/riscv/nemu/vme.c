@@ -32,10 +32,8 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
 
   int i;
   for (i = 0; i < LENGTH(segments); i ++) {
-    printf("i is %d\n", i);
     void *va = segments[i].start;
     for (; va < segments[i].end; va += PGSIZE) {
-      printf("va is %p\n", va);
       map(&kas, va, va, 0);
     }
   }
@@ -73,6 +71,7 @@ void __am_switch(Context *c) {
 #define PNN_MASK (0xfffff000)
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
+  printf("va is %p, pa is %p\n", va, pa);
   uintptr_t u_ptr = (uintptr_t)as->ptr, u_va = (uintptr_t)va, u_pa = (uintptr_t)pa;
   uintptr_t first_level = (u_ptr&PNN_MASK) | (HIGH_T(u_va)<<2);
   uint32_t first_val = *(uint32_t *)first_level;
