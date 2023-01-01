@@ -37,6 +37,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
       map(&kas, va, va, 0);
     }
   }
+  printf("reach here\n");
 
   set_satp(kas.ptr);
   vme_enable = 1;
