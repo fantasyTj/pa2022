@@ -63,13 +63,28 @@ int strncmp(const char *s1, const char *s2, size_t n) {
   return s1[i] - s2[i];
 }
 
-void *memset(void *s, int c, size_t n) {
-  unsigned char c_ = c;
-  char *s_ = (char *)s;
+// void *memset(void *s, int c, size_t n) {
+//   unsigned char c_ = c;
+//   char *s_ = (char *)s;
   
-  for(size_t i = 0; i < n; i++) s_[i] = c_;
+//   for(size_t i = 0; i < n; i++) s_[i] = c_;
 
-  return s_;
+//   return s_;
+// }
+
+void *memset(void *s, int c, size_t n) {
+  size_t major = n / 4;
+  size_t remain = n % 4;
+  uint32_t *u32_s = (uint32_t *)s;
+  uint8_t one_c = (uint8_t)c;
+  uint32_t four_c = c<<24 | c<<16 | c<<8 | c;
+  if(major > 0) {
+    for(size_t i = 0; i < major; i++) u32_s[i] = four_c;
+    u32_s += major;
+  }
+  char *char_s = (char *)(void *)u32_s;
+  for(size_t i = 0; i < remain; i++) char_s[i] = one_c;
+  return s;
 }
 
 void *memmove(void *dst, const void *src, size_t n) {

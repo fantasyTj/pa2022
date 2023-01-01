@@ -26,6 +26,7 @@ typedef struct {
     word_t mstatus;
     word_t mcause;
     word_t mtvec;
+    word_t satp;
   } csr;
 } riscv32_CPU_state;
 
@@ -36,6 +37,8 @@ typedef struct {
   } inst;
 } riscv32_ISADecodeInfo;
 
-#define isa_mmu_check(vaddr, len, type) (MMU_DIRECT)
+// #define isa_mmu_check(vaddr, len, type) (MMU_DIRECT)
+// #define isa_mmu_check(vaddr, len, type) (MMU_TRANSLATE)
+#define isa_mmu_check(vaddr, len, type) ((cpu.csr.satp>=0x80000000)?(MMU_TRANSLATE):(MMU_DIRECT))
 
 #endif

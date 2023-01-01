@@ -16,14 +16,30 @@
 #include <isa.h>
 #include <memory/paddr.h>
 
+#define TEMP_MASK (~0xfffff000)
+
 word_t vaddr_ifetch(vaddr_t addr, int len) {
-  return paddr_read(addr, len);
+  if(isa_mmu_check(addr, len, MEM_TYPE_IFETCH) == MMU_DIRECT) {
+    return paddr_read(addr, len);
+  }else {
+    vaddr_t trans_res = isa_mmu_translate(addr, len, MEM_TYPE_IFETCH);
+    assert(trans_res == (addr&(~TEMP_MASK)));
+    return paddr_read(trans_res | (addr&TEMP_MASK), len);
+  }
 }
 
 word_t vaddr_read(vaddr_t addr, int len) {
-  return paddr_read(addr, len);
+  if(isa_mmu_check(addr, len, MEM_TYPE_READ) == MMU_DIRECT) {
+    return paddr_read(addr, len);
+  }else {
+    return paddr_read(isa_mmu_translate(addr, len, MEM_TYPE_READ) | (addr&TEMP_MASK), len);
+  }
 }
 
 void vaddr_write(vaddr_t addr, int len, word_t data) {
-  paddr_write(addr, len, data);
+  if(isa_mmu_check(addr, len, MEM_TYPE_WRITE) == MMU_DIRECT) {
+    paddr_write(addr, len, data);
+  }else {
+    paddr_write(isa_mmu_translate(addr, len, MEM_TYPE_WRITE) | (addr&TEMP_MASK), len, data);
+  }
 }

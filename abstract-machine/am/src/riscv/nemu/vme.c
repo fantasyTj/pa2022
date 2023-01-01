@@ -66,7 +66,23 @@ void __am_switch(Context *c) {
   }
 }
 
+#define HIGH_T(addr) ((uintptr_t)addr>>22)
+#define LOW_T(addr) (((uintptr_t)addr & (0x003ff000)) >> 12)
+#define PNN_MASK (0xfffff000)
+
 void map(AddrSpace *as, void *va, void *pa, int prot) {
+  uintptr_t u_ptr = (uintptr_t)as->ptr, u_va = (uintptr_t)va, u_pa = (uintptr_t)pa;
+  uintptr_t first_level = (u_ptr&PNN_MASK) | (HIGH_T(u_va)<<2);
+  uint32_t first_val = *(uint32_t *)first_level;
+  if(first_val % 2 != 0) { // already has firstpagetable
+    uintptr_t second_level = (first_val&PNN_MASK) | (LOW_T(u_va)<<2);
+    *(uint32_t *)(second_level) = ((u_pa&PNN_MASK) | 1);
+  }else {
+    uintptr_t second_page = (uintptr_t)pgalloc_usr(PGSIZE);
+    *(uint32_t *)first_level = ((second_page&PNN_MASK) | 1);
+    uintptr_t second_level = (second_page&PNN_MASK) | (LOW_T(u_va)<<2);
+    *(uint32_t *)second_level = ((u_pa&PNN_MASK) | 1);
+  }
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {

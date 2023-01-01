@@ -17,6 +17,15 @@
 #include <memory/paddr.h>
 #include <memory/vaddr.h>
 
+#define _HIGH_T(addr) ((uintptr_t)addr>>22)
+#define _LOW_T(addr) (((uintptr_t)addr & (0x003ff000)) >> 12)
+#define _PNN_MASK (0xfffff000)
+
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
-  return MEM_RET_FAIL;
+  Assert((vaddr&(~_PNN_MASK))+len <= 0x1000, "CROSS_PAGE");
+  vaddr_t ptr = cpu.csr.satp << 12;
+  vaddr_t first_page = (ptr&_PNN_MASK) | ((vaddr&_HIGH_T(vaddr))<<2);
+  uint32_t first_val = paddr_read(first_page, 4);
+  vaddr_t second_page = (first_val&_PNN_MASK) | ((vaddr&_LOW_T(vaddr))<<2);
+  return MEM_RET_OK | (paddr_read(second_page, 4)&_PNN_MASK);
 }
