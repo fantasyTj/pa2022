@@ -24,10 +24,10 @@
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   Assert((vaddr&(~_PNN_MASK))+len <= 0x1000, "CROSS_PAGE");
   vaddr_t ptr = cpu.csr.satp << 12;
-  vaddr_t first_page = (ptr&_PNN_MASK) | ((vaddr&_HIGH_T(vaddr))<<2);
+  vaddr_t first_page = (ptr&_PNN_MASK) | ((_HIGH_T(vaddr))<<2);
   uint32_t first_val = paddr_read(first_page, 4);
   printf("vaddr is 0x%x, first_val is 0x%x\n", vaddr, first_val);
-  vaddr_t second_page = (first_val&_PNN_MASK) | ((vaddr&_LOW_T(vaddr))<<2);
+  vaddr_t second_page = (first_val&_PNN_MASK) | ((_LOW_T(vaddr))<<2);
   uint32_t second_val = paddr_read(second_page, 4);
   printf("page is 0x%x, second_val is 0x%x\n", second_page, second_val);
   return MEM_RET_OK | (second_val&_PNN_MASK);
