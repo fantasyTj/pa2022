@@ -78,6 +78,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         map(&pcb->as, va, pa, 0);
       }
       fs_read(fd, (void *)p_vaddr, p_filesz);
+      printf("finish read\n");
       // ramdisk_read((void *)p_vaddr, p_offset, p_filesz);
       memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_filesz);
 
