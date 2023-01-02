@@ -66,7 +66,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       p_filesz = phdr[i].p_filesz;
       p_vaddr = phdr[i].p_vaddr;
       p_memsz = phdr[i].p_memsz;
-      printf("vaddr is %p, end is %p\n", p_vaddr, p_vaddr + p_memsz);
+      // printf("vaddr is %p, end is %p\n", p_vaddr, p_vaddr + p_memsz);
       // printf("offset is %u\n", p_offset);
       fs_lseek(fd, p_offset, SEEK_SET);
       void *start_page = (void *)ROUNDDOWN(p_vaddr, PGSIZE);
@@ -74,7 +74,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       void *va = start_page;
       for( ; va <= end_page; va += PGSIZE) {
         void *pa = new_page(1);
-        printf("va is %p, pa is %p\n", va, pa);
+        // printf("va is %p, pa is %p\n", va, pa);
         map(&pcb->as, va, pa, 0);
       }
       fs_read(fd, (void *)p_vaddr, p_filesz);
