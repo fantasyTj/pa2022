@@ -12,6 +12,7 @@ size_t vfs_write(int fd, const void *buf, size_t count);
 
 #include <proc.h>
 void naive_uload(PCB *pcb, const char *filename);
+int mm_brk(uintptr_t brk);
 const char *default_bin = "/bin/nterm";
 
 
@@ -63,7 +64,7 @@ void do_syscall(Context *c) {
       break;
     }
     case SYS_brk: {
-      c->GPRx = 0;
+      c->GPRx = mm_brk(a[1]);
       break;
     }
     case SYS_open: {
