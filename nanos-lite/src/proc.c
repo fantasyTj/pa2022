@@ -80,7 +80,6 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   protect(&pcb->as);
   Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(pcb, filename);
-  printf("reach here\n");
   pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
   // pcb->cp = ucontext(&pcb->as, kstack, NULL);
   // alloc stack

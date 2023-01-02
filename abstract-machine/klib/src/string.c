@@ -106,12 +106,13 @@ void *memmove(void *dst, const void *src, size_t n) {
 // }
 
 void *memcpy(void *out, const void *in, size_t n) {
+  printf("out is %p, in is %p\n", out, in);
   size_t major = n / 4;
   size_t remain = n % 4;
   uint32_t *u32_out = (uint32_t *)out, *u32_in = (uint32_t *)in;
   if(major > 0) {
     for(size_t i = 0; i < major; i++) {
-      printf("i is %u\n", i);
+      // printf("i is %u\n", i);
       u32_out[i] = u32_in[i];
     }
     u32_out += major;
