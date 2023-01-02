@@ -74,12 +74,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       void *va = start_page;
       for( ; va <= end_page; va += PGSIZE) {
         void *pa = new_page(1);
-        printf("va is %p, pa is %p\n", va, pa);
         map(&pcb->as, va, pa, 0);
       }
-      printf("p_vaddr is %p, p_filesz is %p\n", p_vaddr, p_filesz);
       fs_read(fd, (void *)p_vaddr, p_filesz);
-      printf("finish read\n");
       // ramdisk_read((void *)p_vaddr, p_offset, p_filesz);
       memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_filesz);
 

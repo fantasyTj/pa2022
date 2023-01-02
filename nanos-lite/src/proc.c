@@ -76,12 +76,11 @@ static void *load_args(void *end, char *const argv[], char *const envp[]) {
 }
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
-  // printf("%p %p\n", envp, *envp);
   protect(&pcb->as);
   Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(pcb, filename);
   pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
-  // pcb->cp = ucontext(&pcb->as, kstack, NULL);
+  
   // alloc stack
   void *end = pcb->as.area.end;
   void *va = end - (8 * PGSIZE);
@@ -91,7 +90,6 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   pcb->cp->GPRx = (uintptr_t)(load_args(end, argv, envp));
   // _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
   // _pcb->cp->GPRx = (uintptr_t)heap.end;
-  // printf("heap.end is %p\n", heap.end);
 }
 
 void init_proc() {

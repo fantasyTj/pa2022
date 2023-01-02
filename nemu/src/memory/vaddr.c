@@ -19,13 +19,11 @@
 #define TEMP_MASK (~0xfffff000)
 
 word_t vaddr_ifetch(vaddr_t addr, int len) {
-  // printf("ifetch_addr is 0x%x\n", addr);
+
   if(isa_mmu_check(addr, len, MEM_TYPE_IFETCH) == MMU_DIRECT) {
     return paddr_read(addr, len);
   }else {
     vaddr_t trans_res = isa_mmu_translate(addr, len, MEM_TYPE_IFETCH);
-    // printf("res is 0x%x\n", trans_res | (addr&TEMP_MASK));
-    // assert(trans_res == (addr&(~TEMP_MASK)));
     return paddr_read(trans_res | (addr&TEMP_MASK), len);
   }
 }
