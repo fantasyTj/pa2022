@@ -69,6 +69,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       printf("vaddr is %p, end is %p\n", p_vaddr, p_vaddr + p_memsz);
       // printf("offset is %u\n", p_offset);
       fs_lseek(fd, p_offset, SEEK_SET);
+      pcb->max_brk = p_vaddr + p_memsz;
       void *start_page = (void *)ROUNDDOWN(p_vaddr, PGSIZE);
       void *end_page = (void *)ROUNDDOWN(p_vaddr + p_memsz, PGSIZE);
       void *va = start_page;

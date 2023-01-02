@@ -80,7 +80,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(pcb, filename);
   pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
-  
+
   // alloc stack
   void *end = pcb->as.area.end;
   void *va = end - (8 * PGSIZE);
@@ -98,8 +98,8 @@ void init_proc() {
   // char *argv[] = {"/bin/pal", "--skip", NULL};
   // context_uload(&pcb[1], "/bin/pal", argv, empty);
 
-  char *argv[] = {"/bin/dummy", NULL};
-  context_uload(&pcb[0], "/bin/dummy", argv, empty);
+  char *argv[] = {"/bin/pal", NULL};
+  context_uload(&pcb[0], "/bin/pal", argv, empty);
   // context_uload(&pcb[1], "/bin/pal", empty, empty);
   switch_boot_pcb();
 
