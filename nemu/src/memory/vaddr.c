@@ -19,6 +19,7 @@
 #define TEMP_MASK (~0xfffff000)
 
 word_t vaddr_ifetch(vaddr_t addr, int len) {
+  printf("ifetch_addr is 0x%x\n", addr);
   if(isa_mmu_check(addr, len, MEM_TYPE_IFETCH) == MMU_DIRECT) {
     return paddr_read(addr, len);
   }else {
@@ -30,7 +31,7 @@ word_t vaddr_ifetch(vaddr_t addr, int len) {
 }
 
 word_t vaddr_read(vaddr_t addr, int len) {
-  // printf("read_addr is 0x%x\n", addr);
+  printf("read_addr is 0x%x\n", addr);
   if(isa_mmu_check(addr, len, MEM_TYPE_READ) == MMU_DIRECT) {
     return paddr_read(addr, len);
   }else {
@@ -39,6 +40,7 @@ word_t vaddr_read(vaddr_t addr, int len) {
 }
 
 void vaddr_write(vaddr_t addr, int len, word_t data) {
+  printf("write_addr is 0x%x\n", addr);
   if(isa_mmu_check(addr, len, MEM_TYPE_WRITE) == MMU_DIRECT) {
     paddr_write(addr, len, data);
   }else {
