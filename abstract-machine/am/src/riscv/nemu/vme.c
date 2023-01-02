@@ -49,7 +49,6 @@ void protect(AddrSpace *as) {
   as->area = USER_SPACE;
   as->pgsize = PGSIZE;
   // map kernel space
-  printf("for protect\n");
   memcpy(updir, kas.ptr, PGSIZE);
 }
 
@@ -88,7 +87,9 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     // printf("first val is %p\n", *(uint32_t *)first_level);
     uintptr_t second_level = (second_page&PNN_MASK) | (LOW_T(u_va)<<2);
     *(uint32_t *)second_level = ((u_pa&PNN_MASK) | 1);
-    // printf("second val is %p\n", *(uint32_t *)second_level);
+    if(u_va < 0x80000000) {
+      printf("second val is %p\n", *(uint32_t *)second_level);
+    }
   }
 }
 
