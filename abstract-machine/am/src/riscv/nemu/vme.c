@@ -71,7 +71,7 @@ void __am_switch(Context *c) {
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
   uintptr_t u_ptr = (uintptr_t)as->ptr, u_va = (uintptr_t)va, u_pa = (uintptr_t)pa;
-  printf(" va is %p, pa is %p\n", u_va, u_pa);
+  // printf(" va is %p, pa is %p\n", u_va, u_pa);
   assert((u_va % 0x1000 == 0) && (u_pa % 0x1000 == 0));
   uintptr_t first_level = (u_ptr&PNN_MASK) | (HIGH_T(u_va)<<2);
   uint32_t first_val = *(uint32_t *)first_level;
