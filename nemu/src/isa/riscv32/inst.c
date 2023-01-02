@@ -68,12 +68,13 @@ static int decode_exec(Decode *s) {
 #define COMPARATOR_U(token, src1, src2) ((src1) token (src2))
 #define MUL_S(src1, src2) (SEXT(src1, 32) * SEXT(src2, 32))  
 #define MUL_U(src1, src2) (BITS(src1, 31, 0) * BITS(src2, 31, 0))
-#define CSRRW(csr) do {if(dest) R(dest) = csr; csr = R(src1);} while(0)
-#define CSRRS(csr) do {R(dest) = csr; if(src1) csr |= R(src1);} while(0) // not complete
-#define CSRRC(csr) do {R(dest) = csr; if(src1) csr &= (~R(src1));} while(0) // not complete
-#define CSRRWI(csr) do {if(dest) R(dest) = csr; csr = src1;} while(0)
-#define CSRRSI(csr) do {R(dest) = csr; if(src1) csr |= src1;} while(0) // not complete
-#define CSRRCI(csr) do {R(dest) = csr; if(src1) csr &= (~src1);} while(0) // not complete
+#define CSRRW(csr) do { if(dest) R(dest) = csr; csr = R(src1); } while(0)
+#define CSRRS(csr) do { R(dest) = csr; if(src1) csr |= R(src1); } while(0) // not complete
+#define CSRRC(csr) do { R(dest) = csr; if(src1) csr &= (~R(src1)); } while(0) // not complete
+#define CSRRWI(csr) do { if(dest) R(dest) = csr; csr = src1; } while(0)
+#define CSRRSI(csr) do { R(dest) = csr; if(src1) csr |= src1; } while(0) // not complete
+#define CSRRCI(csr) do { R(dest) = csr; if(src1) csr &= (~src1); } while(0) // not complete
+#define MRET(mstatus) do { if((mstatus & MPIE_MASK) == 0) { mstatus &= ~MIE_MASK; } else { mstatus |= MIE_MASK; } mstatus |= MPIE_MASK; } while(0)
 
 
   INSTPAT_START();
@@ -132,7 +133,7 @@ static int decode_exec(Decode *s) {
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(11, s->pc)); // R(5) is $t0
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.csr.mepc);
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, MRET(cpu.csr.mstatus); s->dnpc = cpu.csr.mepc);
 
   INSTPAT("????000 00000 ????? 001 ????? 11100 11", csrrw  , C, CSRRW(cpu.csr.mstatus));
   INSTPAT("????000 00101 ????? 001 ????? 11100 11", csrrw  , C, CSRRW(cpu.csr.mtvec));

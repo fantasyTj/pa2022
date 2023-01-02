@@ -7,20 +7,20 @@ static Context* do_event(Event e, Context* c) {
   // printf("event is %d\n", e.event);
   switch (e.event) {
     case 1: { // EVENT_YIELD
-      // printf("mepc1 is %u", c->mepc);
       c->mepc += 4; 
       c = schedule(c);
-      // printf("mepc2 is %u", c->mepc);
-      // printf("yield\n");
       break;
     }
     case 2: { // EVENT_SYSCALL
       do_syscall(c);
       break;
     }
+    case 5: { // EVENT_IRQ_TIMER
+      Log("EVENT_IRQ_TIMER");
+      c = schedule(c);
+    }
     default: panic("Unhandled event ID = %d", e.event);
   }
-  // printf("mepc3 is %u\n", c->mepc);
   return c;
 }
 

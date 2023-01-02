@@ -25,9 +25,24 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.csr.mepc = epc;
   cpu.csr.mcause = NO;
 
+  // store MIE in MPIE
+  if((cpu.csr.mstatus & MIE_MASK) == 0) {
+    cpu.csr.mstatus &= ~MPIE_MASK;
+  }else {
+    cpu.csr.mstatus |= MPIE_MASK;
+  }
+  // set MIE to 0
+  cpu.csr.mstatus &= ~MIE_MASK;
+
   return cpu.csr.mtvec;
 }
 
+#define IRQ_TIMER 0x80000007
+
 word_t isa_query_intr() {
+  if (((cpu.csr.mstatus & MIE_MASK) != 0) && cpu.INTR) {
+    cpu.INTR = false;
+    return IRQ_TIMER;
+  }
   return INTR_EMPTY;
 }

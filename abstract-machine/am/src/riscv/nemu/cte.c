@@ -11,7 +11,7 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
-      case 11: {
+      case 0xb: {
         switch(c->GPR1) {
           case -1: ev.event = EVENT_YIELD; break;
           case 0 : case 1 : case 2 : case 3 : case 4 : 
@@ -20,6 +20,10 @@ Context* __am_irq_handle(Context *c) {
           case 15: case 16: case 17: case 18: case 19: ev.event = EVENT_SYSCALL; break;
           default: printf("unhandle when ecall\n");
         }
+        break;
+      }
+      case 0x80000007: {
+        ev.event = EVENT_IRQ_TIMER;
         break;
       }
       default: ev.event = EVENT_ERROR; break;
@@ -51,6 +55,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   context_start->mepc = (uintptr_t)entry;
   context_start->pdir = NULL;
   context_start->gpr[10] = (uintptr_t)arg; // set a[0]
+  context_start->mstatus = 0x8;
   return context_start;
 }
 
