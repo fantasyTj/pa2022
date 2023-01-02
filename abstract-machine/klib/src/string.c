@@ -97,33 +97,33 @@ void *memmove(void *dst, const void *src, size_t n) {
   return dst_;
 }
 
-// void *memcpy(void *out, const void *in, size_t n) {
-//   char *out_ = (char *)out, *in_ = (char *)in;
-  
-//   for(size_t i = 0; i < n; i++) out_[i] = in_[i];
-
-//   return out_;
-// }
-
 void *memcpy(void *out, const void *in, size_t n) {
-  printf("out is %p, in is %p\n", out, in);
-  size_t major = n / 4;
-  size_t remain = n % 4;
-  uint32_t *u32_out = (uint32_t *)out, *u32_in = (uint32_t *)in;
-  if(major > 0) {
-    for(size_t i = 0; i < major; i++) {
-      // printf("i is %u\n", i);
-      u32_out[i] = u32_in[i];
-    }
-    u32_out += major;
-    u32_in += major;
-  }
-  char *char_out = (char *)(void *)u32_out, *char_in = (char *)(void *)u32_in;
-  for(size_t i = 0; i < remain; i++) {
-    char_out[i] = char_in[i];
-  }
-  return out;
+  char *out_ = (char *)out, *in_ = (char *)in;
+  
+  for(size_t i = 0; i < n; i++) out_[i] = in_[i];
+
+  return out_;
 }
+
+// void *memcpy(void *out, const void *in, size_t n) {
+//   printf("out is %p, in is %p\n", out, in);
+//   size_t major = n / 4;
+//   size_t remain = n % 4;
+//   uint32_t *u32_out = (uint32_t *)out, *u32_in = (uint32_t *)in;
+//   if(major > 0) {
+//     for(size_t i = 0; i < major; i++) {
+//       // printf("i is %u\n", i);
+//       u32_out[i] = u32_in[i];
+//     }
+//     u32_out += major;
+//     u32_in += major;
+//   }
+//   char *char_out = (char *)(void *)u32_out, *char_in = (char *)(void *)u32_in;
+//   for(size_t i = 0; i < remain; i++) {
+//     char_out[i] = char_in[i];
+//   }
+//   return out;
+// }
 
 int memcmp(const void *s1, const void *s2, size_t n) {
   char *s1_ = (char *)s1, *s2_ = (char *)s2;
