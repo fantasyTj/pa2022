@@ -111,6 +111,7 @@ void *memcpy(void *out, const void *in, size_t n) {
   uint32_t *u32_out = (uint32_t *)out, *u32_in = (uint32_t *)in;
   if(major > 0) {
     for(size_t i = 0; i < major; i++) {
+      printf("i is %u\n", i);
       u32_out[i] = u32_in[i];
     }
     u32_out += major;
