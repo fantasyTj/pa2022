@@ -79,6 +79,9 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     // printf("va is %p, low_t is %p\n", u_va, LOW_T(u_pa));
     uintptr_t second_level = (first_val&PNN_MASK) | (LOW_T(u_va)<<2);
     *(uint32_t *)(second_level) = ((u_pa&PNN_MASK) | 1);
+    if(u_va < 0x80000000) {
+      printf("second val is %p\n", *(uint32_t *)second_level);
+    }
   }else {
     // printf("va is %p, low_t is %p\n", u_va, LOW_T(u_pa));
     // printf("miss at va is %p, pa is %p\n", va, pa);
