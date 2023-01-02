@@ -46,6 +46,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
 void protect(AddrSpace *as) {
   PTE *updir = (PTE*)(pgalloc_usr(PGSIZE));
   as->ptr = updir;
+  set_satp(updir);
   as->area = USER_SPACE;
   as->pgsize = PGSIZE;
   // map kernel space
@@ -71,7 +72,7 @@ void __am_switch(Context *c) {
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
   uintptr_t u_ptr = (uintptr_t)as->ptr, u_va = (uintptr_t)va, u_pa = (uintptr_t)pa;
-  printf("!va is %p, pa is %p\n", u_va, u_pa);
+  // printf("!va is %p, pa is %p\n", u_va, u_pa);
   assert((u_va % 0x1000 == 0) && (u_pa % 0x1000 == 0));
   uintptr_t first_level = (u_ptr&PNN_MASK) | (HIGH_T(u_va)<<2);
   uint32_t first_val = *(uint32_t *)first_level;
@@ -82,7 +83,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     *(uint32_t *)(second_level) = ((u_pa&PNN_MASK) | 1);
     // if(u_va < 0x80000000) {
     // }
-    printf("first val is %p, second val is %p\n", first_val, *(uint32_t *)second_level);
+    // printf("first val is %p, second val is %p\n", first_val, *(uint32_t *)second_level);
   }else {
     // printf("va is %p, low_t is %p\n", u_va, LOW_T(u_pa));
     // printf("miss at va is %p, pa is %p\n", va, pa);
@@ -93,7 +94,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     *(uint32_t *)second_level = ((u_pa&PNN_MASK) | 1);
     // if(u_va < 0x80000000) {
     // }
-    printf("first val is %p, second val is %p\n", *(uint32_t *)first_level, *(uint32_t *)second_level);
+    // printf("first val is %p, second val is %p\n", *(uint32_t *)first_level, *(uint32_t *)second_level);
   }
 }
 
