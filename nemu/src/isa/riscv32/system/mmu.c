@@ -22,19 +22,19 @@
 #define _PNN_MASK (0xfffff000)
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
-  printf("vaddr is 0x%x\n", vaddr);
+  // printf("vaddr is 0x%x\n", vaddr);
   Assert((vaddr&(~_PNN_MASK))+len <= 0x1000, "CROSS_PAGE");
   vaddr_t ptr = cpu.csr.satp << 12;
   vaddr_t first_page = (ptr&_PNN_MASK) | ((_HIGH_T(vaddr))<<2);
-  printf("firstpage is 0x%x\t", first_page);
   uint32_t first_val = paddr_read(first_page, 4);
+  printf("firstval is 0x%x\t", first_page);
   // printf("vaddr is 0x%x, first_val is 0x%x\n", vaddr, first_val);
   vaddr_t second_page = (first_val&_PNN_MASK) | ((_LOW_T(vaddr))<<2);
-  printf("secondpage is 0x%x\n", second_page);
+  // printf("secondpage is 0x%x\n", second_page);
   uint32_t second_val = paddr_read(second_page, 4);
   // if(vaddr <= 0x80000000) {
   // }
-  printf("enter is 0x%x, res is 0x%x\n", vaddr, second_val);
+  // printf("enter is 0x%x, res is 0x%x\n", vaddr, second_val);
   // printf("page is 0x%x, second_val is 0x%x\n", second_page, second_val);
   return MEM_RET_OK | (second_val&_PNN_MASK);
 }
