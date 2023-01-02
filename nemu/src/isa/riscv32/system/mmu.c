@@ -23,7 +23,7 @@
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   // printf("vaddr is 0x%x\n", vaddr);
-  Assert((vaddr&(~_PNN_MASK))+len <= 0x1000, "at addr 0x%x, encounter CROSS_PAGE", vaddr);
+  Assert((vaddr&(~_PNN_MASK))+len <= 0x1000, "at addr 0x%x, with len %d, encounter CROSS_PAGE", len, vaddr);
   vaddr_t ptr = cpu.csr.satp << 12;
   vaddr_t first_page = (ptr&_PNN_MASK) | ((_HIGH_T(vaddr))<<2);
   uint32_t first_val = paddr_read(first_page, 4);
