@@ -73,7 +73,6 @@ LINKAGE   = $(OBJS) $(foreach l,$(LIBS),$(NAVY_HOME)/libs/$(l)/build/$(l)-$(ISA)
 ## 3. General Compilation Flags
 
 ### (Cross) compilers, e.g., mips-linux-gnu-g++
-VME       = 1
 AS        = $(CROSS_COMPILE)gcc
 CC        = $(CROSS_COMPILE)gcc
 CXX       = $(CROSS_COMPILE)g++

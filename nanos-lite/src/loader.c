@@ -75,6 +75,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       void *va = start_page;
       for( ; va <= end_page; va += PGSIZE) {
         void *pa = new_page(1);
+        printf("va is %p, pa is %p\n", va, pa);
         map(&pcb->as, va, pa, 0);
       }
       fs_read(fd, (void *)p_vaddr, p_filesz);
