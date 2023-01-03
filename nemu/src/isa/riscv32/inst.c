@@ -68,9 +68,9 @@ static int decode_exec(Decode *s) {
 #define COMPARATOR_U(token, src1, src2) ((src1) token (src2))
 #define MUL_S(src1, src2) (SEXT(src1, 32) * SEXT(src2, 32))  
 #define MUL_U(src1, src2) (BITS(src1, 31, 0) * BITS(src2, 31, 0))
-#define CSRRW(csr) do { if(dest) R(dest) = csr; csr = R(src1); } while(0)
-#define CSRRS(csr) do { R(dest) = csr; if(src1) csr |= R(src1); } while(0) // not complete
-#define CSRRC(csr) do { R(dest) = csr; if(src1) csr &= (~R(src1)); } while(0) // not complete
+#define CSRRW(csr) do { word_t t = csr; csr = R(src1); if(dest) R(dest) = t; } while(0)
+#define CSRRS(csr) do { word_t t = csr; if(src1) csr |= R(src1); R(dest) = t; } while(0) // not complete
+#define CSRRC(csr) do { word_t t = csr; if(src1) csr &= (~R(src1)); R(dest) = t; } while(0) // not complete
 #define CSRRWI(csr) do { if(dest) R(dest) = csr; csr = src1; } while(0)
 #define CSRRSI(csr) do { R(dest) = csr; if(src1) csr |= src1; } while(0) // not complete
 #define CSRRCI(csr) do { R(dest) = csr; if(src1) csr &= (~src1); } while(0) // not complete
