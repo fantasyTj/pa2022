@@ -25,6 +25,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.csr.mepc = epc;
   cpu.csr.mcause = NO;
 
+  printf("before: mstatus is 0x%x\n", cpu.csr.mstatus);
   // store MIE in MPIE
   if((cpu.csr.mstatus & MIE_MASK) == 0) {
     cpu.csr.mstatus &= ~MPIE_MASK;
@@ -33,14 +34,13 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   }
   // set MIE to 0
   cpu.csr.mstatus &= ~MIE_MASK;
-
+  printf("after: mstatus is 0x%x\n", cpu.csr.mstatus);
   return cpu.csr.mtvec;
 }
 
 #define IRQ_TIMER 0x80000007
 
 word_t isa_query_intr() {
-  // printf("mstatus is 0x%x\n", cpu.csr.mstatus);
   if (((cpu.csr.mstatus & MIE_MASK) != 0) && cpu.INTR) {
     cpu.INTR = false;
     return IRQ_TIMER;
