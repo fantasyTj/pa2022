@@ -32,7 +32,7 @@ static void rtc_io_handler(uint32_t offset, int len, bool is_write) {
 static void timer_intr() {
   static uint64_t last;
   uint64_t now = get_time();
-  printf("interval is %lu\n", (now-last));
+  printf("interval is %lu\n", (now-last)/10000);
   last = now;
   // printf("call timer_intr\n");
   if (nemu_state.state == NEMU_RUNNING) {
