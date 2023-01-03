@@ -40,7 +40,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 #define IRQ_TIMER 0x80000007
 
 word_t isa_query_intr() {
-  printf("mstatus is 0x%x\n", cpu.csr.mstatus);
+  // printf("mstatus is 0x%x\n", cpu.csr.mstatus);
   if (((cpu.csr.mstatus & MIE_MASK) != 0) && cpu.INTR) {
     cpu.INTR = false;
     return IRQ_TIMER;
