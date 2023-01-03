@@ -71,9 +71,9 @@ static int decode_exec(Decode *s) {
 #define CSRRW(csr) do { word_t t = csr; csr = R(src1); if(dest) R(dest) = t; } while(0)
 #define CSRRS(csr) do { word_t t = csr; if(src1) csr |= R(src1); R(dest) = t; } while(0) // not complete
 #define CSRRC(csr) do { word_t t = csr; if(src1) csr &= (~R(src1)); R(dest) = t; } while(0) // not complete
-#define CSRRWI(csr) do { if(dest) R(dest) = csr; csr = src1; } while(0)
-#define CSRRSI(csr) do { R(dest) = csr; if(src1) csr |= src1; } while(0) // not complete
-#define CSRRCI(csr) do { R(dest) = csr; if(src1) csr &= (~src1); } while(0) // not complete
+#define CSRRWI(csr) do { word_t t = csr; csr = src1; if(dest) R(dest) = t; } while(0)
+#define CSRRSI(csr) do { word_t t = csr; if(src1) csr |= src1; R(dest) = t; } while(0) // not complete
+#define CSRRCI(csr) do { word_t t = csr; if(src1) csr &= (~src1); R(dest) = t; } while(0) // not complete
 #define MRET(mstatus) do { if((mstatus & MPIE_MASK) == 0) { mstatus &= ~MIE_MASK; } else { mstatus |= MIE_MASK; } mstatus |= MPIE_MASK; } while(0)
 
 
