@@ -10,6 +10,7 @@ int proc_num = 1;
 
 char *argv_nslider[] = {"/bin/nslider", NULL};
 char *argv_bird[] = {"/bin/bird", NULL};
+char *argv_nterm[] = {"/bin/nterm", NULL};
 char *argv_pal[] = {"/bin/pal", NULL};
 char *empty[] = {NULL };
 
@@ -111,7 +112,7 @@ void context_uload_for_exec(PCB *pcb, const char *filename, char *const argv[], 
 
 void general_uload(int proc_num) {
   if(proc_num == 1) {
-    context_uload(&pcb[1], "/bin/nslider", argv_nslider, empty);
+    context_uload(&pcb[1], "/bin/nterm", argv_nterm, empty);
   }else if(proc_num == 2) {
     context_uload(&pcb[2], "/bin/bird", argv_bird, empty);
   }else if(proc_num == 3) {
