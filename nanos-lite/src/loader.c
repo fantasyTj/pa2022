@@ -37,7 +37,6 @@ size_t fs_lseek(int fd, size_t offset, int whence);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   assert(filename);
-  printf("after assert\n");
   int fd = fs_open(filename, 0, 0);
   printf("open file\n");
   Elf_Ehdr ehdr;
