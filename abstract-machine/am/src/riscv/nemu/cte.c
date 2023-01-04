@@ -33,6 +33,11 @@ Context* __am_irq_handle(Context *c) {
     // c->mstatus = 0x1800; // due to change the context, here are some problems, we may need to handle it in function "user_handler"
     assert(c != NULL);
   }
+  if(c->np != 0) {
+    asm volatile("csrw mscratch, %0" : : "r"((uintptr_t)((void *)c + sizeof(Context))));
+  }else {
+    asm volatile("csrw mscratch, 0");
+  }
   __am_switch(c);
   return c;
 }
@@ -42,6 +47,7 @@ extern void __am_asm_trap(void);
 bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));
+  asm volatile("csrw mscratch, 0");
 
   // register event handler
   user_handler = handler;
@@ -56,6 +62,8 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   context_start->pdir = NULL;
   context_start->gpr[10] = (uintptr_t)arg; // set a[0]
   context_start->mstatus = 0x88;
+  context_start->np = 0;
+  context_start->gpr[2] = (uintptr_t)kstack.end;
   return context_start;
 }
 
