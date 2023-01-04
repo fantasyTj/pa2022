@@ -94,14 +94,14 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 
 void init_proc() {
   char *empty[] =  {NULL };
-  char *argv0[] = {"/bin/hello", NULL};
-  context_uload(&pcb[1], "/bin/hello", argv0, empty);
-  // context_kload(&pcb[0], hello_fun, (void *)1);
+  // char *argv0[] = {"/bin/hello", NULL};
+  // context_uload(&pcb[1], "/bin/hello", argv0, empty);
+  context_kload(&pcb[0], hello_fun, (void *)1);
   // char *argv[] = {"/bin/pal", "--skip", NULL};
   // context_uload(&pcb[0], "/bin/pal", argv, empty);
 
   char *argv1[] = {"/bin/pal", NULL};
-  context_uload(&pcb[0], "/bin/pal", argv1, empty);
+  context_uload(&pcb[1], "/bin/pal", argv1, empty);
   // context_uload(&pcb[1], "/bin/pal", empty, empty);
   switch_boot_pcb();
 
