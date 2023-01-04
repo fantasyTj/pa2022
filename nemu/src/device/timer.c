@@ -32,7 +32,7 @@ static void rtc_io_handler(uint32_t offset, int len, bool is_write) {
 static void timer_intr() {
   static uint64_t last;
   uint64_t now = get_time();
-  if(now - last <= 10000) return;
+  if(now - last <= 20000) return;
   last = now;
   if (nemu_state.state == NEMU_RUNNING) {
     extern void dev_raise_intr();
