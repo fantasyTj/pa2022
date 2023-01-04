@@ -6,6 +6,12 @@ static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
 PCB *fg_pcb = &pcb[1];
+int proc_num = 1;
+
+char *argv_nslider[] = {"/bin/nslider", NULL};
+char *argv_bird[] = {"/bin/bird", NULL};
+char *argv_pal[] = {"/bin/pal", NULL};
+char *empty[] = {NULL };
 
 void naive_uload(PCB *pcb, const char *filename);
 uintptr_t load_getentry(PCB *pcb, const char *filename);
@@ -103,17 +109,27 @@ void context_uload_for_exec(PCB *pcb, const char *filename, char *const argv[], 
   printf("load_args done\n");
 }
 
+void general_uload(int proc_num) {
+  if(proc_num == 1) {
+    context_uload(&pcb[1], "/bin/nslider", argv_nslider, empty);
+  }else if(proc_num == 2) {
+    context_uload(&pcb[2], "/bin/bird", argv_bird, empty);
+  }else if(proc_num == 3) {
+    context_uload(&pcb[3], "/bin/pal", argv_pal, empty);
+  }else assert(0);
+}
+
 void init_proc() {
-  char *empty[] =  {NULL };
   char *argv0[] = {"/bin/hello", NULL};
   context_uload(&pcb[0], "/bin/hello", argv0, empty);
   // context_kload(&pcb[0], hello_fun, (void *)1);
   // char *argv[] = {"/bin/pal", "--skip", NULL};
   // context_uload(&pcb[0], "/bin/pal", argv, empty);
 
-  char *argv1[] = {"/bin/nterm", NULL};
-  context_uload(&pcb[1], "/bin/nterm", argv1, empty);
-  printf("pcb0 %p, pcb1 %p\n", &pcb[0], &pcb[1]);
+  general_uload(1);
+  // char *argv1[] = {"/bin/nterm", NULL};
+  // context_uload(&pcb[1], "/bin/nterm", argv1, empty);
+  // printf("pcb0 %p, pcb1 %p\n", &pcb[0], &pcb[1]);
   // context_uload(&pcb[1], "/bin/pal", empty, empty);
   switch_boot_pcb();
 
@@ -130,8 +146,19 @@ Context* schedule(Context *prev) {
   current->cp = prev;
   // current = &pcb[0];
   int rand_num = rand() % PIECE;
-  current = ((rand_num <= PIECE - 2) ? &pcb[1] : &pcb[0]);
+  current = ((rand_num <= PIECE - 2) ? fg_pcb : &pcb[0]);
   // current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   // then return the new context
   return current->cp;
+}
+
+void exchange_proc(int proc_num) {
+  static int old_proc_num = 1;
+  if(old_proc_num != proc_num) {
+    old_proc_num = proc_num;
+    general_uload(old_proc_num);
+    fg_pcb = &pcb[old_proc_num];
+    switch_boot_pcb();
+    yield();
+  }else return;
 }

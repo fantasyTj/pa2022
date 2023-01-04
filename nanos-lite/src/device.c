@@ -27,6 +27,8 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
   return len;
 }
 
+void exchange_proc(int proc_num);
+
 size_t events_read(void *buf, size_t offset, size_t len) {
   // yield();
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
@@ -35,6 +37,13 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   if(ev.keycode == AM_KEY_NONE){
     return 0;
   }else{
+    if(ev.keycode == AM_KEY_F1 || ev.keycode == AM_KEY_F2 || ev.keycode == AM_KEY_F3) {
+      int proc_num;
+      if(ev.keycode == AM_KEY_F1) proc_num = 1;
+      else if(ev.keycode == AM_KEY_F2) proc_num = 2;
+      else proc_num = 3;
+      exchange_proc(proc_num);
+    }
     strcpy(fmt1, (ev.keydown)?("kd "):("ku ")); // initialnize msg
     strcpy(fmt2, keyname[ev.keycode]);
     snprintf(buf, len, "%s (%d)%s\0", fmt1, ev.keycode ,fmt2);
