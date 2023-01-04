@@ -34,6 +34,7 @@ Context* __am_irq_handle(Context *c) {
     // c->mstatus = 0x1800; // due to change the context, here are some problems, we may need to handle it in function "user_handler"
     assert(c != NULL);
   }
+  printf("! c.np is %p, mepc is %p, sp is %p\n", c->np, c->mepc, c->gpr[2]);
   if(c->np != 0) {
     asm volatile("csrw mscratch, %0" : : "r"((uintptr_t)((void *)c + sizeof(Context))));
   }else {
