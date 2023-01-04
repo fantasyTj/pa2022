@@ -92,7 +92,7 @@ void do_syscall(Context *c) {
       // printf("%s\n", (char *)a[1]);
       if(fs_open((char *)a[1], 0, 0) >= 0) {
         printf("name is %s\n", (char *)a[1]);
-        context_uload_without_protect(current, (char *)a[1], (char **)a[2], (char **)a[3]);
+        context_uload_for_exec(current, (char *)a[1], (char **)a[2], (char **)a[3]);
         printf("reach here\n");
         switch_boot_pcb();
         yield();

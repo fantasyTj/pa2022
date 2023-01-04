@@ -21,7 +21,7 @@ extern PCB *current;
 
 void switch_boot_pcb();
 void context_uload(PCB *_pcb, const char *filename, char *const argv[], char *const envp[]);
-void context_uload_without_protect(PCB *pcb, const char *filename, char *const argv[], char *const envp[]);
+void context_uload_for_exec(PCB *pcb, const char *filename, char *const argv[], char *const envp[]);
 void context_kload(PCB *_pcb, void (*entry)(void *), void *arg);
 
 #endif

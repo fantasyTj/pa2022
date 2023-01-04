@@ -77,27 +77,9 @@ static void *load_args(void *end, char *const argv[], char *const envp[]) {
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
   protect(&pcb->as);
-  context_uload_without_protect(pcb, filename, argv, envp);
-  // printf("protect done\n");
-  // Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
-  // uintptr_t entry = load_getentry(pcb, filename);
-  // printf("load done\n");
-  // pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
-
-  // // alloc stack
-  // void *end = pcb->as.area.end;
-  // void *va = end - (8 * PGSIZE);
-  // for( ; va < end; va += PGSIZE) {
-  //   map(&pcb->as, va, new_page(1), 0);
-  // }
-  // pcb->cp->GPRx = (uintptr_t)(load_args(end, argv, envp));
-  // _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
-  // _pcb->cp->GPRx = (uintptr_t)heap.end;
-}
-
-void context_uload_without_protect(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
   Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(pcb, filename);
+  printf("load done\n");
   pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
 
   // alloc stack
@@ -107,6 +89,22 @@ void context_uload_without_protect(PCB *pcb, const char *filename, char *const a
     map(&pcb->as, va, new_page(1), 0);
   }
   pcb->cp->GPRx = (uintptr_t)(load_args(end, argv, envp));
+  // _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
+  // _pcb->cp->GPRx = (uintptr_t)heap.end;
+}
+
+void context_uload_for_exec(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
+  Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
+  uintptr_t entry = load_getentry(pcb, filename);
+  pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
+
+  // alloc stack
+  // void *end = pcb->as.area.end;
+  // void *va = end - (8 * PGSIZE);
+  // for( ; va < end; va += PGSIZE) {
+  //   map(&pcb->as, va, new_page(1), 0);
+  // }
+  pcb->cp->GPRx = (uintptr_t)(load_args((void *)pcb->cp->gpr[2], argv, envp));
   printf("load_args done\n");
 }
 
