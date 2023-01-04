@@ -77,6 +77,7 @@ static void *load_args(void *end, char *const argv[], char *const envp[]) {
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
   protect(&pcb->as);
+  printf("protect done\n");
   Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(pcb, filename);
   printf("load done\n");
