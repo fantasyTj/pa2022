@@ -8,7 +8,7 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
   __am_get_cur_as(c);
-  printf("c.np is %p\n", c->np);
+  printf("c.np is %p, mepc is %p, sp is %p\n", c->np, c->mepc, c->gpr[2]);
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
