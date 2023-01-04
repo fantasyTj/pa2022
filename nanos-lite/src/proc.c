@@ -123,7 +123,7 @@ void init_proc() {
   naive_uload(NULL, "/bin/nterm");
 }
 
-#define PIECE 5
+#define PIECE 10
 
 Context* schedule(Context *prev) {
   // save the context pointer
