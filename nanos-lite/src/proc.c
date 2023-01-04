@@ -100,8 +100,8 @@ void init_proc() {
   // char *argv[] = {"/bin/pal", "--skip", NULL};
   // context_uload(&pcb[0], "/bin/pal", argv, empty);
 
-  char *argv1[] = {"/bin/pal", NULL};
-  context_uload(&pcb[1], "/bin/pal", argv1, empty);
+  char *argv1[] = {"/bin/nterm", NULL};
+  context_uload(&pcb[1], "/bin/nterm", argv1, empty);
   printf("pcb0 %p, pcb1 %p\n", &pcb[0], &pcb[1]);
   // context_uload(&pcb[1], "/bin/pal", empty, empty);
   switch_boot_pcb();
