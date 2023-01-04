@@ -99,7 +99,6 @@ void context_uload_without_protect(PCB *pcb, const char *filename, char *const a
   Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(pcb, filename);
   pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
-  printf("ucontext done\n");
 
   // alloc stack
   void *end = pcb->as.area.end;
@@ -108,6 +107,7 @@ void context_uload_without_protect(PCB *pcb, const char *filename, char *const a
     map(&pcb->as, va, new_page(1), 0);
   }
   pcb->cp->GPRx = (uintptr_t)(load_args(end, argv, envp));
+  printf("load_args done\n");
 }
 
 void init_proc() {
