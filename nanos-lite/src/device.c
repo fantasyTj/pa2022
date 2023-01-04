@@ -50,7 +50,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  yield();
+  // yield();
   if(buf == NULL) return 0;
   else{ // only support 
     AM_GPU_CONFIG_T cfg = io_read(AM_GPU_CONFIG);
