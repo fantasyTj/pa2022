@@ -95,17 +95,18 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 }
 
 void context_uload_for_exec(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
-  Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
-  uintptr_t entry = load_getentry(pcb, filename);
-  pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
-
+  char cp_filename[128];
+  pcb->cp->GPRx = (uintptr_t)(load_args((void *)pcb->cp->gpr[2], argv, envp));
+  // Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
+  uintptr_t entry = load_getentry(pcb, strcpy(cp_filename, filename));
+  // pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
+  pcb->cp->mepc = entry;
   // alloc stack
   // void *end = pcb->as.area.end;
   // void *va = end - (8 * PGSIZE);
   // for( ; va < end; va += PGSIZE) {
   //   map(&pcb->as, va, new_page(1), 0);
   // }
-  pcb->cp->GPRx = (uintptr_t)(load_args((void *)pcb->cp->gpr[2], argv, envp));
   printf("load_args done\n");
 }
 
