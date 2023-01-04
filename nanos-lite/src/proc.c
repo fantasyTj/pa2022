@@ -5,6 +5,7 @@
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
+PCB *fg_pcb = &pcb[1];
 
 void naive_uload(PCB *pcb, const char *filename);
 uintptr_t load_getentry(PCB *pcb, const char *filename);
@@ -97,16 +98,8 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 void context_uload_for_exec(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
   char cp_filename[128];
   pcb->cp->GPRx = (uintptr_t)(load_args((void *)pcb->cp->gpr[2], argv, envp));
-  // Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(pcb, strcpy(cp_filename, filename));
-  // pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
   pcb->cp->mepc = entry;
-  // alloc stack
-  // void *end = pcb->as.area.end;
-  // void *va = end - (8 * PGSIZE);
-  // for( ; va < end; va += PGSIZE) {
-  //   map(&pcb->as, va, new_page(1), 0);
-  // }
   printf("load_args done\n");
 }
 
@@ -130,11 +123,15 @@ void init_proc() {
   naive_uload(NULL, "/bin/nterm");
 }
 
+#define PIECE 5
+
 Context* schedule(Context *prev) {
   // save the context pointer
   current->cp = prev;
   // current = &pcb[0];
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  int rand_num = rand() % PIECE;
+  current = ((rand_num <= PIECE - 2) ? &pcb[1] : &pcb[0]);
+  // current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   // then return the new context
   return current->cp;
 }
