@@ -42,7 +42,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
       // if(ev.keycode == AM_KEY_F1) proc_num = 1;
       // else if(ev.keycode == AM_KEY_F2) proc_num = 2;
       // else proc_num = 3;
-      proc_num = ev.keycode;
+      proc_num = ev.keycode - 1;
       // exchange_proc(proc_num);
       yield();
     }
