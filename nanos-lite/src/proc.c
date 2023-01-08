@@ -142,10 +142,25 @@ void init_proc() {
   naive_uload(NULL, "/bin/nterm");
 }
 
+#define W 400
+#define H 300
+uint32_t zero_buf[W * H];
+int fs_open(const char *pathname, int flags, int mode);
+size_t fb_write(const void *buf, size_t offset, size_t len);
+
+static void clear_fg() {
+  static int fb_fd;
+  if(!fb_fd) {
+    fb_fd = fs_open("/dev/fb", 0, 0);
+  }
+  fb_write(zero_buf, 0, W * H);
+} 
+
 static inline void change_fg() {
   if(proc_num != old_proc_num) {
     fg_pcb = &pcb[proc_num];
     old_proc_num = proc_num;
+    clear_fg();
   }
 }
 
