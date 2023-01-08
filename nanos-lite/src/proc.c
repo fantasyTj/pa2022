@@ -128,6 +128,8 @@ void init_proc() {
   // context_uload(&pcb[0], "/bin/pal", argv, empty);
 
   general_uload(1);
+  general_uload(2);
+  general_uload(3);
   // char *argv1[] = {"/bin/nterm", NULL};
   // context_uload(&pcb[1], "/bin/nterm", argv1, empty);
   // printf("pcb0 %p, pcb1 %p\n", &pcb[0], &pcb[1]);
