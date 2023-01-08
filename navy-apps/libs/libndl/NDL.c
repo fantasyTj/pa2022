@@ -71,13 +71,24 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   int on_h = (H-screen_h)/2, below_h = H-on_h-screen_h;
 
   int fb_fd = open("/dev/fb", 0, 0);
-  for(int i = 0; i < on_h+y; i++) write(fb_fd, NULL, W);
-  for(int i = 0; i < h; i++){
-    write(fb_fd, NULL, left_w+x);
+  uint32_t *_buf = (uint32_t *)malloc(W * sizeof(uint32_t));
+  memset(_buf, 0, W * sizeof(uint32_t));
+  for(int i = 0; i < on_h+y; i++) write(fb_fd, _buf, W);
+
+  uint32_t *left_buf = (uint32_t *)malloc((left_w+x) * sizeof(uint32_t));
+  memset(left_buf, 0, (left_w+x) * sizeof(uint32_t));
+  uint32_t *right_buf = (uint32_t *)malloc((right_w+(screen_w-x-w)) * sizeof(uint32_t));
+  memset(right_buf, 0, (right_w+(screen_w-x-w)) * sizeof(uint32_t));
+  for(int i = 0; i < h; i++){ 
+    write(fb_fd, left_buf, left_w+x);
     write(fb_fd, pixels+(i*w), w);
-    write(fb_fd, NULL, right_w+(screen_w-x-w));
+    write(fb_fd, right_buf, right_w+(screen_w-x-w));
   }
-  for(int i = 0; i < below_h+(screen_h-y-h); i++) write(fb_fd, NULL, W);
+  free(left_buf);
+  free(right_buf);
+
+  for(int i = 0; i < below_h+(screen_h-y-h); i++) write(fb_fd, _buf, W);
+  free(_buf);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
