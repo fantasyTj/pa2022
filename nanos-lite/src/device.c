@@ -38,11 +38,12 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     return 0;
   }else{
     if(ev.keycode == AM_KEY_F1 || ev.keycode == AM_KEY_F2 || ev.keycode == AM_KEY_F3) {
-      int proc_num;
+      extern int proc_num;
       if(ev.keycode == AM_KEY_F1) proc_num = 1;
       else if(ev.keycode == AM_KEY_F2) proc_num = 2;
       else proc_num = 3;
-      exchange_proc(proc_num);
+      // exchange_proc(proc_num);
+      yield();
     }
     strcpy(fmt1, (ev.keydown)?("kd "):("ku ")); // initialnize msg
     strcpy(fmt2, keyname[ev.keycode]);

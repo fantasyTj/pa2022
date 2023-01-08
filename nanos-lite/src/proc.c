@@ -6,7 +6,7 @@ static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
 PCB *fg_pcb = &pcb[1];
-int proc_num = 1;
+int proc_num = 1, old_proc_num = 1;
 
 char *argv_nslider[] = {"/bin/nslider", NULL};
 char *argv_bird[] = {"/bin/bird", NULL};
@@ -140,12 +140,21 @@ void init_proc() {
   naive_uload(NULL, "/bin/nterm");
 }
 
+static inline void change_fg() {
+  if(proc_num != old_proc_num) {
+    fg_pcb = &pcb[proc_num];
+    old_proc_num = proc_num;
+  }
+}
+
 #define PIECE 8
 
 Context* schedule(Context *prev) {
   // save the context pointer
   current->cp = prev;
   // current = &pcb[0];
+  change_fg();
+
   int rand_num = rand() % PIECE;
   current = ((rand_num <= PIECE - 2) ? fg_pcb : &pcb[0]);
   // current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
@@ -153,13 +162,13 @@ Context* schedule(Context *prev) {
   return current->cp;
 }
 
-void exchange_proc(int proc_num) {
-  static int old_proc_num = 1;
-  if(old_proc_num != proc_num) {
-    old_proc_num = proc_num;
-    general_uload(old_proc_num);
-    fg_pcb = &pcb[old_proc_num];
-    switch_boot_pcb();
-    yield();
-  }else return;
-}
+// void exchange_proc(int proc_num) {
+//   static int old_proc_num = 1;
+//   if(old_proc_num != proc_num) {
+//     old_proc_num = proc_num;
+//     general_uload(old_proc_num);
+//     fg_pcb = &pcb[old_proc_num];
+//     switch_boot_pcb();
+//     yield();
+//   }else return;
+// }
