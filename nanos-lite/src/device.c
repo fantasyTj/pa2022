@@ -27,7 +27,7 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
   return len;
 }
 
-void exchange_proc(int proc_num);
+// void exchange_proc(int proc_num);
 
 size_t events_read(void *buf, size_t offset, size_t len) {
   // yield();
