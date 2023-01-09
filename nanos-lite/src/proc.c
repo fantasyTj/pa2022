@@ -40,7 +40,7 @@ void context_kload(PCB *_pcb, void (*entry)(void *), void *arg) {
 #define UP(a, num) (((a) + (num) - 1) & ~((num) - 1))
 
 static void *load_args(void *end, char *const argv[], char *const envp[]) {
-  printf("end is %p, argv is %p, envp is %p\n", end, argv, envp);
+  // printf("end is %p, argv is %p, envp is %p\n", end, argv, envp);
   int argv_num = 0, envp_num = 0;
   int argv_num_arr[32], envp_num_arr[32]; // assume max_num is 32
   int argv_space = 0, envp_space = 0;
@@ -86,7 +86,6 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   protect(&pcb->as);
   Area kstack = {.start = (void *)pcb, .end = (void *)pcb + sizeof(PCB)};
   uintptr_t entry = load_getentry(pcb, filename);
-  printf("load done\n");
   pcb->cp = ucontext(&pcb->as, kstack, (void *)entry);
 
   // alloc stack

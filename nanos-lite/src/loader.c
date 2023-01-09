@@ -67,7 +67,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       p_filesz = phdr[i].p_filesz;
       p_vaddr = phdr[i].p_vaddr;
       p_memsz = phdr[i].p_memsz;
-      printf("vaddr is %p, end is %p\n", p_vaddr, p_vaddr + p_memsz);
+      // printf("vaddr is %p, end is %p\n", p_vaddr, p_vaddr + p_memsz);
       // printf("offset is %u\n", p_offset);
       fs_lseek(fd, p_offset, SEEK_SET);
       pcb->max_brk = p_vaddr + p_memsz;
@@ -82,11 +82,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_read(fd, (void *)p_vaddr, p_filesz);
       // ramdisk_read((void *)p_vaddr, p_offset, p_filesz);
       memset((void *)(p_vaddr+p_filesz), 0, p_memsz-p_filesz);
-
-      // if(p_memsz > p_filesz){
-      //   program_break = p_vaddr + p_memsz;
-      // }
-      // if(phdr[i].p_flags == 5) entry = p_vaddr;
     }
   }
   // printf("entry is %u\n", entry);
