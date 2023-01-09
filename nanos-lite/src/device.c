@@ -42,6 +42,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
       if(ev.keycode - 1 != proc_num) {
         proc_num = ev.keycode - 1;
         yield();
+        return 0;
       }
     }
     strcpy(fmt1, (ev.keydown)?("kd "):("ku ")); // initialnize msg
