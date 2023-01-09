@@ -79,8 +79,6 @@ static void *load_args(void *end, char *const argv[], char *const envp[]) {
     char_start++;
     char_semi += envp_num_arr[i];
   }
-  // printf("reach end\n");
-  // printf("new heap_end is %p\n", argc_pt);
   return (void *)argc_pt;
 }
 
@@ -98,8 +96,6 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
     map(&pcb->as, va, new_page(1), 0);
   }
   pcb->cp->GPRx = (uintptr_t)(load_args(end, argv, envp));
-  // _pcb->cp->GPRx = (uintptr_t)(load_args(heap.end, argv, envp));
-  // _pcb->cp->GPRx = (uintptr_t)heap.end;
 }
 
 void context_uload_for_exec(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
@@ -107,7 +103,6 @@ void context_uload_for_exec(PCB *pcb, const char *filename, char *const argv[], 
   pcb->cp->GPRx = (uintptr_t)(load_args((void *)pcb->cp->gpr[2], argv, envp));
   uintptr_t entry = load_getentry(pcb, strcpy(cp_filename, filename));
   pcb->cp->mepc = entry;
-  printf("load_args done\n");
 }
 
 void general_uload(int proc_num) {
@@ -130,10 +125,6 @@ void init_proc() {
   general_uload(1);
   general_uload(2);
   general_uload(3);
-  // char *argv1[] = {"/bin/nterm", NULL};
-  // context_uload(&pcb[1], "/bin/nterm", argv1, empty);
-  // printf("pcb0 %p, pcb1 %p\n", &pcb[0], &pcb[1]);
-  // context_uload(&pcb[1], "/bin/pal", empty, empty);
   switch_boot_pcb();
 
   Log("Initializing processes...");
@@ -179,13 +170,3 @@ Context* schedule(Context *prev) {
   return current->cp;
 }
 
-// void exchange_proc(int proc_num) {
-//   static int old_proc_num = 1;
-//   if(old_proc_num != proc_num) {
-//     old_proc_num = proc_num;
-//     general_uload(old_proc_num);
-//     fg_pcb = &pcb[old_proc_num];
-//     switch_boot_pcb();
-//     yield();
-//   }else return;
-// }
